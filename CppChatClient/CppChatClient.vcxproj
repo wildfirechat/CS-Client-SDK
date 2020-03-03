@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{1886408D-3A98-4716-BDAD-7B83B0BB77BD}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>CppChatClient</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;RAPIDJSON_HAS_STDSTRING=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;RAPIDJSON_HAS_STDSTRING=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ChatClient.h" />
+    <ClInclude Include="JsonTools.h" />
+    <ClInclude Include="message\AddGroupMemberNotificationContent.h" />
+    <ClInclude Include="message\CallStartMessageContent.h" />
+    <ClInclude Include="message\ChangeGroupNameNotificationContent.h" />
+    <ClInclude Include="message\ChangeGroupPortraitNotificationContent.h" />
+    <ClInclude Include="message\CreateGroupNotificationContent.h" />
+    <ClInclude Include="message\DismissGroupNotificationContent.h" />
+    <ClInclude Include="message\FileMessageContent.h" />
+    <ClInclude Include="message\GroupJoinTypeNotificationContent.h" />
+    <ClInclude Include="message\GroupMuteNotificationContent.h" />
+    <ClInclude Include="message\GroupPrivateChatNotificationContent.h" />
+    <ClInclude Include="message\GroupSetManagerNotificationContent.h" />
+    <ClInclude Include="message\ImageMessageContent.h" />
+    <ClInclude Include="message\KickoffGroupMemberNotificaionContent.h" />
+    <ClInclude Include="message\LocationMessageContent.h" />
+    <ClInclude Include="message\MediaMessageContent.h" />
+    <ClInclude Include="message\Message.h" />
+    <ClInclude Include="message\MessageContent.h" />
+    <ClInclude Include="message\MessagePayload.h" />
+    <ClInclude Include="message\ModifyGroupAliasNotificationContent.h" />
+    <ClInclude Include="message\NotificationMessageContent.h" />
+    <ClInclude Include="message\PTextMessageContent.h" />
+    <ClInclude Include="message\QuitGroupNotificationContent.h" />
+    <ClInclude Include="message\RecallMessageContent.h" />
+    <ClInclude Include="message\SoundMessageContent.h" />
+    <ClInclude Include="message\StickerMessageContent.h" />
+    <ClInclude Include="message\TextMessageContent.h" />
+    <ClInclude Include="message\TipNotificationContent.h" />
+    <ClInclude Include="message\TransferGroupOwnerNotificationContent.h" />
+    <ClInclude Include="message\TypingMessageContent.h" />
+    <ClInclude Include="message\UnknownMessageContent.h" />
+    <ClInclude Include="message\VideoMessageContent.h" />
+    <ClInclude Include="model\ChannelInfo.h" />
+    <ClInclude Include="model\ChatroomInfo.h" />
+    <ClInclude Include="model\Conversation.h" />
+    <ClInclude Include="model\ConversationInfo.h" />
+    <ClInclude Include="model\ConversationSearchInfo.h" />
+    <ClInclude Include="model\FriendRequest.h" />
+    <ClInclude Include="model\GroupInfo.h" />
+    <ClInclude Include="model\GroupSearchInfo.h" />
+    <ClInclude Include="model\UnreadCount.h" />
+    <ClInclude Include="model\UserInfo.h" />
+    <ClInclude Include="model\UserSettingEntry.h" />
+    <ClInclude Include="Serializable.h" />
+    <ClInclude Include="WFEnums.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ChatClient.cpp" />
+    <ClCompile Include="JsonTools.cpp" />
+    <ClCompile Include="message\AddGroupMemberNotificationContent.cpp" />
+    <ClCompile Include="message\CallStartMessageContent.cpp" />
+    <ClCompile Include="message\ChangeGroupNameNotificationContent.cpp" />
+    <ClCompile Include="message\ChangeGroupPortraitNotificationContent.cpp" />
+    <ClCompile Include="message\CreateGroupNotificationContent.cpp" />
+    <ClCompile Include="message\DismissGroupNotificationContent.cpp" />
+    <ClCompile Include="message\FileMessageContent.cpp" />
+    <ClCompile Include="message\GroupJoinTypeNotificationContent.cpp" />
+    <ClCompile Include="message\GroupMuteNotificationContent.cpp" />
+    <ClCompile Include="message\GroupPrivateChatNotificationContent.cpp" />
+    <ClCompile Include="message\GroupSetManagerNotificationContent.cpp" />
+    <ClCompile Include="message\ImageMessageContent.cpp" />
+    <ClCompile Include="message\KickoffGroupMemberNotificaionContent.cpp" />
+    <ClCompile Include="message\LocationMessageContent.cpp" />
+    <ClCompile Include="message\MediaMessageContent.cpp" />
+    <ClCompile Include="message\Message.cpp" />
+    <ClCompile Include="message\MessageContent.cpp" />
+    <ClCompile Include="message\MessagePayload.cpp" />
+    <ClCompile Include="message\ModifyGroupAliasNotificationContent.cpp" />
+    <ClCompile Include="message\NotificationMessageContent.cpp" />
+    <ClCompile Include="message\PTextMessageContent.cpp" />
+    <ClCompile Include="message\QuitGroupNotificationContent.cpp" />
+    <ClCompile Include="message\RecallMessageContent.cpp" />
+    <ClCompile Include="message\SoundMessageContent.cpp" />
+    <ClCompile Include="message\StickerMessageContent.cpp" />
+    <ClCompile Include="message\TextMessageContent.cpp" />
+    <ClCompile Include="message\TipNotificationContent.cpp" />
+    <ClCompile Include="message\TransferGroupOwnerNotificationContent.cpp" />
+    <ClCompile Include="message\TypingMessageContent.cpp" />
+    <ClCompile Include="message\UnknownMessageContent.cpp" />
+    <ClCompile Include="message\VideoMessageContent.cpp" />
+    <ClCompile Include="model\ChannelInfo.cpp" />
+    <ClCompile Include="model\ChatroomInfo.cpp" />
+    <ClCompile Include="model\Conversation.cpp" />
+    <ClCompile Include="model\ConversationInfo.cpp" />
+    <ClCompile Include="model\ConversationSearchInfo.cpp" />
+    <ClCompile Include="model\FriendRequest.cpp" />
+    <ClCompile Include="model\GroupInfo.cpp" />
+    <ClCompile Include="model\GroupSearchInfo.cpp" />
+    <ClCompile Include="model\UnreadCount.cpp" />
+    <ClCompile Include="model\UserInfo.cpp" />
+    <ClCompile Include="model\UserSettingEntry.cpp" />
+    <ClCompile Include="Serializable.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

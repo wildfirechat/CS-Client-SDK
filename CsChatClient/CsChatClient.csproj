@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9328373D-C47F-4178-BCFF-9226B46B0E8D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CsChatClient</RootNamespace>
+    <AssemblyName>CsChatClient</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\CS-Client-SDK\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\CS-Client-SDK\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\CS-Client-SDK\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ChatClient.cs" />
+    <Compile Include="JsonTools.cs" />
+    <Compile Include="Messages\CallStartMessageContent.cs" />
+    <Compile Include="Messages\ContentAttribute.cs" />
+    <Compile Include="Messages\FileMessageContent.cs" />
+    <Compile Include="Messages\ImageMessageContent.cs" />
+    <Compile Include="Messages\ImageTextMessageContent.cs" />
+    <Compile Include="Messages\LocationMessageContent.cs" />
+    <Compile Include="Messages\MediaMessageContent.cs" />
+    <Compile Include="Messages\MessageContent.cs" />
+    <Compile Include="Messages\MessageEx.cs" />
+    <Compile Include="Messages\MessagePayload.cs" />
+    <Compile Include="Messages\Notification\AddGroupMemberNotificationContent.cs" />
+    <Compile Include="Messages\Notification\ChangeGroupNameNotificationContent.cs" />
+    <Compile Include="Messages\Notification\ChangeGroupPortraitNotificationContent.cs" />
+    <Compile Include="Messages\Notification\CreateGroupNotificationContent.cs" />
+    <Compile Include="Messages\Notification\DismissGroupNotificationContent.cs" />
+    <Compile Include="Messages\Notification\GroupJoinTypeNotificationContent.cs" />
+    <Compile Include="Messages\Notification\GroupMuteNotificationContent.cs" />
+    <Compile Include="Messages\Notification\GroupNotificationMessageContent.cs" />
+    <Compile Include="Messages\Notification\GroupPrivateChatNotificationContent.cs" />
+    <Compile Include="Messages\Notification\GroupSetManagerChatNotificationContent.cs" />
+    <Compile Include="Messages\Notification\KickoffGroupMemberNotificationContent.cs" />
+    <Compile Include="Messages\Notification\ModifyGroupAliasNotificationContent.cs" />
+    <Compile Include="Messages\Notification\NotificationMessageContent.cs" />
+    <Compile Include="Messages\Notification\QuitGroupNotificationContent.cs" />
+    <Compile Include="Messages\Notification\RecallMessageContent.cs" />
+    <Compile Include="Messages\Notification\TipNotificationContent.cs" />
+    <Compile Include="Messages\Notification\TransferGroupOwnerNotificationContent.cs" />
+    <Compile Include="Messages\PTextMessageContent.cs" />
+    <Compile Include="Messages\SoundMessageContent.cs" />
+    <Compile Include="Messages\StickerMessageContent.cs" />
+    <Compile Include="Messages\TextMessageContent.cs" />
+    <Compile Include="Messages\TypingMessageContent.cs" />
+    <Compile Include="Messages\UnknownMessageContent.cs" />
+    <Compile Include="Messages\VideoMessageContent.cs" />
+    <Compile Include="Models\ChannelInfo.cs" />
+    <Compile Include="Models\ChatroomInfo.cs" />
+    <Compile Include="Models\ChatroomMemberInfo.cs" />
+    <Compile Include="Models\Conversation.cs" />
+    <Compile Include="Models\ConversationInfo.cs" />
+    <Compile Include="Models\ConversationSearchInfo.cs" />
+    <Compile Include="Models\FriendRequest.cs" />
+    <Compile Include="Models\GroupInfo.cs" />
+    <Compile Include="Models\GroupMember.cs" />
+    <Compile Include="Models\GroupSearchInfo.cs" />
+    <Compile Include="Models\UnreadCount.cs" />
+    <Compile Include="Models\UserInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Serializable.cs" />
+    <Compile Include="WfcJsonConverter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClrChatClient\ClrChatClient.vcxproj">
+      <Project>{2a3cf8fa-b069-4b38-a932-0980cc3db07f}</Project>
+      <Name>ClrChatClient</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
