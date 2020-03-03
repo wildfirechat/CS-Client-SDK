@@ -1,0 +1,7 @@
+CS-Client-SDK/.vs
+*.VC.db
+CS-Client-SDK/Debug
+ClrChatClient/Debug
+ClrChatClient/x64
+CsChatClient/obj
+CsChatDemo/obj
