@@ -1,7 +1,15 @@
-CS-Client-SDK/.vs
 *.VC.db
 CS-Client-SDK/Debug
 ClrChatClient/Debug
 ClrChatClient/x64
 CsChatClient/obj
+CsChatClient/x64
 CsChatDemo/obj
+CppChatDemo/Debug/
+CppChatClient/Debug/
+CS-Client-SDK/Release/
+ClrChatClient/Release/
+CppChatClient/x64/
+CppChatDemo/CppChatDemo.vcxproj.user
+CS-Client-SDK/CS-Client-SDK.VC.VC.opendb
+CS-Client-SDK/ipch/

@@ -21,61 +21,139 @@
     <ClInclude Include="ChatClient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MessageContent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MessagePayload.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TextMessageContent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ChannelInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ChatroomInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Conversation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ConversationInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ConversationSearchInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FriendRequest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GroupInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GroupSearchInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="JsonTools.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Message.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Serializable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UnknownMessageContent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="UnreadCount.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="UserInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="UserSettingEntry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="WFEnums.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\AddGroupMemberNotificationContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\CallStartMessageContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\ChangeGroupNameNotificationContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\ChangeGroupPortraitNotificationContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\CreateGroupNotificationContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\DismissGroupNotificationContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\FileMessageContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\GroupJoinTypeNotificationContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\GroupMuteNotificationContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\GroupPrivateChatNotificationContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\GroupSetManagerNotificationContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\ImageMessageContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\KickoffGroupMemberNotificaionContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\LocationMessageContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\MediaMessageContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\Message.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\MessageContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\MessagePayload.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\ModifyGroupAliasNotificationContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\NotificationMessageContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\PTextMessageContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\QuitGroupNotificationContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\RecallMessageContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\SoundMessageContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\StickerMessageContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\TextMessageContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\TipNotificationContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\TransferGroupOwnerNotificationContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\TypingMessageContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\UnknownMessageContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message\VideoMessageContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="model\ChannelInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="model\ChatroomInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="model\Conversation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="model\ConversationInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="model\ConversationSearchInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="model\FriendRequest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="model\GroupInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="model\GroupSearchInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="model\UnreadCount.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="model\UserInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="model\UserSettingEntry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -83,58 +161,136 @@
     <ClCompile Include="ChatClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MessageContent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MessagePayload.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TextMessageContent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ChannelInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ChatroomInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Conversation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ConversationInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ConversationSearchInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FriendRequest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GroupInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GroupSearchInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="JsonTools.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Message.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Serializable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UnknownMessageContent.cpp">
+    <ClCompile Include="message\AddGroupMemberNotificationContent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UnreadCount.cpp">
+    <ClCompile Include="message\CallStartMessageContent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UserInfo.cpp">
+    <ClCompile Include="message\ChangeGroupNameNotificationContent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UserSettingEntry.cpp">
+    <ClCompile Include="message\ChangeGroupPortraitNotificationContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\CreateGroupNotificationContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\DismissGroupNotificationContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\FileMessageContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\GroupJoinTypeNotificationContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\GroupMuteNotificationContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\GroupPrivateChatNotificationContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\GroupSetManagerNotificationContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\ImageMessageContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\KickoffGroupMemberNotificaionContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\LocationMessageContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\MediaMessageContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\Message.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\MessageContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\MessagePayload.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\ModifyGroupAliasNotificationContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\NotificationMessageContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\PTextMessageContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\QuitGroupNotificationContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\RecallMessageContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\SoundMessageContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\StickerMessageContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\TextMessageContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\TipNotificationContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\TransferGroupOwnerNotificationContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\TypingMessageContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\UnknownMessageContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message\VideoMessageContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="model\ChannelInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="model\ChatroomInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="model\Conversation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="model\ConversationInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="model\ConversationSearchInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="model\FriendRequest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="model\GroupInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="model\GroupSearchInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="model\UnreadCount.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="model\UserInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="model\UserSettingEntry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
