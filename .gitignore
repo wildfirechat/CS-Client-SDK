@@ -13,3 +13,5 @@ CppChatClient/x64/
 CppChatDemo/CppChatDemo.vcxproj.user
 CS-Client-SDK/CS-Client-SDK.VC.VC.opendb
 CS-Client-SDK/ipch/
+CsChatClient/bin/
+CsChatDemo/bin/
