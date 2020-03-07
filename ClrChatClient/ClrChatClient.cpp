@@ -434,8 +434,8 @@ namespace ClrChatClient {
 		WFClient::sendFriendRequest(ConvertStr(userId), ConvertStr(reason), client_genernal_void_success_callback, client_genernal_error_callback, new CallbackWrapper(succDele, errDele));
 	}
 
-	void Proto::handleFriendRequest(String^userId, bool isAccpet, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele){ 
-		WFClient::handleFriendRequest(ConvertStr(userId), isAccpet, client_genernal_void_success_callback, client_genernal_error_callback, new CallbackWrapper(succDele, errDele));
+	void Proto::handleFriendRequest(String^userId, bool isAccpet, String^ friendExtra, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele){ 
+		WFClient::handleFriendRequest(ConvertStr(userId), isAccpet, ConvertStr(friendExtra), client_genernal_void_success_callback, client_genernal_error_callback, new CallbackWrapper(succDele, errDele));
 	}
 
 	String^ Proto::getFriendAlias(String^userId){

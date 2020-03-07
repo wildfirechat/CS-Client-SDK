@@ -559,8 +559,8 @@ void ChatClient::sendFriendRequest(const std::string &userId, const std::string 
     WFClient::sendFriendRequest(userId, reason, client_genernal_void_success_callback, client_genernal_void_error_callback, callback);
 }
 
-void ChatClient::handleFriendRequest(const std::string &userId, bool accpet, GeneralVoidCallback *callback) {
-    WFClient::handleFriendRequest(userId, accpet, client_genernal_void_success_callback, client_genernal_void_error_callback, callback);
+void ChatClient::handleFriendRequest(const std::string &userId, bool accpet, const std::string &friendExtra, GeneralVoidCallback *callback) {
+    WFClient::handleFriendRequest(userId, accpet, friendExtra, client_genernal_void_success_callback, client_genernal_void_error_callback, callback);
 }
 
 const std::string ChatClient::getFriendAlias(const std::string &userId) {

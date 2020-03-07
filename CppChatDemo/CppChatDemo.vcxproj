@@ -80,14 +80,18 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(ProjectDir)..\CppChatClient;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)..\CS-Client-SDK\proto\lib\$(PlatformTarget);$(ProjectDir)..\CS-Client-SDK\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(ProjectDir)..\CppChatClient;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)..\..\project\CS-Client-SDK\Release;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)..\CS-Client-SDK\proto\lib\$(PlatformTarget);$(ProjectDir)..\CS-Client-SDK\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <LibraryPath>$(ProjectDir)..\CS-Client-SDK\proto\lib\$(PlatformTarget);$(ProjectDir)..\CS-Client-SDK\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)..\CppChatClient;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -121,6 +125,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>ProtoWrapper.lib;CppChatClient.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -172,6 +177,7 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>ProtoWrapper.lib;CppChatClient.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>

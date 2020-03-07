@@ -6,6 +6,8 @@ CsChatClient/obj
 CsChatClient/x64
 CsChatDemo/obj
 CppChatDemo/Debug/
+CppChatDemo/Release/
+CppChatDemo/x64/
 CppChatClient/Debug/
 CS-Client-SDK/Release/
 ClrChatClient/Release/
@@ -13,6 +15,8 @@ CppChatClient/x64/
 CppChatDemo/CppChatDemo.vcxproj.user
 CS-Client-SDK/CS-Client-SDK.VC.VC.opendb
 CS-Client-SDK/ipch/
+CS-Client-SDK/x64/
 CsChatClient/bin/
 CsChatDemo/bin/
+CppChatClient/Release/
 CS-Client-SDK/x64

@@ -731,9 +731,10 @@ public:
 
      @param userId 用户ID
      @param accpet 是否接受
+	 @param friendExtra extra
      @param callback 回调
      */
-    void handleFriendRequest(const std::string &userId, bool accpet, GeneralVoidCallback *callback);
+    void handleFriendRequest(const std::string &userId, bool accpet, const std::string &friendExtra, GeneralVoidCallback *callback);
 
     /**
     获取用户的别名

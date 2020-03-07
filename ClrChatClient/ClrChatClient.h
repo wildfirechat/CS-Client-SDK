@@ -242,7 +242,7 @@ namespace ClrChatClient {
 		void clearUnreadFriendRequestStatus();
 		void deleteFriend(System::String^userId, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
 		void sendFriendRequest(System::String^userId, System::String^reason, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
-		void handleFriendRequest(System::String^userId, bool accpet, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
+		void handleFriendRequest(System::String^userId, bool accpet, System::String^friendExtra, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
 		System::String^ getFriendAlias(System::String^userId);
 		void setFriendAlias(System::String^userId, System::String^alias, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
 		bool isBlackListed(System::String^userId);

@@ -1287,11 +1287,12 @@ namespace CsChatClient
 
          @param userId 用户ID
          @param accpet 是否接受
+         @param friendExtra extra
          @param callback 回调
          */
-        public void handleFriendRequest(string userId, bool accpet, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
+        public void handleFriendRequest(string userId, bool accpet, string friendExtra, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
-            PROTO.handleFriendRequest(userId, accpet, succDele, errDele);
+            PROTO.handleFriendRequest(userId, accpet, friendExtra, succDele, errDele);
         }
 
         /**

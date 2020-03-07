@@ -135,7 +135,7 @@ typedef void (*fun_general_string_error_callback)(void *pObjectect, int errorCod
 extern PROTOWRAPPER_API bool connect(const std::string &userId, const std::string &token);
 
 extern PROTOWRAPPER_API void disconnect(int flag);
-    
+
 extern PROTOWRAPPER_API void setConnectionStatusListener(fun_connection_callback callback);
 
 extern PROTOWRAPPER_API void setReceiveMessageListener(fun_receive_message_callback receiveCallback, fun_recall_message_callback recallCallback);
@@ -259,9 +259,11 @@ extern PROTOWRAPPER_API const std::string* getFriendAlias(const std::string &use
 
 extern PROTOWRAPPER_API void setFriendAlias(const std::string &userId, const std::string &alias, fun_general_void_success_callback successCB, fun_general_void_error_callback errorCB, void *pObject);
 
+extern PROTOWRAPPER_API const std::string* getFriendExtra(const std::string &userId);
+
 extern PROTOWRAPPER_API void sendFriendRequest(const std::string &userId, const std::string &reason, fun_general_void_success_callback successCB, fun_general_void_error_callback errorCB, void *pObject);
 
-extern PROTOWRAPPER_API void handleFriendRequest(const std::string &userId, bool accept, fun_general_void_success_callback successCB, fun_general_void_error_callback errorCB, void *pObject);
+extern PROTOWRAPPER_API void handleFriendRequest(const std::string &userId, bool accept, const std::string &extra, fun_general_void_success_callback successCB, fun_general_void_error_callback errorCB, void *pObject);
 
 extern PROTOWRAPPER_API bool isBlackListed(const std::string &userId);
 
