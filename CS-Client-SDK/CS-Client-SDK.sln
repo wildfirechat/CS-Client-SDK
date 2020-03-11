@@ -8,6 +8,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CppChatClient", "..\CppChatClient\CppChatClient.vcxproj", "{1886408D-3A98-4716-BDAD-7B83B0BB77BD}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CppChatDemo", "..\CppChatDemo\CppChatDemo.vcxproj", "{137A06C7-4003-4F18-BE9E-4D705353C312}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1886408D-3A98-4716-BDAD-7B83B0BB77BD} = {1886408D-3A98-4716-BDAD-7B83B0BB77BD}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsChatClient", "..\CsChatClient\CsChatClient.csproj", "{9328373D-C47F-4178-BCFF-9226B46B0E8D}"
 	ProjectSection(ProjectDependencies) = postProject
