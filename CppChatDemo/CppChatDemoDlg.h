@@ -25,6 +25,7 @@ public:
 	virtual void onConnectionStatusChanged(ConnectionStatus status);
 	virtual void onReceiveMessages(const std::list<Message> &messages, bool hasMore);
 	virtual void onRecallMessage(const std::string &operatorId, int64_t messageUid);
+	virtual void onDeleteMessage(int64_t messageUid);
 // Implementation
 protected:
 	HICON m_hIcon;

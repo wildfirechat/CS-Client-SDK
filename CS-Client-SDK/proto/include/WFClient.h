@@ -106,6 +106,7 @@ namespace WFClient {
 typedef void (*fun_connection_callback)(int);
 typedef void (*fun_receive_message_callback)(const std::string &messages, bool moreMsg);
 typedef void (*fun_recall_message_callback)(const std::string &operatorId, int64_t messageUid);
+typedef void (*fun_delete_message_callback)(int64_t messageUid);
 
 typedef void (*fun_userInfo_update_callback)(const std::string &userInfos);
 
@@ -138,7 +139,7 @@ extern PROTOWRAPPER_API void disconnect(int flag);
 
 extern PROTOWRAPPER_API void setConnectionStatusListener(fun_connection_callback callback);
 
-extern PROTOWRAPPER_API void setReceiveMessageListener(fun_receive_message_callback receiveCallback, fun_recall_message_callback recallCallback);
+extern PROTOWRAPPER_API void setReceiveMessageListener(fun_receive_message_callback receiveCallback, fun_recall_message_callback recallCallback, fun_delete_message_callback deleteCallback);
 
 extern PROTOWRAPPER_API void setUserInfoUpdateListener(fun_userInfo_update_callback callback);
 
@@ -341,12 +342,17 @@ extern PROTOWRAPPER_API void searchChannel(const std::string &keyword, fun_gener
 extern PROTOWRAPPER_API bool isListenedChannel(const std::string &channelId);
 
 extern PROTOWRAPPER_API void listenChannel(const std::string &channelId, bool listen, fun_general_void_success_callback successBlock, fun_general_void_error_callback errorBlock, void *pObject);
+
 extern PROTOWRAPPER_API const std::string* getMyChannels();
 
 extern PROTOWRAPPER_API const std::string* getListenedChannels();
 
 extern PROTOWRAPPER_API void destoryChannel(const std::string &channelId, fun_general_void_success_callback successBlock, fun_general_void_error_callback errorBlock, void *pObject);
+
 extern PROTOWRAPPER_API const std::string* getAppPath();
+
+extern PROTOWRAPPER_API void getAuthorizedMediaUrl(int mediaType, const std::string &mediaPath, fun_general_string_success_callback successBlock, fun_general_string_error_callback errorBlock, void *pObj);
+
 }
 
 #endif /* WFClient_h */

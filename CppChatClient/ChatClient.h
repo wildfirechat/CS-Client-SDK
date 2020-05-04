@@ -36,6 +36,7 @@ public:
     ReceiveMessageListener() {}
     virtual void onReceiveMessages(const std::list<Message> &messages, bool hasMore) = 0;
     virtual void onRecallMessage(const std::string &operatorId, int64_t messageUid) = 0;
+	virtual void onDeleteMessage(int64_t messageUid) = 0;
     virtual ~ReceiveMessageListener() {}
 };
 
@@ -1112,6 +1113,8 @@ public:
      @param callback 回调
      */
     void destoryChannel(const std::string &channelId, GeneralVoidCallback *callback);
+
+	 void getAuthorizedMediaUrl(int mediaType, const std::string & mediaPath, GeneralStringCallback * callback);
 
 
 

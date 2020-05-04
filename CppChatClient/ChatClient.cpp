@@ -59,6 +59,11 @@ static void client_recall_message_callback(const std::string &operatorId, int64_
 		gReceiveMessageListener->onRecallMessage(operatorId, messageUid);
 	}
 }
+static void client_delete_message_callback(int64_t messageUid) {
+	if (gReceiveMessageListener) {
+		gReceiveMessageListener->onDeleteMessage(messageUid);
+	}
+}
 
 
 static UserInfoUpdateListener *gUserInfoUpdateListener = NULL;
@@ -203,7 +208,7 @@ const std::string ChatClient::getClientId()
 bool ChatClient::connect(const std::string & userId, const std::string &token)
 {
 	WFClient::setConnectionStatusListener(client_connection_callback);
-	WFClient::setReceiveMessageListener(client_receive_message_callback, client_recall_message_callback);
+	WFClient::setReceiveMessageListener(client_receive_message_callback, client_recall_message_callback, client_delete_message_callback);
     WFClient::setUserInfoUpdateListener(client_userInfo_update_callback);
     WFClient::setGroupInfoUpdateListener(client_groupInfo_update_callback);
     WFClient::setGroupMemberUpdateListener(client_groupMembers_update_callback);
@@ -830,7 +835,9 @@ void ChatClient::destoryChannel(const std::string &channelId, GeneralVoidCallbac
     WFClient::destoryChannel(channelId, client_genernal_void_success_callback, client_genernal_void_error_callback, callback);
 }
 
-
+void ChatClient::getAuthorizedMediaUrl(int mediaType, const std::string &mediaPath, GeneralStringCallback *callback) {
+	WFClient::getAuthorizedMediaUrl(mediaType, mediaPath, client_genernal_string_success_callback, client_genernal_string_error_callback, callback);
+}
 
 template <typename T>
 std::list<T> serializableFromJsonList(const std::string &jsonListStr) {

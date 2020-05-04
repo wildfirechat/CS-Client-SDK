@@ -18,6 +18,7 @@ namespace ClrChatClient {
 	public delegate void OnConnectionStatusListenerDelegate(int);
 	public delegate void OnReceiveMessageDelegate(System::String^ messages, bool hasMore);
 	public delegate void OnRecallMessageDelegate(System::String^ operatorId, Int64 messageUid);
+	public delegate void OnDeleteMessageDelegate(Int64 messageUid);
 	public delegate void OnStringDelegate(System::String^ str);
 	public delegate void OnVoidDelegate();
 
@@ -29,6 +30,7 @@ namespace ClrChatClient {
 
 	public delegate void OnNativeReceiveMessageDelegate(const std::string &messages, bool hasMore);
 	public delegate void OnNativeRecallMessageDelegate(const std::string &operatorId, int64_t messageUid);
+	public delegate void OnNativeDeleteMessageDelegate(int64_t messageUid);
 	public delegate void OnNativeStringDelegate(const std::string &str);
 
 	public ref class Proto
@@ -50,9 +52,10 @@ namespace ClrChatClient {
 			WFClient::setConnectionStatusListener(static_cast<WFClient::fun_connection_callback>(ip.ToPointer()));
 		}
 
-		void setMessageListener(OnReceiveMessageDelegate^ receiveListener, OnRecallMessageDelegate^ recallListener) {
+		void setMessageListener(OnReceiveMessageDelegate^ receiveListener, OnRecallMessageDelegate^ recallListener, OnDeleteMessageDelegate^ deleteListener) {
 			m_OnReceiveMessageDelegate = receiveListener;
 			m_OnRecallMessageDelegate = recallListener;
+			m_OnDeleteMessageDelegate = deleteListener;
 		}
 
 		void setUserInfoUpdateListener(OnStringDelegate^ listener) {
@@ -97,12 +100,16 @@ namespace ClrChatClient {
 		OnNativeStringDelegate^ m_NativeChannelInfoUpdateDelegate;
 		OnNativeReceiveMessageDelegate^ m_NativeReceiveMessageDelegate;
 		OnNativeRecallMessageDelegate^ m_NativeRecallMessageDelegate;
+		OnNativeDeleteMessageDelegate^ m_NativeDeleteMessageDelegate;
+
 		bool connect(System::String^ userId, System::String^ token) {
 			m_NativeReceiveMessageDelegate = gcnew OnNativeReceiveMessageDelegate(this, &Proto::onReceiveMessage);
 			IntPtr ip1 = Marshal::GetFunctionPointerForDelegate(m_NativeReceiveMessageDelegate);
 			m_NativeRecallMessageDelegate = gcnew OnNativeRecallMessageDelegate(this, &Proto::onRecallMessage);
 			IntPtr ip2 = Marshal::GetFunctionPointerForDelegate(m_NativeRecallMessageDelegate);
-			WFClient::setReceiveMessageListener(static_cast<WFClient::fun_receive_message_callback>(ip1.ToPointer()), static_cast<WFClient::fun_recall_message_callback>(ip2.ToPointer()));
+			m_NativeDeleteMessageDelegate = gcnew OnNativeDeleteMessageDelegate(this, &Proto::onDeleteMessage);
+			IntPtr ip21 = Marshal::GetFunctionPointerForDelegate(m_NativeDeleteMessageDelegate);
+			WFClient::setReceiveMessageListener(static_cast<WFClient::fun_receive_message_callback>(ip1.ToPointer()), static_cast<WFClient::fun_recall_message_callback>(ip2.ToPointer()), static_cast<WFClient::fun_delete_message_callback>(ip21.ToPointer()));
 
 			m_NativeUserInfoUpdateDelegate = gcnew OnNativeStringDelegate(this, &Proto::onUserInfoUpdate);
 			IntPtr ipUserinfo = Marshal::GetFunctionPointerForDelegate(m_NativeUserInfoUpdateDelegate);
@@ -285,6 +292,7 @@ namespace ClrChatClient {
 		System::String^ getMyChannels();
 		System::String^ getListenedChannels();
 		void destoryChannel(System::String^channelId, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
+		void getAuthorizedMediaUrl(int mediaType, String^mediaPath, onGeneralStringSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
 
 
 		static const std::string ConvertStr(System::String^ str);
@@ -296,6 +304,7 @@ namespace ClrChatClient {
 	private:
 		void onReceiveMessage(const std::string &messageList, bool hasMore);
 		void onRecallMessage(const std::string &operatorId, int64_t messageUid);
+		void onDeleteMessage(int64_t messageUid);
 
 		void onUserInfoUpdate(const std::string &strValue);
 		void onGroupInfoUpdate(const std::string &strValue);
@@ -306,6 +315,7 @@ namespace ClrChatClient {
 		static OnConnectionStatusListenerDelegate^ m_OnConnectionStatusListenerDelegate;
 		static OnReceiveMessageDelegate^ m_OnReceiveMessageDelegate;
 		static OnRecallMessageDelegate^ m_OnRecallMessageDelegate;
+		static OnDeleteMessageDelegate^ m_OnDeleteMessageDelegate;
 		static OnStringDelegate ^m_onUserInfoUpdateListener;
 		static OnStringDelegate ^m_onChannelInfoUpdateListener;
 		static OnStringDelegate ^m_onContactUpdateListener;

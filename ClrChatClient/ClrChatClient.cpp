@@ -607,6 +607,10 @@ namespace ClrChatClient {
 		WFClient::destoryChannel(ConvertStr(channelId), client_genernal_void_success_callback, client_genernal_error_callback, new CallbackWrapper(succDele, errDele));
 	}
 
+	void Proto::getAuthorizedMediaUrl(int mediaType, String^mediaPath, onGeneralStringSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele) {
+		WFClient::getAuthorizedMediaUrl(mediaType, ConvertStr(mediaPath), client_genernal_string_success_callback, client_genernal_error_callback, new CallbackWrapper(succDele, errDele));
+	}
+
 	const std::string Proto::ConvertStr(String^ str) {
 		std::wstring unicodeStr = marshal_as<std::wstring>(str);
 		std::string utf8Str = WideByte2Acsi(unicodeStr);
@@ -657,6 +661,12 @@ namespace ClrChatClient {
 	void Proto::onRecallMessage(const std::string &operatorId, int64_t messageUid) {
 		if (m_OnRecallMessageDelegate) {
 			m_OnRecallMessageDelegate(ConvertStr(operatorId), messageUid);
+		}
+	}
+
+	void Proto::onDeleteMessage(int64_t messageUid) {
+		if (m_OnDeleteMessageDelegate) {
+			m_OnDeleteMessageDelegate(messageUid);
 		}
 	}
 

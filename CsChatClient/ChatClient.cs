@@ -33,6 +33,7 @@ namespace CsChatClient
     {
         void onReceiveMessages(List<MessageEx> messages, bool hasMore);
         void onRecallMessage(string operatorId, Int64 messageUid);
+        void onDeleteMessage(Int64 messageUid);
     };
 
     /*
@@ -507,7 +508,7 @@ namespace CsChatClient
         @param listener 监听
         */
         public void setReceiveMessageListener(ReceiveMessageListener listener) {
-            PROTO.setMessageListener(new ReceiveMessageWrapper(listener).onReceive, listener.onRecallMessage);
+            PROTO.setMessageListener(new ReceiveMessageWrapper(listener).onReceive, listener.onRecallMessage, listener.onDeleteMessage);
         }
 
 

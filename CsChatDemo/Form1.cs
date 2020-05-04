@@ -133,7 +133,7 @@ namespace CsChatDemo
 
         public string getToken(string jsonParam)
         {
-            string _url = "https://wildfirechat.cn/app/login";
+            string _url = "https://app.wildfirechat.cn/login";
             //json参数
             //string jsonParam = "{ phonenumber:\"18665885202\",pwd:\"tsp\"}";
             var request = (HttpWebRequest)WebRequest.Create(_url);
@@ -263,6 +263,11 @@ namespace CsChatDemo
                 line += " ";
             }
             appendLog(line);
+        }
+
+        public void onDeleteMessage(long messageUid)
+        {
+            throw new NotImplementedException();
         }
     }
 }

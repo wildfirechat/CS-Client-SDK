@@ -153,6 +153,10 @@ void CCppChatDemoDlg::onReceiveMessages(const std::list<Message> & messageLists,
 void CCppChatDemoDlg::onRecallMessage(const std::string & operatorId, int64_t messageUid)
 {
 }
+void CCppChatDemoDlg::onDeleteMessage(int64_t messageUid)
+{
+}
+
 
 BEGIN_MESSAGE_MAP(CCppChatDemoDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
