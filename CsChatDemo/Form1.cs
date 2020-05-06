@@ -133,7 +133,7 @@ namespace CsChatDemo
 
         public string getToken(string jsonParam)
         {
-            string _url = "https://app.wildfirechat.cn/login";
+            string _url = "http://wildfirechat.cn:8888/login";
             //json参数
             //string jsonParam = "{ phonenumber:\"18665885202\",pwd:\"tsp\"}";
             var request = (HttpWebRequest)WebRequest.Create(_url);
