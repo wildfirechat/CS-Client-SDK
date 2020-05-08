@@ -343,10 +343,13 @@ namespace ClrChatClient {
 
 	String^ Proto::sendMessage(int type, String^ target, int line, String^ content, List<String^>^ toUsers, int expireDuration, onBigIntBigIntCallbackDelegate^ succDele, onIntIntCallbackDelegate^ progressDele, onErrorCallbackDelegate^ errDele){
 		std::list<std::string> us;
-		for each (String^ user in toUsers)
-		{
-			us.push_back(ConvertStr(user));
+		if(toUsers) {
+			for each (String^ user in toUsers)
+			{
+				us.push_back(ConvertStr(user));
+			}
 		}
+		
 		return ConvertStr(WFClient::sendMessage(type, ConvertStr(target), line, ConvertStr(content), us, expireDuration, client_sendMessage_success_callback, client_sendMessage_error_callback, client_sendMessage_progress_callback, new SendMessageCallbackWrapper(succDele, progressDele, errDele)));
 	}
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace CsChatClient.Messages
 {
     [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_IMAGE, MessageContentPersistFlag.PersistFlag_PERSIST_AND_COUNT)]
-    class ImageMessageContent : MediaMessageContent
+    public class ImageMessageContent : MediaMessageContent
     {
         //jpeg
         public byte[] thumbnailBytes;

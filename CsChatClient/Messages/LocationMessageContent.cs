@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace CsChatClient.Messages
 {
     [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_LOCATION, MessageContentPersistFlag.PersistFlag_PERSIST_AND_COUNT)]
-    class LocationMessageContent : MessageContent
+    public class LocationMessageContent : MessageContent
     {
         public string title;
         public byte[] thumbnailData;

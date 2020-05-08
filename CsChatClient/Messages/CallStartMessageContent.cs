@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace CsChatClient.Messages
 {
     [ContentAttribute(MessageContentType.VOIP_CONTENT_TYPE_START, MessageContentPersistFlag.PersistFlag_PERSIST_AND_COUNT)]
-    class CallStartMessageContent : MessageContent
+    public class CallStartMessageContent : MessageContent
     {
         public String callId;
         public String targetId;

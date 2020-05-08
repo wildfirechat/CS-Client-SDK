@@ -25,16 +25,13 @@ namespace CsChatClient.Messages
         public int getType()
         {
             Type type = GetType();
-            PropertyInfo[] propInfos = type.GetProperties();
-            foreach (var prop in propInfos)
+
+            ContentAttribute attribute = (ContentAttribute)Attribute.GetCustomAttribute(type, typeof(ContentAttribute));
+            if (attribute != null)
             {
-                string parameterName = prop.Name;
-                if (prop.IsDefined(typeof(ContentAttribute), false))
-                {
-                    ContentAttribute attribute = (ContentAttribute)prop.GetCustomAttribute(typeof(ContentAttribute), false);
-                    return attribute.type;
-                }
+                return attribute.type;
             }
+            
             return 0;
         }
 

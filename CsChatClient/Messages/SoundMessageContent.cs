@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace CsChatClient.Messages
 {
     [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_SOUND, MessageContentPersistFlag.PersistFlag_PERSIST_AND_COUNT)]
-    class SoundMessageContent : MediaMessageContent
+    public class SoundMessageContent : MediaMessageContent
     {
         public int duration;
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace CsChatClient.Messages
 {
     [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_FILE, MessageContentPersistFlag.PersistFlag_PERSIST_AND_COUNT)]
-    class FileMessageContent : MediaMessageContent
+    public class FileMessageContent : MediaMessageContent
     {
         public string name;
         public int size;

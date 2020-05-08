@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace CsChatClient.Messages
 {
     [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_TYPING, MessageContentPersistFlag.PersistFlag_TRANSPARENT)]
-    class TypingMessageContent : MessageContent
+    public class TypingMessageContent : MessageContent
     {
         public static int TYPING_TEXT = 0;
         public static int TYPING_VOICE = 1;

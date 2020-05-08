@@ -18,7 +18,7 @@ namespace CsChatClient
         public static string Stringfy(object value)
         {
             WfcJsonConverter convert = new WfcJsonConverter();
-            return JsonConvert.SerializeObject(value);
+            return JsonConvert.SerializeObject(value, convert);
         } 
 
         static public string getNextString(JsonReader reader)
@@ -131,17 +131,22 @@ namespace CsChatClient
         static public void serializeList<T>(JsonWriter writer, List<T> value)
         {
             writer.WriteStartArray();
-            foreach(var v in value)
+            if(value != null)
             {
-                if (typeof(Serializable).IsAssignableFrom(typeof(T)))
+                foreach (var v in value)
                 {
-                    Serializable s = (Serializable)v;
-                    s.Serialize(writer);
-                } else
-                {
-                    writer.WriteValue(v);
+                    if (typeof(Serializable).IsAssignableFrom(typeof(T)))
+                    {
+                        Serializable s = (Serializable)v;
+                        s.Serialize(writer);
+                    }
+                    else
+                    {
+                        writer.WriteValue(v);
+                    }
                 }
             }
+
             writer.WriteEndArray();
         }
         static public void serializeStringList(JsonWriter writer, List<string> value)

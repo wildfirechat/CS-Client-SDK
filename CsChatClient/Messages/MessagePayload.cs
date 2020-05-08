@@ -33,7 +33,7 @@ namespace CsChatClient.Messages
         public void Serialize(JsonWriter writer)
         {
             writer.WriteStartObject();
-            writer.WritePropertyName("contentType");
+            writer.WritePropertyName("type");
             writer.WriteValue(contentType);
             writer.WritePropertyName("searchableContent");
             writer.WriteValue(searchableContent);
@@ -43,9 +43,16 @@ namespace CsChatClient.Messages
             writer.WriteValue(content);
 
             writer.WritePropertyName("binaryContent");
-            string strContent = Convert.ToBase64String(binaryContent);
-            //change base64 string to utf8 format after decode , i don't very sure
-            writer.WriteValue(Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(strContent)));
+            if(binaryContent != null)
+            {
+                string strContent = Convert.ToBase64String(binaryContent);
+                //change base64 string to utf8 format after decode , i don't very sure
+                writer.WriteValue(Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(strContent)));
+            } else
+            {
+                writer.WriteValue("");
+            }
+            
 
             writer.WritePropertyName("mentionedType");
             writer.WriteValue(mentionedType);

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace CsChatClient.Messages
 {
     [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_TEXT, MessageContentPersistFlag.PersistFlag_PERSIST_AND_COUNT)]
-    class TextMessageContent : MessageContent
+    public class TextMessageContent : MessageContent
     {
         public string content;
 

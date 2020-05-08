@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace CsChatClient.Messages
 {
     [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_IMAGETEXT, MessageContentPersistFlag.PersistFlag_PERSIST_AND_COUNT)]
-    class ImageTextMessageContent : MessageContent
+    public class ImageTextMessageContent : MessageContent
     {
         public string title;
         public string content;

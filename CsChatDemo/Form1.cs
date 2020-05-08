@@ -88,7 +88,7 @@ namespace CsChatDemo
             List<ConversationInfo> convs = ChatClient.Instance().getConversationInfos(new List<ConversationType>() { ConversationType.Single_Type, ConversationType.Group_Type, ConversationType.Channel_Type }, new List<int>() { 0 });
             appendLog("获取到 " + convs.Count() + " 条会话记录");
 
-            Conversation conv = new Conversation(ConversationType.Single_Type, "admin", 0);
+            Conversation conv = new Conversation(ConversationType.Single_Type, "cgc8c8VV", 0);
 
             ConversationInfo convInfo = ChatClient.Instance().getConversationInfo(conv);
             if(convInfo != null)
@@ -121,6 +121,20 @@ namespace CsChatDemo
             }, (int errorCode) =>
             {
                 appendLog("set conversation top failure " + errorCode);
+            });
+
+            FileMessageContent fileMsg = new FileMessageContent();
+            fileMsg.localPath = "d:\\Debug.zip";
+
+            TextMessageContent txt = new TextMessageContent();
+            txt.content = "hello world";
+
+            ChatClient.Instance().sendMessage(conv, txt, null, 0, (long uid, long ts)=> {
+                appendLog("send success");
+            }, (int sended, int total)=> {
+                appendLog("send progress");
+            }, (int errorcode)=> {
+                appendLog("send failure");
             });
         }
 

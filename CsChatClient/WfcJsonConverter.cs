@@ -156,7 +156,13 @@ namespace CsChatClient
             if (typeof(MessageContent).IsAssignableFrom(value.GetType()))
             {
                 MessageContent content = (MessageContent)value;
-                value = content.encode();
+                MessagePayload payload = content.encode();
+                
+                payload.contentType = content.getType();
+                payload.mentionedType = content.mentionedType;
+                payload.mentionedTargets = content.mentionedTargets;
+                payload.extra = content.extra;
+                value = payload;
             }
 
 
