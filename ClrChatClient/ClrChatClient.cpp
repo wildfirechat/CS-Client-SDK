@@ -3,7 +3,8 @@
 #include "stdafx.h"
 #include <string>
 #include "ClrChatClient.h"
-
+using namespace System;
+using namespace System::Runtime::InteropServices;
 
 namespace ClrChatClient {
 
@@ -83,16 +84,19 @@ namespace ClrChatClient {
 	public:
 		SendMessageCallbackWrapper(onBigIntBigIntCallbackDelegate^ succCB, onIntIntCallbackDelegate^ proCb, onErrorCallbackDelegate^ errCB) {
 			if (succCB) {
+				scHandler = GCHandle::Alloc(succCB);
 				successCB = Marshal::GetFunctionPointerForDelegate(succCB);
 			}
 
 			if (proCb)
 			{
+				pgHandler = GCHandle::Alloc(proCb);
 				progressCB = Marshal::GetFunctionPointerForDelegate(proCb);
 			}
 
 			if (errCB)
 			{
+				erHandler = GCHandle::Alloc(errCB);
 				errorCB = Marshal::GetFunctionPointerForDelegate(errCB);
 			}
 		}
@@ -100,6 +104,24 @@ namespace ClrChatClient {
 		IntPtr successCB;
 		IntPtr progressCB;
 		IntPtr errorCB;
+		GCHandle scHandler;
+		GCHandle pgHandler;
+		GCHandle erHandler;
+		
+		virtual ~SendMessageCallbackWrapper() {
+			if (scHandler.IsAllocated)
+			{
+				scHandler.Free();
+			}
+			if (pgHandler.IsAllocated)
+			{
+				pgHandler.Free();
+			}
+			if (erHandler.IsAllocated)
+			{
+				erHandler.Free();
+			}
+		}
 	};
 
 	private class UploadMediaCallbackWrapper {
