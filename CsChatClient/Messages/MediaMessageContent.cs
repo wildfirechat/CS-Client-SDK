@@ -16,7 +16,7 @@ namespace CsChatClient.Messages
         public MessagePayload encode()
         {
             MessagePayload payload = new MessagePayload();
-            payload.localContent = localPath;
+            payload.localMediaPath = localPath;
             payload.remoteMediaUrl = remoteUrl;
             payload.mediaType = mediaType;
             return payload;
@@ -25,7 +25,7 @@ namespace CsChatClient.Messages
         override
         public void decode(MessagePayload payload)
         {
-            localPath = payload.localContent;
+            localPath = payload.localMediaPath;
             remoteUrl = payload.remoteMediaUrl;
             mediaType = payload.mediaType;
         }

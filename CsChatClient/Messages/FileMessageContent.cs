@@ -33,6 +33,7 @@ namespace CsChatClient.Messages
             MessagePayload payload = base.encode();
             payload.searchableContent = name;
             payload.content = size + "";
+            payload.mediaType = MediaType.Media_Type_File;
             return payload;
         }
     }

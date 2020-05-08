@@ -129,7 +129,7 @@ namespace CsChatDemo
             TextMessageContent txt = new TextMessageContent();
             txt.content = "hello world";
 
-            ChatClient.Instance().sendMessage(conv, txt, null, 0, (long uid, long ts)=> {
+            ChatClient.Instance().sendMessage(conv, fileMsg, null, 0, (long uid, long ts)=> {
                 appendLog("send success");
             }, (int sended, int total)=> {
                 appendLog("send progress");
