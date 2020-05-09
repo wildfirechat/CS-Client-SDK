@@ -132,7 +132,7 @@ namespace CsChatDemo
             ChatClient.Instance().sendMessage(conv, fileMsg, null, 0, (long uid, long ts)=> {
                 appendLog("send success");
             }, (int sended, int total)=> {
-                appendLog("send progress");
+                appendLog("send progress:(" + total + ":" + sended + ")");
             }, (int errorcode)=> {
                 appendLog("send failure");
             });

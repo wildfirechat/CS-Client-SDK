@@ -56,28 +56,52 @@ namespace ClrChatClient {
 	public:
 		CallbackWrapper(onGeneralVoidSuccessCallbackDelegate^ voidCB, onErrorCallbackDelegate^ errCB) {
 			if (voidCB) {
+				vscHandler = GCHandle::Alloc(voidCB);
 				voidSuccessCB = Marshal::GetFunctionPointerForDelegate(voidCB);
 			}
 
 			if (errCB)
 			{
+				erHandler = GCHandle::Alloc(errCB);
 				errorCB = Marshal::GetFunctionPointerForDelegate(errCB);
 			}
 		}
 		CallbackWrapper(onGeneralStringSuccessCallbackDelegate^ stringCB, onErrorCallbackDelegate^ errCB) {
 			if (stringCB)
 			{
+				sscHandler = GCHandle::Alloc(stringCB);
 				stringSuccessCB = Marshal::GetFunctionPointerForDelegate(stringCB);
 			}
 
 			if (errCB)
 			{
+				erHandler = GCHandle::Alloc(errCB);
 				errorCB = Marshal::GetFunctionPointerForDelegate(errCB);
+			}
+		}
+
+		virtual ~CallbackWrapper()
+		{
+			if (vscHandler.IsAllocated)
+			{
+				vscHandler.Free();
+			}
+			if (sscHandler.IsAllocated)
+			{
+				sscHandler.Free();
+			}
+			if (erHandler.IsAllocated)
+			{
+				erHandler.Free();
 			}
 		}
 		IntPtr voidSuccessCB;
 		IntPtr stringSuccessCB;
 		IntPtr errorCB;
+
+		GCHandle sscHandler;
+		GCHandle vscHandler;
+		GCHandle erHandler;
 	};
 
 	private class SendMessageCallbackWrapper {
@@ -128,23 +152,42 @@ namespace ClrChatClient {
 	public:
 		UploadMediaCallbackWrapper(onGeneralStringSuccessCallbackDelegate^ succCB, onIntIntCallbackDelegate^ proCb, onErrorCallbackDelegate^ errCB) {
 			if (succCB) {
+				scHandler = GCHandle::Alloc(succCB);
 				successCB = Marshal::GetFunctionPointerForDelegate(succCB);
 			}
 
 			if (proCb)
 			{
+				pgHandler = GCHandle::Alloc(proCb);
 				progressCB = Marshal::GetFunctionPointerForDelegate(proCb);
 			}
 
 			if (errCB)
 			{
+				erHandler = GCHandle::Alloc(errCB);
 				errorCB = Marshal::GetFunctionPointerForDelegate(errCB);
 			}
 		}
-
+		virtual ~UploadMediaCallbackWrapper() {
+			if (scHandler.IsAllocated)
+			{
+				scHandler.Free();
+			}
+			if (pgHandler.IsAllocated)
+			{
+				pgHandler.Free();
+			}
+			if (erHandler.IsAllocated)
+			{
+				erHandler.Free();
+			}
+		}
 		IntPtr successCB;
 		IntPtr progressCB;
 		IntPtr errorCB;
+		GCHandle scHandler;
+		GCHandle pgHandler;
+		GCHandle erHandler;
 	};
 
 	static void client_genernal_void_success_callback(void *pObj) {
