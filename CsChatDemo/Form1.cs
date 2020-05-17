@@ -71,6 +71,11 @@ namespace CsChatDemo
 
         private void testBtn_Click(object sender, EventArgs e)
         {
+            if(!ChatClient.Instance().isLogined())
+            {
+                appendLog("没有登录，无法测试");
+                return;
+            }
             if(ChatClient.Instance().getConnectionStatus() != ConnectionStatus.kConnectionStatusConnected)
             {
                 appendLog("不在已连接状态，无法测试");
@@ -81,6 +86,15 @@ namespace CsChatDemo
 
             string currentUserId = ChatClient.Instance().getCurrentUserId();
             appendLog("当前登录用户id是：" + currentUserId);
+
+            UserInfo userInfo = ChatClient.Instance().getUserInfo(currentUserId, false);
+            if(userInfo == null)
+            {
+                appendLog("当前登录用户信息为空，这可能是因为本地没有存储，协议栈会去服务器同步，同步后会通过用户信息更新回调来通知");
+            } else {
+                appendLog("当前登录用户名：" + userInfo.displayName);
+            }
+            
 
             Int64 deltaTime = ChatClient.Instance().getServerDeltaTime();
             appendLog("当前设备与服务器之间的时间差为:" + deltaTime);
