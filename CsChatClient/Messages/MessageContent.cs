@@ -1,41 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CsChatClient.Messages
 {
     public abstract class MessageContent
     {
-        public abstract MessagePayload encode();
+        public abstract MessagePayload Encode();
 
-        public abstract void decode(MessagePayload payload);
+        public abstract void Decode(MessagePayload payload);
 
-        public abstract String digest(MessageEx message);
+        public abstract string Digest(MessageEx message);
 
-        //0 普通消息, 1 部分提醒, 2 提醒全部
-        public int mentionedType;
+        /// <summary>
+        /// 0 普通消息, 1 部分提醒, 2 提醒全部
+        /// </summary>
+        public int MentionedType { get; set; }
 
-        //提醒对象，mentionedType 1时有效
-        public List<String> mentionedTargets;
-        public String extra;
+        /// <summary>
+        /// 提醒对象，mentionedType 1时有效
+        /// </summary>
+        public List<string> MentionedTargets { get; set; }
 
-        public int getType()
+        public string Extra { get; set; }
+
+        public int GetMessageType()
         {
             Type type = GetType();
 
             ContentAttribute attribute = (ContentAttribute)Attribute.GetCustomAttribute(type, typeof(ContentAttribute));
             if (attribute != null)
             {
-                return attribute.type;
+                return attribute.Type;
             }
             
             return 0;
         }
 
-        public MessageContentPersistFlag getFlag()
+        public MessageContentPersistFlag GetFlag()
         {
             Type type = GetType();
             PropertyInfo[] propInfos = type.GetProperties();
@@ -45,7 +47,7 @@ namespace CsChatClient.Messages
                 if (prop.IsDefined(typeof(ContentAttribute), false))
                 {
                     ContentAttribute attribute = (ContentAttribute)prop.GetCustomAttribute(typeof(ContentAttribute), false);
-                    return attribute.flag;
+                    return attribute.Flag;
                 }
             }
             return MessageContentPersistFlag.PersistFlag_NOT_PERSIST;

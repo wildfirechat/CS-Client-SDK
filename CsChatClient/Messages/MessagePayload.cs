@@ -1,51 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace CsChatClient.Messages
 {
-    public class MessagePayload : Serializable
+    public class MessagePayload : ISerializable
     {
-        public /*MessageContentType*/ int contentType;
-        public String searchableContent;
-        public String pushContent;
-        public String content;
-        public byte[] binaryContent;
+        /// <summary>
+        /// MessageContentType
+        /// </summary>
+        public int ContentType { get; set; }
+        public string SearchableContent { get; set; }
+        public string PushContent { get; set; }
+        public string Content { get; set; }
+        public byte[] BinaryContent { get; set; }
 
-        public int mentionedType;
-        public List<String> mentionedTargets;
+        public int MentionedType { get; set; }
+        public List<string> MentionedTargets { get; set; }
 
 
-        public MediaType mediaType;
-        public String remoteMediaUrl;
-
+        public MediaType MediaType { get; set; }
+        public string RemoteMediaUrl { get; set; }
 
         //前面的属性都会在网络发送，下面的属性只在本地存储
-        public String localMediaPath;
+        public string LocalMediaPath;
 
         //前面的属性都会在网络发送，下面的属性只在本地存储
-        public String localContent;
-        public String extra;
+        public string LocalContent;
+        public string Extra;
 
         public void Serialize(JsonWriter writer)
         {
             writer.WriteStartObject();
             writer.WritePropertyName("type");
-            writer.WriteValue(contentType);
+            writer.WriteValue(ContentType);
             writer.WritePropertyName("searchableContent");
-            writer.WriteValue(searchableContent);
+            writer.WriteValue(SearchableContent);
             writer.WritePropertyName("pushContent");
-            writer.WriteValue(pushContent);
+            writer.WriteValue(PushContent);
             writer.WritePropertyName("content");
-            writer.WriteValue(content);
+            writer.WriteValue(Content);
 
             writer.WritePropertyName("binaryContent");
-            if(binaryContent != null)
+            if(BinaryContent != null)
             {
-                string strContent = Convert.ToBase64String(binaryContent);
+                string strContent = Convert.ToBase64String(BinaryContent);
                 //change base64 string to utf8 format after decode , i don't very sure
                 writer.WriteValue(Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(strContent)));
             } else
@@ -55,19 +55,19 @@ namespace CsChatClient.Messages
             
 
             writer.WritePropertyName("mentionedType");
-            writer.WriteValue(mentionedType);
+            writer.WriteValue(MentionedType);
             writer.WritePropertyName("mentionedTargets");
-            JsonTools.serializeList<string>(writer, mentionedTargets);
+            JsonTools.SerializeList<string>(writer, MentionedTargets);
             writer.WritePropertyName("mediaType");
-            writer.WriteValue((int)mediaType);
+            writer.WriteValue((int)MediaType);
             writer.WritePropertyName("remoteMediaUrl");
-            writer.WriteValue(remoteMediaUrl);
+            writer.WriteValue(RemoteMediaUrl);
             writer.WritePropertyName("localMediaPath");
-            writer.WriteValue(localMediaPath);
+            writer.WriteValue(LocalMediaPath);
             writer.WritePropertyName("localContent");
-            writer.WriteValue(localContent);
+            writer.WriteValue(LocalContent);
             writer.WritePropertyName("extra");
-            writer.WriteValue(extra);
+            writer.WriteValue(Extra);
 
             writer.WriteEndObject();
         }
@@ -81,53 +81,53 @@ namespace CsChatClient.Messages
                     case JsonToken.PropertyName:
                         if (reader.Value.Equals("type"))
                         {
-                            contentType = JsonTools.getNextInt(reader);
+                            ContentType = JsonTools.GetNextInt(reader);
                         }
                         else if (reader.Value.Equals("searchableContent"))
                         {
-                            searchableContent = JsonTools.getNextString(reader);
+                            SearchableContent = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("pushContent"))
                         {
-                            pushContent = JsonTools.getNextString(reader);
+                            PushContent = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("content"))
                         {
-                            content = JsonTools.getNextString(reader);
+                            Content = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("binaryContent"))
                         {
-                            var strContent = JsonTools.getNextString(reader);
+                            var strContent = JsonTools.GetNextString(reader);
                             //change base64 string to utf8 format before encode, i don't very sure
-                            binaryContent = Convert.FromBase64String(Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(strContent)));
+                            BinaryContent = Convert.FromBase64String(Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(strContent)));
                         }
                         else if (reader.Value.Equals("mentionedType"))
                         {
-                            mentionedType = JsonTools.getNextInt(reader);
+                            MentionedType = JsonTools.GetNextInt(reader);
                         }
                         else if (reader.Value.Equals("mentionedTargets"))
                         {
-                            mentionedTargets = (List<string>)JsonTools.getNextObject(reader, false, typeof(List<string>));
+                            MentionedTargets = (List<string>)JsonTools.GetNextObject(reader, false, typeof(List<string>));
                         }
                         else if (reader.Value.Equals("mediaType"))
                         {
-                            mediaType = (MediaType)JsonTools.getNextInt(reader);
+                            MediaType = (MediaType)JsonTools.GetNextInt(reader);
                         }
                         else if (reader.Value.Equals("localContent"))
                         {
-                            localContent = JsonTools.getNextString(reader);
+                            LocalContent = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("remoteMediaUrl"))
                         {
-                            remoteMediaUrl = JsonTools.getNextString(reader);
+                            RemoteMediaUrl = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("localMediaPath"))
                         {
-                            localMediaPath = JsonTools.getNextString(reader);
+                            LocalMediaPath = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("extra"))
                         {
-                            extra = JsonTools.getNextString(reader);
+                            Extra = JsonTools.GetNextString(reader);
                         }
                         break;
                     case JsonToken.EndObject:

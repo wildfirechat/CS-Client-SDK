@@ -1,30 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CsChatClient.Messages
+﻿namespace CsChatClient.Messages
 {
     [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_TEXT, MessageContentPersistFlag.PersistFlag_PERSIST_AND_COUNT)]
     public class TextMessageContent : MessageContent
     {
-        public string content;
+        public string Content { get; set; }
 
-        public override void decode(MessagePayload payload)
+        public override void Decode(MessagePayload payload)
         {
-            content = payload.searchableContent;    
+            Content = payload.SearchableContent;    
         }
 
-        public override string digest(MessageEx message)
+        public override string Digest(MessageEx message)
         {
-            return content;
+            return Content;
         }
 
-        public override MessagePayload encode()
+        public override MessagePayload Encode()
         {
             MessagePayload payload = new MessagePayload();
-            payload.searchableContent = content;
+            payload.SearchableContent = Content;
             return payload;
         }
     }

@@ -1,27 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CsChatClient.Models;
 using Newtonsoft.Json;
 
 namespace CsChatClient.Messages
 {
-    public class MessageEx : Serializable
+    public class MessageEx : ISerializable
     {
-        public long messageId;
-        public Conversation conversation;
-        public String sender;
-        /**
-         * 消息在会话中定向发送给指定用户
-         */
-        public List<String> toUsers;
-        public MessageContent content;
-        public MessageDirection direction;
-        public MessageStatus status;
-        public long messageUid;
-        public long serverTime;
+        public long MessageId { get; set; }
+        public Conversation Conversation { get; set; }
+        public string Sender { get; set; }
+        /// <summary>
+        /// 消息在会话中定向发送给指定用户
+        /// </summary>
+        public List<string> ToUsers { get; set; }
+        public MessageContent Content { get; set; }
+        public MessageDirection Direction { get; set; }
+        public MessageStatus Status { get; set; }
+        public long MessageUid { get; set; }
+        public long ServerTime { get; set; }
 
         public void Serialize(JsonWriter writer)
         {
@@ -37,39 +34,39 @@ namespace CsChatClient.Messages
                     case JsonToken.PropertyName:
                         if (reader.Value.Equals("conversation"))
                         {
-                            conversation = (Conversation)JsonTools.getNextObject(reader, false, typeof(Conversation));
+                            Conversation = (Conversation)JsonTools.GetNextObject(reader, false, typeof(Conversation));
                         }
                         else if (reader.Value.Equals("from"))
                         {
-                            sender = JsonTools.getNextString(reader);
+                            Sender = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("messageId"))
                         {
-                            messageId = JsonTools.getNextInt(reader);
+                            MessageId = JsonTools.GetNextInt(reader);
                         }
                         else if (reader.Value.Equals("messageUid"))
                         {
-                            messageUid = long.Parse(JsonTools.getNextString(reader));
+                            MessageUid = long.Parse(JsonTools.GetNextString(reader));
                         }
                         else if (reader.Value.Equals("timestamp"))
                         {
-                            serverTime = JsonTools.getNextBigInt(reader);
+                            ServerTime = JsonTools.GetNextBigInt(reader);
                         }
                         else if (reader.Value.Equals("content"))
                         {
-                            MessagePayload payload = (MessagePayload)JsonTools.getNextObject(reader, false, typeof(MessagePayload));
-                            content = CsChatClient.ChatClient.Instance().getContent(payload);
+                            MessagePayload payload = (MessagePayload)JsonTools.GetNextObject(reader, false, typeof(MessagePayload));
+                            Content = CsChatClient.ChatClient.Instance().getContent(payload);
                         }
                         else if (reader.Value.Equals("direction"))
                         {
-                            direction = (MessageDirection)JsonTools.getNextInt(reader);
+                            Direction = (MessageDirection)JsonTools.GetNextInt(reader);
                         }
                         else if (reader.Value.Equals("to"))
                         {
-                            toUsers = (List<string>)JsonTools.getNextObject(reader, false, typeof(List<string>));
+                            ToUsers = (List<string>)JsonTools.GetNextObject(reader, false, typeof(List<string>));
                         } else if(reader.Value.Equals("status"))
                         {
-                            status = (MessageStatus)JsonTools.getNextInt(reader);
+                            Status = (MessageStatus)JsonTools.GetNextInt(reader);
                         } else
                         {
                             Console.WriteLine("Unknow propterty");

@@ -1,29 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CsChatClient.Messages
+﻿namespace CsChatClient.Messages
 {
     [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_UNKNOWN, MessageContentPersistFlag.PersistFlag_NOT_PERSIST)]
     public class UnknownMessageContent : MessageContent
     {
-        public MessagePayload rawPayload;
-  
-        public override void decode(MessagePayload payload)
+        public MessagePayload RawPayload { get; set; }
+
+        public override void Decode(MessagePayload payload)
         {
-            rawPayload = payload;
+            RawPayload = payload;
         }
 
-        public override string digest(MessageEx message)
+        public override string Digest(MessageEx message)
         {
             return "Unknown message content";
         }
 
-        public override MessagePayload encode()
+        public override MessagePayload Encode()
         {
-            return rawPayload;
+            return RawPayload;
         }
     }
 }

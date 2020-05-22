@@ -1,22 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace CsChatClient.Models
 {
-    public class GroupInfo : Serializable
+    public class GroupInfo : ISerializable
     {
-        public String target;
-        public String name;
-        public String portrait;
-        public String owner;
-        public GroupType type;
-        public int memberCount;
-        public String extra;
-        public long updateDt;
+        public string Target { get; set; }
+        public string Name { get; set; }
+        public string Portrait { get; set; }
+        public string Owner { get; set; }
+        public GroupType Type { get; set; }
+        public int MemberCount { get; set; }
+        public string Extra { get; set; }
+        public long UpdateDt { get; set; }
 
         public void Serialize(JsonWriter writer)
         {
@@ -32,35 +28,35 @@ namespace CsChatClient.Models
                     case JsonToken.PropertyName:
                         if (reader.Value.Equals("memberCount"))
                         {
-                            memberCount = JsonTools.getNextInt(reader);
+                            MemberCount = JsonTools.GetNextInt(reader);
                         }
                         else if (reader.Value.Equals("updateDt"))
                         {
-                            updateDt = JsonTools.getNextBigInt(reader);
+                            UpdateDt = JsonTools.GetNextBigInt(reader);
                         }
                         else if (reader.Value.Equals("type"))
                         {
-                            type = (GroupType)JsonTools.getNextInt(reader);
+                            Type = (GroupType)JsonTools.GetNextInt(reader);
                         }
                         else if (reader.Value.Equals("target"))
                         {
-                            target = JsonTools.getNextString(reader);
+                            Target = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("name"))
                         {
-                            name = JsonTools.getNextString(reader);
+                            Name = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("portrait"))
                         {
-                            portrait = JsonTools.getNextString(reader);
+                            Portrait = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("owner"))
                         {
-                            owner = JsonTools.getNextString(reader);
+                            Owner = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("extra"))
                         {
-                            extra = JsonTools.getNextString(reader);
+                            Extra = JsonTools.GetNextString(reader);
                         } else
                         {
 

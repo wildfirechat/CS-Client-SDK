@@ -1,74 +1,72 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CsChatClient.Messages.Notification
 {
     [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_ADD_GROUP_MEMBER, MessageContentPersistFlag.PersistFlag_PERSIST)]
     public class AddGroupMemberNotificationContent : GroupNotificationMessageContent
     {
-        public string invitor;
-        public List<string> invitees;
+        public string Invitor { get; set; }
+        public List<string> Invitees { get; set; }
 
-        public override void decode(MessagePayload payload)
+        public override void Decode(MessagePayload payload)
         {
-            string json = Encoding.UTF8.GetString(payload.binaryContent);
+            string json = Encoding.UTF8.GetString(payload.BinaryContent);
             JObject jo = (JObject)JsonConvert.DeserializeObject(json);
 
             if (jo["o"] != null)
             {
-                invitor = jo["o"].Value<string>();
+                Invitor = jo["o"].Value<string>();
             }
 
             if (jo["g"] != null)
             {
-                groupId = jo["g"].Value<string>();
+                GroupId = jo["g"].Value<string>();
             }
 
             if (jo["ms"] != null)
             {
                 JArray jArray = jo["ms"].Value<JArray>();
-                invitees = new List<string>();
+                Invitees = new List<string>();
                 foreach(var jsonItem in jArray)
                 {
-                    invitees.Add(jsonItem.Value<string>());
+                    Invitees.Add(jsonItem.Value<string>());
                 }
             }
         }
 
-        public override string digest(MessageEx message)
+        public override string Digest(MessageEx message)
         {
             return "Add group members";
         }
 
-        public override MessagePayload encode()
+        public override MessagePayload Encode()
         {
             MessagePayload payload = new MessagePayload();
             StringWriter sw = new StringWriter();
             JsonWriter writer = new JsonTextWriter(sw);
             writer.WriteStartObject();
-            if (invitor != null)
+            if (Invitor != null)
             {
                 writer.WritePropertyName("o");
-                writer.WriteValue(invitor);
+                writer.WriteValue(Invitor);
             }
 
-            if (groupId != null)
+            if (GroupId != null)
             {
                 writer.WritePropertyName("g");
-                writer.WriteValue(groupId);
+                writer.WriteValue(GroupId);
             }
 
-            if(invitees != null && invitees.Count() > 0)
+            if(Invitees != null && Invitees.Count() > 0)
             {
                 writer.WriteStartArray();
 
-                foreach(var it in invitees)
+                foreach(var it in Invitees)
                 {
                     writer.WriteValue(it);
                 }
@@ -80,14 +78,14 @@ namespace CsChatClient.Messages.Notification
             writer.Flush();
             string jsonText2 = sw.GetStringBuilder().ToString();
 
-            payload.binaryContent = Encoding.UTF8.GetBytes(jsonText2);
+            payload.BinaryContent = Encoding.UTF8.GetBytes(jsonText2);
 
             return payload;
         }
 
-        public override string formatNotification(MessageEx message)
+        public override string FormatNotification(MessageEx message)
         {
-            return digest(message);
+            return Digest(message);
         }
     }
 }

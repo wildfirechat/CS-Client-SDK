@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace CsChatClient.Models
 {
-    public class GroupMember : Serializable
+    public class GroupMember : ISerializable
     {
-        public String groupId;
-        public String memberId;
-        public String alias;
-        public GroupMemberType type;
-        public long updateDt;
+        public string GroupId { get; set; }
+        public string MemberId { get; set; }
+        public string Alias { get; set; }
+        public GroupMemberType Type { get; set; }
+        public long UpdateDt { get; set; }
 
         public void Serialize(JsonWriter writer)
         {
@@ -29,23 +25,23 @@ namespace CsChatClient.Models
                     case JsonToken.PropertyName:
                         if (reader.Value.Equals("type"))
                         {
-                            type = (GroupMemberType)JsonTools.getNextInt(reader);
+                            Type = (GroupMemberType)JsonTools.GetNextInt(reader);
                         }
                         else if (reader.Value.Equals("updateDt"))
                         {
-                            updateDt = JsonTools.getNextBigInt(reader);
+                            UpdateDt = JsonTools.GetNextBigInt(reader);
                         }
                         else if (reader.Value.Equals("groupId"))
                         {
-                            groupId = JsonTools.getNextString(reader);
+                            GroupId = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("memberId"))
                         {
-                            memberId = JsonTools.getNextString(reader);
+                            MemberId = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("alias"))
                         {
-                            alias = JsonTools.getNextString(reader);
+                            Alias = JsonTools.GetNextString(reader);
                         } else
                         {
 

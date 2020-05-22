@@ -2,11 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
 using CsChatClient.Messages;
-using CsChatClient.Models;
 using System.Collections;
 
 namespace CsChatClient
@@ -21,7 +17,7 @@ namespace CsChatClient
             }
 
 
-            if (typeof(Serializable).IsAssignableFrom(objectType))
+            if (typeof(ISerializable).IsAssignableFrom(objectType))
             {
                 return true;
             }
@@ -32,7 +28,7 @@ namespace CsChatClient
                 if(types != null && types.Length == 1)
                 {
                     Type t = types[0];
-                    if (typeof(Serializable).IsAssignableFrom(t))
+                    if (typeof(ISerializable).IsAssignableFrom(t))
                     {
                         return true;
                     }
@@ -50,9 +46,9 @@ namespace CsChatClient
 
         public override object ReadJson(JsonReader reader, Type objectType,  object existingValue, JsonSerializer serializer)
         {
-            if (typeof(Serializable).IsAssignableFrom(objectType))
+            if (typeof(ISerializable).IsAssignableFrom(objectType))
             {
-                Serializable s = (Serializable)Activator.CreateInstance(objectType);
+                ISerializable s = (ISerializable)Activator.CreateInstance(objectType);
                 if (s.Unserialize(reader))
                 {
                     return s;
@@ -61,7 +57,7 @@ namespace CsChatClient
             else if (HasImplementedRawGeneric(objectType, typeof(IList<>)))
             {
                 Type t = objectType.GetGenericArguments()[0];
-                if (typeof(Serializable).IsAssignableFrom(t))
+                if (typeof(ISerializable).IsAssignableFrom(t))
                 {
                     var result = Activator.CreateInstance(objectType);
                     while (reader.Read())
@@ -70,8 +66,8 @@ namespace CsChatClient
                         {
                             case JsonToken.StartObject:
                                 {
-                                    var msg = (getNextObject(reader, true, t, serializer));
-                                    ((IList)result).Add((Serializable)msg);
+                                    var msg = (GetNextObject(reader, true, t, serializer));
+                                    ((IList)result).Add((ISerializable)msg);
                                 }
                                 break;
                             case JsonToken.EndArray:
@@ -84,7 +80,7 @@ namespace CsChatClient
                     return null;
                 } else if(objectType == typeof(List<string>))
                 {
-                    return JsonTools.getNextStringList(reader, false);
+                    return JsonTools.GetNextStringList(reader, false);
                 }
                 else if (objectType == typeof(List<int>))
                 {
@@ -96,7 +92,7 @@ namespace CsChatClient
         }
 
 
-        private string getNextString(JsonReader reader)
+        private string GetNextString(JsonReader reader)
         {
             if(reader.Read() && reader.TokenType == JsonToken.String)
             {
@@ -106,11 +102,11 @@ namespace CsChatClient
                 throw new Exception();
             }
         }
-        private int getNextInt(JsonReader reader)
+        private int GetNextInt(JsonReader reader)
         {
             if (reader.Read() && reader.TokenType == JsonToken.Integer)
             {
-                Int64 n = (Int64)reader.Value;
+                long n = (long)reader.Value;
                 return (int)n;
             }
             else
@@ -118,11 +114,11 @@ namespace CsChatClient
                 throw new Exception();
             }
         }
-        private bool getNextBoolean(JsonReader reader)
+        private bool GetNextBoolean(JsonReader reader)
         {
             if (reader.Read() && reader.TokenType == JsonToken.Boolean)
             {
-                return (Boolean)reader.Value;
+                return (bool)reader.Value;
             }
             else
             {
@@ -130,11 +126,11 @@ namespace CsChatClient
             }
         }
 
-        private Int64 getNextBigInt(JsonReader reader)
+        private long GetNextBigInt(JsonReader reader)
         {
             if (reader.Read() && reader.TokenType == JsonToken.Integer)
             {
-                Int64 n = (Int64)reader.Value;
+                long n = (long)reader.Value;
                 return n;
             }
             else
@@ -143,7 +139,7 @@ namespace CsChatClient
             }
         }
 
-        private object getNextObject(JsonReader reader, bool isInArray, Type type, JsonSerializer serializer)
+        private object GetNextObject(JsonReader reader, bool isInArray, Type type, JsonSerializer serializer)
         {
             if(!isInArray)
                 reader.Read();
@@ -156,30 +152,30 @@ namespace CsChatClient
             if (typeof(MessageContent).IsAssignableFrom(value.GetType()))
             {
                 MessageContent content = (MessageContent)value;
-                MessagePayload payload = content.encode();
+                MessagePayload payload = content.Encode();
                 
-                payload.contentType = content.getType();
-                payload.mentionedType = content.mentionedType;
-                payload.mentionedTargets = content.mentionedTargets;
-                payload.extra = content.extra;
+                payload.ContentType = content.GetMessageType();
+                payload.MentionedType = content.MentionedType;
+                payload.MentionedTargets = content.MentionedTargets;
+                payload.Extra = content.Extra;
                 value = payload;
             }
 
 
-            if (typeof(Serializable).IsAssignableFrom(value.GetType()))
+            if (typeof(ISerializable).IsAssignableFrom(value.GetType()))
             {
-                Serializable s = (Serializable)value;
+                ISerializable s = (ISerializable)value;
                 s.Serialize(writer);
             }
             else if (HasImplementedRawGeneric(value.GetType(), typeof(IList<>)))
             {
                 Type t = value.GetType().GetGenericArguments()[0];
-                if (typeof(Serializable).IsAssignableFrom(t))
+                if (typeof(ISerializable).IsAssignableFrom(t))
                 {
                     writer.WriteStartArray();
                     foreach(var ss in (IList)value)
                     {
-                        Serializable s = (Serializable)ss;
+                        ISerializable s = (ISerializable)ss;
                         s.Serialize(writer);
                     }
                     writer.WriteEndArray();

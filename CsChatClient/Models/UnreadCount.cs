@@ -1,27 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 
 namespace CsChatClient.Models
 {
-    public class UnreadCount : Serializable
+    public class UnreadCount : ISerializable
     {
-        /**
- * 单聊未读数
- */
-        public int unread;
-        /**
-         * 群聊@数
-         */
-        public int unreadMention;
-        /**
-         * 群聊@All数
-         */
-        public int unreadMentionAll;
+        /// <summary>
+        /// 单聊未读数
+        /// </summary>
+        public int Unread { get; set; }
+        /// <summary>
+        /// 群聊@数
+        /// </summary>
+        public int UnreadMention { get; set; }
+        /// <summary>
+        /// 群聊@All数
+        /// </summary>
+        public int UnreadMentionAll { get; set; }
 
         public void Serialize(JsonWriter writer)
         {
@@ -37,15 +33,15 @@ namespace CsChatClient.Models
                     case JsonToken.PropertyName:
                         if (reader.Value.Equals("unread"))
                         {
-                            unread = JsonTools.getNextInt(reader);
+                            Unread = JsonTools.GetNextInt(reader);
                         }
                         else if (reader.Value.Equals("unreadMention"))
                         {
-                            unreadMention = JsonTools.getNextInt(reader);
+                            UnreadMention = JsonTools.GetNextInt(reader);
                         }
                         else if (reader.Value.Equals("unreadMentionAll"))
                         {
-                            unreadMentionAll = JsonTools.getNextInt(reader);
+                            UnreadMentionAll = JsonTools.GetNextInt(reader);
                         }
                         break;
                     case JsonToken.EndObject:

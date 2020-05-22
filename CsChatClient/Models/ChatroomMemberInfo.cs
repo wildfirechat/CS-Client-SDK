@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace CsChatClient.Models
 {
-    public class ChatroomMemberInfo : Serializable
+    public class ChatroomMemberInfo : ISerializable
     {
-        public int memberCount;
-        public List<String> members;
+        public int MemberCount { get; set; }
+        public List<string> Members { get; set; }
 
         public void Serialize(JsonWriter writer)
         {
@@ -26,11 +23,11 @@ namespace CsChatClient.Models
                     case JsonToken.PropertyName:
                         if (reader.Value.Equals("memberCount"))
                         {
-                            memberCount = JsonTools.getNextInt(reader);
+                            MemberCount = JsonTools.GetNextInt(reader);
                         }
                         else if (reader.Value.Equals("members"))
                         {
-                            members = JsonTools.getNextStringList(reader, false);
+                            Members = JsonTools.GetNextStringList(reader, false);
                         }
                         else 
                         {

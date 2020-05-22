@@ -1,31 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CsChatClient.Messages
+﻿namespace CsChatClient.Messages
 {
     [ContentAttribute(MessageContentType.VOIP_CONTENT_TYPE_START, MessageContentPersistFlag.PersistFlag_PERSIST_AND_COUNT)]
     public class VideoMessageContent : MediaMessageContent
     {
-        public byte[] thumbnailData;
+        public byte[] ThumbnailData { get; set; }
 
-        public override void decode(MessagePayload payload)
+        public override void Decode(MessagePayload payload)
         {
-            base.decode(payload);
-            thumbnailData = payload.binaryContent;
+            base.Decode(payload);
+            ThumbnailData = payload.BinaryContent;
         }
 
-        public override string digest(MessageEx message)
+        public override string Digest(MessageEx message)
         {
             return "[视频]";
         }
 
-        public override MessagePayload encode()
+        public override MessagePayload Encode()
         {
-            MessagePayload payload = base.encode();
-            payload.binaryContent = thumbnailData;
+            MessagePayload payload = base.Encode();
+            payload.BinaryContent = ThumbnailData;
             return payload;
         }
     }

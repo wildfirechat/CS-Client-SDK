@@ -1,31 +1,28 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Text;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace CsChatClient.Messages.Notification
 {
     [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_RECALL, MessageContentPersistFlag.PersistFlag_PERSIST)]
     public class RecallMessageContent : NotificationMessageContent
     {
-        public long messageUid;
-        public string operatorUser;
-        public string originalSender;
-        public int originalContentType;
-        public string originalSearchableContent;
-        public string originalContent;
-        public string originalExtra;
-        public long originalTimestamp;
-        public override void decode(MessagePayload payload)
+        public long MessageUid { get; set; }
+        public string OperatorUser { get; set; }
+        public string OriginalSender { get; set; }
+        public int OriginalContentType { get; set; }
+        public string OriginalSearchableContent { get; set; }
+        public string OriginalContent { get; set; }
+        public string OriginalExtra { get; set; }
+        public long OriginalTimestamp { get; set; }
+        public override void Decode(MessagePayload payload)
         {
-            operatorUser = payload.content;
-            messageUid = long.Parse(Encoding.UTF8.GetString(payload.binaryContent));
-            if(payload.extra != null)
+            OperatorUser = payload.Content;
+            MessageUid = long.Parse(Encoding.UTF8.GetString(payload.BinaryContent));
+            if(payload.Extra != null)
             {
-                JObject jo = (JObject)JsonConvert.DeserializeObject(payload.extra);
+                JObject jo = (JObject)JsonConvert.DeserializeObject(payload.Extra);
 
                 if(jo == null)
                 {
@@ -35,51 +32,51 @@ namespace CsChatClient.Messages.Notification
 
                 if (jo["s"] != null)
                 {
-                    originalSender = jo["s"].Value<string>();
+                    OriginalSender = jo["s"].Value<string>();
                 }
 
                 if (jo["t"] != null)
                 {
-                    originalContentType = jo["t"].Value<int>();
+                    OriginalContentType = jo["t"].Value<int>();
                 }
 
                 if (jo["sc"] != null)
                 {
-                    originalSearchableContent = jo["sc"].Value<string>();
+                    OriginalSearchableContent = jo["sc"].Value<string>();
                 }
 
                 if (jo["c"] != null)
                 {
-                    originalContent = jo["c"].Value<string>();
+                    OriginalContent = jo["c"].Value<string>();
                 }
 
                 if (jo["e"] != null)
                 {
-                    originalExtra = jo["e"].Value<string>();
+                    OriginalExtra = jo["e"].Value<string>();
                 }
 
                 if (jo["ts"] != null)
                 {
-                    originalTimestamp = jo["ts"].Value<long>();
+                    OriginalTimestamp = jo["ts"].Value<long>();
                 }
             }
 
         }
 
-        public override string digest(MessageEx message)
+        public override string Digest(MessageEx message)
         {
             throw new NotImplementedException();
         }
 
-        public override MessagePayload encode()
+        public override MessagePayload Encode()
         {
             //no need implement, client can't send recall message directly.
             return null;
         }
 
-        public override string formatNotification(MessageEx message)
+        public override string FormatNotification(MessageEx message)
         {
-            return digest(message);
+            return Digest(message);
         }
     }
 }
