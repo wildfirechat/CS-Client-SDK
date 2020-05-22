@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace CsChatClient.Messages.Notification
 {
     [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_KICKOF_GROUP_MEMBER, MessageContentPersistFlag.PersistFlag_PERSIST)]
-    class KickoffGroupMemberNotificationContent : GroupNotificationMessageContent
+    public class KickoffGroupMemberNotificationContent : GroupNotificationMessageContent
     {
         public override void decode(MessagePayload payload)
         {

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace CsChatClient.Messages.Notification
 {
     [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_CHANGE_PRIVATECHAT, MessageContentPersistFlag.PersistFlag_PERSIST)]
-    class GroupPrivateChatNotificationContent : GroupNotificationMessageContent
+    public class GroupPrivateChatNotificationContent : GroupNotificationMessageContent
     {
         public override void decode(MessagePayload payload)
         {

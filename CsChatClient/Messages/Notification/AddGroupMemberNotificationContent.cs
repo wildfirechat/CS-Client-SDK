@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace CsChatClient.Messages.Notification
 {
     [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_ADD_GROUP_MEMBER, MessageContentPersistFlag.PersistFlag_PERSIST)]
-    class AddGroupMemberNotificationContent : GroupNotificationMessageContent
+    public class AddGroupMemberNotificationContent : GroupNotificationMessageContent
     {
         public string invitor;
         public List<string> invitees;

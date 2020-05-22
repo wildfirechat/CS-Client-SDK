@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ClrChatClient;
 using CsChatClient.Messages;
+using CsChatClient.Messages.Notification;
 using CsChatClient.Models;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
@@ -612,6 +613,33 @@ namespace CsChatClient
         {
             registerMessage(typeof(TextMessageContent));
             registerMessage(typeof(CallStartMessageContent));
+            registerMessage(typeof(FileMessageContent));
+            registerMessage(typeof(ImageMessageContent));
+            registerMessage(typeof(ImageTextMessageContent));
+            registerMessage(typeof(LocationMessageContent));
+            registerMessage(typeof(PTextMessageContent));
+            registerMessage(typeof(SoundMessageContent));
+            registerMessage(typeof(StickerMessageContent));
+            registerMessage(typeof(TypingMessageContent));
+            registerMessage(typeof(VideoMessageContent));
+
+            registerMessage(typeof(AddGroupMemberNotificationContent));
+            registerMessage(typeof(ChangeGroupNameNotificationContent));
+            registerMessage(typeof(ChangeGroupPortraitNotificationContent));
+            registerMessage(typeof(CreateGroupNotificationContent));
+            registerMessage(typeof(DismissGroupNotificationContent));
+            registerMessage(typeof(GroupJoinTypeNotificationContent));
+            registerMessage(typeof(GroupMuteNotificationContent));
+            registerMessage(typeof(GroupMuteNotificationContent));
+            registerMessage(typeof(GroupPrivateChatNotificationContent));
+            registerMessage(typeof(GroupSetManagerChatNotificationContent));
+            registerMessage(typeof(KickoffGroupMemberNotificationContent));
+            registerMessage(typeof(ModifyGroupAliasNotificationContent));
+            registerMessage(typeof(QuitGroupNotificationContent));
+            registerMessage(typeof(RecallMessageContent));
+            registerMessage(typeof(TipNotificationContent));
+            registerMessage(typeof(TransferGroupOwnerNotificationContent));
+            
             return PROTO.connect(userId, token);
         }
 

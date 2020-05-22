@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace CsChatClient.Messages.Notification
 {
     [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_RECALL, MessageContentPersistFlag.PersistFlag_PERSIST)]
-    class RecallMessageContent : NotificationMessageContent
+    public class RecallMessageContent : NotificationMessageContent
     {
         public override void decode(MessagePayload payload)
         {

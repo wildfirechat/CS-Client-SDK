@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace CsChatClient.Messages.Notification
 {
     [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_MODIFY_GROUP_ALIAS, MessageContentPersistFlag.PersistFlag_PERSIST)]
-    class ModifyGroupAliasNotificationContent : GroupNotificationMessageContent
+    public class ModifyGroupAliasNotificationContent : GroupNotificationMessageContent
     {
         public override void decode(MessagePayload payload)
         {

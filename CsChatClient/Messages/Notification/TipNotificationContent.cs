@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace CsChatClient.Messages.Notification
 {
     [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_TIP, MessageContentPersistFlag.PersistFlag_PERSIST)]
-    class TipNotificationContent : NotificationMessageContent
+    public class TipNotificationContent : NotificationMessageContent
     {
         public override void decode(MessagePayload payload)
         {
