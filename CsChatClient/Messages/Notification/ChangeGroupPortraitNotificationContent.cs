@@ -12,20 +12,26 @@ namespace CsChatClient.Messages.Notification
     [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_CHANGE_GROUP_PORTRAIT, MessageContentPersistFlag.PersistFlag_PERSIST)]
     public class ChangeGroupPortraitNotificationContent : GroupNotificationMessageContent
     {
+        public string operateUser;
         public override void decode(MessagePayload payload)
         {
             string json = Encoding.UTF8.GetString(payload.binaryContent);
             JObject jo = (JObject)JsonConvert.DeserializeObject(json);
 
-            if (jo["c"] != null)
+            if (jo["o"] != null)
             {
-                connectTime = jo["c"].Value<Int64>();
+                operateUser = jo["o"].Value<string>();
+            }
+
+            if (jo["g"] != null)
+            {
+                groupId = jo["g"].Value<string>();
             }
         }
 
         public override string digest(MessageEx message)
         {
-            throw new NotImplementedException();
+            return "Change group portait";
         }
 
         public override MessagePayload encode()
@@ -34,11 +40,18 @@ namespace CsChatClient.Messages.Notification
             StringWriter sw = new StringWriter();
             JsonWriter writer = new JsonTextWriter(sw);
             writer.WriteStartObject();
-            if (connectTime > 0)
+            if (operateUser != null)
             {
-                writer.WritePropertyName("c");
-                writer.WriteValue(connectTime);
+                writer.WritePropertyName("o");
+                writer.WriteValue(operateUser);
             }
+
+            if (groupId != null)
+            {
+                writer.WritePropertyName("g");
+                writer.WriteValue(groupId);
+            }
+
 
             writer.WriteEndObject();
             writer.Flush();

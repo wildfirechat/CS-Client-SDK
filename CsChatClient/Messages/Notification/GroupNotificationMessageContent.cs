@@ -9,6 +9,5 @@ namespace CsChatClient.Messages.Notification
     public abstract class GroupNotificationMessageContent : NotificationMessageContent
     {
         public string groupId;
-        public long connectTime;
     }
 }

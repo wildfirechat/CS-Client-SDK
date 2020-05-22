@@ -20,15 +20,30 @@ namespace CsChatClient.Messages.Notification
             string json = Encoding.UTF8.GetString(payload.binaryContent);
             JObject jo = (JObject)JsonConvert.DeserializeObject(json);
 
-            if (jo["c"] != null)
+            if (jo["o"] != null)
             {
-                connectTime = jo["c"].Value<Int64>();
+                invitor = jo["o"].Value<string>();
+            }
+
+            if (jo["g"] != null)
+            {
+                groupId = jo["g"].Value<string>();
+            }
+
+            if (jo["ms"] != null)
+            {
+                JArray jArray = jo["ms"].Value<JArray>();
+                invitees = new List<string>();
+                foreach(var jsonItem in jArray)
+                {
+                    invitees.Add(jsonItem.Value<string>());
+                }
             }
         }
 
         public override string digest(MessageEx message)
         {
-            throw new NotImplementedException();
+            return "Add group members";
         }
 
         public override MessagePayload encode()
@@ -37,10 +52,28 @@ namespace CsChatClient.Messages.Notification
             StringWriter sw = new StringWriter();
             JsonWriter writer = new JsonTextWriter(sw);
             writer.WriteStartObject();
-            if (connectTime > 0)
+            if (invitor != null)
             {
-                writer.WritePropertyName("c");
-                writer.WriteValue(connectTime);
+                writer.WritePropertyName("o");
+                writer.WriteValue(invitor);
+            }
+
+            if (groupId != null)
+            {
+                writer.WritePropertyName("g");
+                writer.WriteValue(groupId);
+            }
+
+            if(invitees != null && invitees.Count() > 0)
+            {
+                writer.WriteStartArray();
+
+                foreach(var it in invitees)
+                {
+                    writer.WriteValue(it);
+                }
+
+                writer.WriteEndArray();
             }
 
             writer.WriteEndObject();

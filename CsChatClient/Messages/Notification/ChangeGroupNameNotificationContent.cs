@@ -12,20 +12,32 @@ namespace CsChatClient.Messages.Notification
     [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_CHANGE_GROUP_NAME, MessageContentPersistFlag.PersistFlag_PERSIST)]
     public class ChangeGroupNameNotificationContent : GroupNotificationMessageContent
     {
+        public string operateUser;
+        public string name;
         public override void decode(MessagePayload payload)
         {
             string json = Encoding.UTF8.GetString(payload.binaryContent);
             JObject jo = (JObject)JsonConvert.DeserializeObject(json);
 
-            if (jo["c"] != null)
+            if (jo["o"] != null)
             {
-                connectTime = jo["c"].Value<Int64>();
+                operateUser = jo["o"].Value<string>();
+            }
+
+            if (jo["g"] != null)
+            {
+                groupId = jo["g"].Value<string>();
+            }
+
+            if (jo["n"] != null)
+            {
+                name = jo["n"].Value<string>();
             }
         }
 
         public override string digest(MessageEx message)
         {
-            throw new NotImplementedException();
+            return "Modify group name";
         }
 
         public override MessagePayload encode()
@@ -34,10 +46,23 @@ namespace CsChatClient.Messages.Notification
             StringWriter sw = new StringWriter();
             JsonWriter writer = new JsonTextWriter(sw);
             writer.WriteStartObject();
-            if (connectTime > 0)
+
+            if (operateUser != null)
             {
-                writer.WritePropertyName("c");
-                writer.WriteValue(connectTime);
+                writer.WritePropertyName("o");
+                writer.WriteValue(operateUser);
+            }
+
+            if (groupId != null)
+            {
+                writer.WritePropertyName("g");
+                writer.WriteValue(groupId);
+            }
+
+            if (name != null)
+            {
+                writer.WritePropertyName("n");
+                writer.WriteValue(name);
             }
 
             writer.WriteEndObject();
