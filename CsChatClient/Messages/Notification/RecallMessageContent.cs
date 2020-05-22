@@ -27,6 +27,12 @@ namespace CsChatClient.Messages.Notification
             {
                 JObject jo = (JObject)JsonConvert.DeserializeObject(payload.extra);
 
+                if(jo == null)
+                {
+                    return;
+                }
+
+
                 if (jo["s"] != null)
                 {
                     originalSender = jo["s"].Value<string>();

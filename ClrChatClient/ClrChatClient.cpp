@@ -5,6 +5,7 @@
 #include "ClrChatClient.h"
 using namespace System;
 using namespace System::Runtime::InteropServices;
+using namespace System::Text;
 
 namespace ClrChatClient {
 
@@ -31,7 +32,7 @@ namespace ClrChatClient {
 
 	//unicode תΪ ascii 
 	std::string WideByte2Acsi(std::wstring& wstrcode) {
-		int asciisize = ::WideCharToMultiByte(CP_OEMCP, 0, wstrcode.c_str(), -1, NULL, 0, NULL, NULL);
+		int asciisize = ::WideCharToMultiByte(CP_UTF8, 0, wstrcode.c_str(), -1, NULL, 0, NULL, NULL);
 		if (asciisize == ERROR_NO_UNICODE_TRANSLATION)
 		{
 			throw std::exception("Invalid UTF-8 sequence.");
@@ -41,7 +42,7 @@ namespace ClrChatClient {
 			throw std::exception("Error in conversion.");
 		}
 		std::vector<char> resultstring(asciisize);
-		int convresult = ::WideCharToMultiByte(CP_OEMCP, 0, wstrcode.c_str(), -1, &resultstring[0], asciisize, NULL, NULL);
+		int convresult = ::WideCharToMultiByte(CP_UTF8, 0, wstrcode.c_str(), -1, &resultstring[0], asciisize, NULL, NULL);
 		if (convresult != asciisize)
 		{
 			throw std::exception("La falla!");

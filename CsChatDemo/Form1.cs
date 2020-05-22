@@ -141,7 +141,7 @@ namespace CsChatDemo
             fileMsg.localPath = "d:\\Debug.zip";
 
             TextMessageContent txt = new TextMessageContent();
-            txt.content = "hello world";
+            txt.content = "你好 world";
 
             ChatClient.Instance().sendMessage(conv, txt, null, 0, (long uid, long ts)=> {
                 appendLog("send success");
