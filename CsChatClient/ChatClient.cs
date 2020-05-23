@@ -132,7 +132,7 @@ namespace CsChatClient
     /// <summary>
     /// 搜索用户回调
     /// </summary>
-    public interface SearchUserCallback
+    public interface ISearchUserCallback
     {
         void OnSuccess(List<UserInfo> messages);
         void OnFailure(int errorCode);
@@ -141,7 +141,7 @@ namespace CsChatClient
     /// <summary>
     /// 获取聊天室信息回调
     /// </summary>
-    public interface GetChatroomInfoCallback
+    public interface IGetChatroomInfoCallback
     {
         void OnSuccess(ChatroomInfo chatroomInfo);
         void OnFailure(int errorCode);
@@ -150,7 +150,7 @@ namespace CsChatClient
     /// <summary>
     /// 获取聊天室成员信息回调
     /// </summary>
-    public interface GetChatroomMemberInfoCallback
+    public interface IGetChatroomMemberInfoCallback
     {
         void OnSuccess(ChatroomMemberInfo chatroomMemberInfo);
         void OnFailure(int errorCode);
@@ -159,7 +159,7 @@ namespace CsChatClient
     /// <summary>
     /// 获取频道信息回调
     /// </summary>
-    public interface GetChannelInfoCallback
+    public interface IGetChannelInfoCallback
     {
         void OnSuccess(ChannelInfo channelInfo);
         void OnFailure(int errorCode);
@@ -168,7 +168,7 @@ namespace CsChatClient
     /// <summary>
     /// 搜索频道回调
     /// </summary>
-    public interface SearchChannelCallback
+    public interface ISearchChannelCallback
     {
         void OnSuccess(List<ChannelInfo> channels);
         void OnFailure(int errorCode);
@@ -177,7 +177,7 @@ namespace CsChatClient
     /// <summary>
     /// 上传媒体文件回调
     /// </summary>
-    public interface UploadMediaCallback
+    public interface IUploadMediaCallback
     {
         void OnSuccess(string remoteUrl);
 
@@ -772,7 +772,7 @@ namespace CsChatClient
         /// <summary>
         /// 设置自定义消息元宵，在connect之前调用，实现方法请参考文本文件
         /// </summary>
-        /// <param name="prototype">自定义消息原型</param>
+        /// <param name="type">自定义消息原型</param>
         public void RegisterMessage(Type type)
         {
             ContentAttribute attribute = (ContentAttribute) Attribute.GetCustomAttribute(type, typeof(ContentAttribute));
@@ -826,7 +826,7 @@ namespace CsChatClient
             RegisterMessage(typeof(RecallMessageContent));
             RegisterMessage(typeof(TipNotificationContent));
             RegisterMessage(typeof(TransferGroupOwnerNotificationContent));
-            
+
             return _proto.connect(userId, token);
         }
 
@@ -947,10 +947,11 @@ namespace CsChatClient
         /// </summary>
         /// <param name="conversation">会话</param>
         /// <param name="top">是否置顶</param>
-        /// <param name="callback">结果回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void SetConversationTop(Conversation conversation, bool top, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
-            _proto.setConversationTop((int) conversation.Type, conversation.Target, conversation.Line, top, () => { succDele(); }, (int errorCode) => { errDele(errorCode); });
+            _proto.setConversationTop((int) conversation.Type, conversation.Target, conversation.Line, top, () => { succDele(); }, errorCode => { errDele(errorCode); });
         }
 
         /// <summary>
@@ -958,10 +959,11 @@ namespace CsChatClient
         /// </summary>
         /// <param name="conversation">会话</param>
         /// <param name="silent">是否免打扰</param>
-        /// <param name="callback">结果回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void SetConversationSilent(Conversation conversation, bool silent, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
-            _proto.setConversationSilent((int) conversation.Type, conversation.Target, conversation.Line, silent, () => { succDele(); }, (int errorCode) => { errDele(errorCode); });
+            _proto.setConversationSilent((int) conversation.Type, conversation.Target, conversation.Line, silent, () => { succDele(); }, errorCode => { errDele(errorCode); });
         }
 
         /// <summary>
@@ -1062,6 +1064,7 @@ namespace CsChatClient
         /// <param name="contentTypes">消息类型</param>
         /// <param name="fromIndex">起始index</param>
         /// <param name="count">总数</param>
+        /// <param name="user">用户</param>
         /// <returns>消息实体</returns>
         public List<MessageEx> GetMessages(Conversation conversation, List<int> contentTypes, long fromIndex, int count, string user)
         {
@@ -1080,6 +1083,7 @@ namespace CsChatClient
         /// <param name="contentTypes">消息类型</param>
         /// <param name="fromIndex">起始index</param>
         /// <param name="count">总数</param>
+        /// <param name="user">用户</param>
         /// <returns>消息实体</returns>
         public List<MessageEx> GetMessages(List<ConversationType> conversationTypes, List<int> lines, List<int> contentTypes, long fromIndex, int count, string user)
         {
@@ -1104,6 +1108,7 @@ namespace CsChatClient
         /// <param name="messageStatus">消息状态</param>
         /// <param name="fromIndex">起始index</param>
         /// <param name="count">总数</param>
+        /// <param name="user">用户</param>
         /// <returns>消息实体</returns>
         public List<MessageEx> GetMessages(List<ConversationType> conversationTypes, List<int> lines, MessageStatus messageStatus, long fromIndex, int count, string user)
         {
@@ -1126,15 +1131,16 @@ namespace CsChatClient
         /// <param name="conversation">会话</param>
         /// <param name="beforeMessageUid">起始index</param>
         /// <param name="count">总数</param>
-        /// <param name="callback">结果回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void GetRemoteMessages(Conversation conversation, long beforeMessageUid, int count, OnGetRemoteMessageDelegate succDele, onErrorCallbackDelegate errDele)
         {
-            _proto.getRemoteMessages((int) conversation.Type, conversation.Target, conversation.Line, beforeMessageUid, count, (string messages) =>
+            _proto.getRemoteMessages((int) conversation.Type, conversation.Target, conversation.Line, beforeMessageUid, count, messages =>
             {
                 WfcJsonConverter convert = new WfcJsonConverter();
                 List<MessageEx> ms = JsonConvert.DeserializeObject<List<MessageEx>>(messages, convert);
                 succDele(ms);
-            }, (int errorCode) => { errDele(errorCode); });
+            }, errorCode => { errDele(errorCode); });
         }
 
         /// <summary>
@@ -1188,7 +1194,9 @@ namespace CsChatClient
         /// <param name="content">消息内容</param>
         /// <param name="toUsers">在会话中只发给该用户，如果为空则发到会话中</param>
         /// <param name="expireDuration">消息的有效期，0不限期，单位秒</param>
-        /// <param name="callback">发送结果回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="progressDele">进度回调</param>
+        /// <param name="errDele">错误回调</param>
         /// <returns>消息实体</returns>
         public MessageEx SendMessage(Conversation conversation, MessageContent content, List<string> toUsers, int expireDuration, onBigIntBigIntCallbackDelegate succDele, onIntIntCallbackDelegate progressDele, onErrorCallbackDelegate errDele)
         {
@@ -1203,7 +1211,8 @@ namespace CsChatClient
         /// 撤回消息
         /// </summary>
         /// <param name="messageUid">待撤回的消息Uid</param>
-        /// <param name="callback">结果的回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void RecallMessage(long messageUid, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             _proto.recallMessage(messageUid, succDele, errDele);
@@ -1215,10 +1224,12 @@ namespace CsChatClient
         /// <param name="fileName">文件名，可为空</param>
         /// <param name="mediaData">媒体信息</param>
         /// <param name="mediaType">媒体类型</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="progressDele">进度回调</param>
+        /// <param name="errDele">错误回调</param>
         public void UploadMedia(string fileName, string mediaData, MediaType mediaType, OnUploadedMediaDelegate succDele, onIntIntCallbackDelegate progressDele, onErrorCallbackDelegate errDele)
         {
-            _proto.uploadMedia(fileName, mediaData, (int) mediaType, (string remoteUrl) => { succDele(remoteUrl); }, progressDele, errDele);
+            _proto.uploadMedia(fileName, mediaData, (int) mediaType, remoteUrl => { succDele(remoteUrl); }, progressDele, errDele);
         }
 
         /// <summary>
@@ -1254,8 +1265,10 @@ namespace CsChatClient
         /// 插入消息
         /// </summary>
         /// <param name="conversation">会话</param>
+        /// <param name="sender">发送者</param>
         /// <param name="content">消息内容</param>
         /// <param name="status">消息状态，注意消息状态会影响消息方向</param>
+        /// <param name="notify">是否通知</param>
         /// <param name="serverTime">时间，0为当前时间</param>
         /// <returns>消息实体</returns>
         public MessageEx InsertMessage(Conversation conversation, string sender, MessageContent content, MessageStatus status, bool notify, long serverTime)
@@ -1331,10 +1344,11 @@ namespace CsChatClient
         /// <param name="keyword">关键词</param>
         /// <param name="searchType">搜索类型</param>
         /// <param name="page">page</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void SearchUser(string keyword, SearchUserType searchType, int page, OnSearchUsersDelegate succDele, onErrorCallbackDelegate errDele)
         {
-            _proto.searchUser(keyword, (int) searchType, page, (string usersStr) =>
+            _proto.searchUser(keyword, (int) searchType, page, usersStr =>
             {
                 WfcJsonConverter convert = new WfcJsonConverter();
                 List<UserInfo> us = JsonConvert.DeserializeObject<List<UserInfo>>(usersStr, convert);
@@ -1436,7 +1450,8 @@ namespace CsChatClient
         /// 删除好友
         /// </summary>
         /// <param name="userId">用户ID</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void DeleteFriend(string userId, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             _proto.deleteFriend(userId, succDele, errDele);
@@ -1447,7 +1462,8 @@ namespace CsChatClient
         /// </summary>
         /// <param name="userId">用户ID</param>
         /// <param name="reason">请求说明</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void SendFriendRequest(string userId, string reason, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             _proto.sendFriendRequest(userId, reason, succDele, errDele);
@@ -1459,7 +1475,8 @@ namespace CsChatClient
         /// <param name="userId">用户ID</param>
         /// <param name="accpet">是否接受</param>
         /// <param name="friendExtra">extra</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void HandleFriendRequest(string userId, bool accpet, string friendExtra, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             _proto.handleFriendRequest(userId, accpet, friendExtra, succDele, errDele);
@@ -1479,7 +1496,8 @@ namespace CsChatClient
         /// </summary>
         /// <param name="userId">用户ID</param>
         /// <param name="alias">别名</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void SetFriendAlias(string userId, string alias, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             _proto.setFriendAlias(userId, alias, succDele, errDele);
@@ -1513,7 +1531,8 @@ namespace CsChatClient
         /// </summary>
         /// <param name="userId">用户ID</param>
         /// <param name="isBlackListed">YES</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void SetBlackList(string userId, bool isBlackListed, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             _proto.setBlackList(userId, isBlackListed, succDele, errDele);
@@ -1584,14 +1603,16 @@ namespace CsChatClient
         /// <param name="groupId">群ID,傳空時自動生成群組id，建議爲空</param>
         /// <param name="groupName">群名称</param>
         /// <param name="groupPortrait">群头像</param>
+        /// <param name="type">群类型</param>
         /// <param name="groupMembers">群成员</param>
         /// <param name="notifyLines">默认传</param>
         /// <param name="notifyContent">通知消息</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void CreateGroup(string groupId, string groupName, string groupPortrait, GroupType type, List<string> groupMembers, List<int> notifyLines, MessageContent notifyContent, OnCreateGroupDelegate succDele, onErrorCallbackDelegate errDele)
         {
             var contentStr = JsonTools.Stringfy(notifyContent);
-            _proto.createGroup(groupId, groupName, groupPortrait, (int) type, groupMembers, notifyLines, contentStr, (string gid) => { succDele(gid); }, errDele);
+            _proto.createGroup(groupId, groupName, groupPortrait, (int) type, groupMembers, notifyLines, contentStr, gid => { succDele(gid); }, errDele);
         }
 
         /// <summary>
@@ -1601,7 +1622,8 @@ namespace CsChatClient
         /// <param name="groupId">群ID</param>
         /// <param name="notifyLines">默认传</param>
         /// <param name="notifyContent">通知消息</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void AddMembers(List<string> members, string groupId, List<int> notifyLines, MessageContent notifyContent, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             var contentStr = JsonTools.Stringfy(notifyContent);
@@ -1615,7 +1637,8 @@ namespace CsChatClient
         /// <param name="groupId">群ID</param>
         /// <param name="notifyLines">默认传</param>
         /// <param name="notifyContent">通知消息</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void KickoffMembers(List<string> members, string groupId, List<int> notifyLines, MessageContent notifyContent, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             var contentStr = JsonTools.Stringfy(notifyContent);
@@ -1628,7 +1651,8 @@ namespace CsChatClient
         /// <param name="groupId">群ID</param>
         /// <param name="notifyLines">默认传</param>
         /// <param name="notifyContent">通知消息</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void QuitGroup(string groupId, List<int> notifyLines, MessageContent notifyContent, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             var contentStr = JsonTools.Stringfy(notifyContent);
@@ -1641,7 +1665,8 @@ namespace CsChatClient
         /// <param name="groupId">群ID</param>
         /// <param name="notifyLines">默认传</param>
         /// <param name="notifyContent">通知消息</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void DismissGroup(string groupId, List<int> notifyLines, MessageContent notifyContent, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             var contentStr = JsonTools.Stringfy(notifyContent);
@@ -1656,7 +1681,8 @@ namespace CsChatClient
         /// <param name="newValue">要修改的群属性值</param>
         /// <param name="notifyLines">默认传</param>
         /// <param name="notifyContent">通知消息</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void ModifyGroupInfo(string groupId, ModifyGroupInfoType type, string newValue, List<int> notifyLines, MessageContent notifyContent, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             var contentStr = JsonTools.Stringfy(notifyContent);
@@ -1670,7 +1696,8 @@ namespace CsChatClient
         /// <param name="newAlias">昵称</param>
         /// <param name="notifyLines">默认传</param>
         /// <param name="notifyContent">通知消息</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void ModifyGroupAlias(string groupId, string newAlias, List<int> notifyLines, MessageContent notifyContent, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             var contentStr = JsonTools.Stringfy(notifyContent);
@@ -1684,7 +1711,8 @@ namespace CsChatClient
         /// <param name="newOwner">群主的用户ID</param>
         /// <param name="notifyLines">默认传</param>
         /// <param name="notifyContent">通知消息</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void TransferGroup(string groupId, string newOwner, List<int> notifyLines, MessageContent notifyContent, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             var contentStr = JsonTools.Stringfy(notifyContent);
@@ -1696,10 +1724,11 @@ namespace CsChatClient
         /// </summary>
         /// <param name="groupId">群ID</param>
         /// <param name="isSet">设置或取消</param>
-        /// <param name="memberId">成员ID</param>
+        /// <param name="memberIds">成员ID</param>
         /// <param name="notifyLines">默认传</param>
         /// <param name="notifyContent">通知消息</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void SetGroupManager(string groupId, bool isSet, List<string> memberIds, List<int> notifyLines, MessageContent notifyContent, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             var contentStr = JsonTools.Stringfy(notifyContent);
@@ -1732,7 +1761,8 @@ namespace CsChatClient
         /// </summary>
         /// <param name="groupId">群组ID</param>
         /// <param name="fav">是否收藏</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void SetFavGroup(string groupId, bool fav, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             _proto.setFavGroup(groupId, fav, succDele, errDele);
@@ -1769,7 +1799,8 @@ namespace CsChatClient
         /// <param name="scope">设置项的scope</param>
         /// <param name="key">设置项的key</param>
         /// <param name="value">值</param>
-        /// <param name="callback">成功的回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void SetUserSetting(UserSettingScope scope, string key, string value, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             _proto.setUserSetting((int) scope, key, value, succDele, errDele);
@@ -1779,7 +1810,8 @@ namespace CsChatClient
         /// 修改个人信息
         /// </summary>
         /// <param name="values">信息</param>
-        /// <param name="callback">成功的回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void ModifyMyInfo(Dictionary<int, string> values, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             _proto.modifyMyInfo(values, succDele, errDele);
@@ -1797,7 +1829,8 @@ namespace CsChatClient
         /// 设置全局禁止通知
         /// </summary>
         /// <param name="slient">是否禁止通知</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void SetGlobalSlient(bool slient, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             _proto.setGlobalSlient(slient, succDele, errDele);
@@ -1815,7 +1848,8 @@ namespace CsChatClient
         /// 设置通知是否隐藏详情，隐藏详情时通知内容为“您有一条新消息”
         /// </summary>
         /// <param name="hidden">是否隐藏详情</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void SetHiddenNotificationDetail(bool hidden, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             _proto.setHiddenNotificationDetail(hidden, succDele, errDele);
@@ -1826,7 +1860,8 @@ namespace CsChatClient
         /// </summary>
         /// <param name="hidden">是否显示</param>
         /// <param name="groupId">群组ID</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void SetHiddenGroupMemberName(bool hidden, string groupId, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             _proto.setHiddenGroupMemberName(hidden, groupId, succDele, errDele);
@@ -1840,7 +1875,8 @@ namespace CsChatClient
         /// 加入聊天室
         /// </summary>
         /// <param name="chatroomId">聊天室ID</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void JoinChatroom(string chatroomId, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             _proto.joinChatroom(chatroomId, succDele, errDele);
@@ -1850,7 +1886,8 @@ namespace CsChatClient
         /// 退出聊天室
         /// </summary>
         /// <param name="chatroomId">聊天室ID</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void QuitChatroom(string chatroomId, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             _proto.quitChatroom(chatroomId, succDele, errDele);
@@ -1861,10 +1898,11 @@ namespace CsChatClient
         /// </summary>
         /// <param name="chatroomId">聊天室ID</param>
         /// <param name="updateDt">上次聊天室获取时间戳，可以为0</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void GetChatroomInfo(string chatroomId, long updateDt, OnGetChatroomInfoDelegate succDele, onErrorCallbackDelegate errDele)
         {
-            _proto.getChatroomInfo(chatroomId, updateDt, (string str) =>
+            _proto.getChatroomInfo(chatroomId, updateDt, str =>
             {
                 ChatroomInfo chatroomInfo = JsonTools.Jsonfy<ChatroomInfo>(str);
                 succDele(chatroomInfo);
@@ -1876,10 +1914,11 @@ namespace CsChatClient
         /// </summary>
         /// <param name="chatroomId">聊天室ID</param>
         /// <param name="maxCount">最大成员数量，建议不超过100</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void GetChatroomMemberInfo(string chatroomId, int maxCount, OnGetChatroomMemberInfoDelegate succDele, onErrorCallbackDelegate errDele)
         {
-            _proto.getChatroomMemberInfo(chatroomId, maxCount, (string str) =>
+            _proto.getChatroomMemberInfo(chatroomId, maxCount, str =>
             {
                 ChatroomMemberInfo memberInfo = JsonTools.Jsonfy<ChatroomMemberInfo>(str);
             }, errDele);
@@ -1897,7 +1936,8 @@ namespace CsChatClient
         /// <param name="status">频道状态，这里使用0</param>
         /// <param name="desc">频道描述</param>
         /// <param name="extra">频道extra</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void CreateChannel(string channelName, string channelPortrait, int status, string desc, string extra, onGeneralStringSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             _proto.createChannel(channelName, channelPortrait, status, desc, extra, succDele, errDele);
@@ -1923,7 +1963,8 @@ namespace CsChatClient
         /// <param name="channelId">群ID</param>
         /// <param name="type">要修改的群属性</param>
         /// <param name="newValue">要修改的群属性值</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void ModifyChannelInfo(string channelId, ModifyChannelInfoType type, string newValue, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             _proto.modifyChannelInfo(channelId, (int) type, newValue, succDele, errDele);
@@ -1933,10 +1974,11 @@ namespace CsChatClient
         /// 搜索频道
         /// </summary>
         /// <param name="keyword">关键词</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void SearchChannel(string keyword, OnSearchChannelsDelegate succDele, onErrorCallbackDelegate errDele)
         {
-            _proto.searchChannel(keyword, (string str) =>
+            _proto.searchChannel(keyword, str =>
             {
                 List<ChannelInfo> channels = JsonTools.Jsonfy<List<ChannelInfo>>(str);
                 succDele(channels);
@@ -1958,7 +2000,8 @@ namespace CsChatClient
         /// </summary>
         /// <param name="channelId">频道ID</param>
         /// <param name="listen">是否收听</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void ListenChannel(string channelId, bool listen, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             _proto.listenChannel(channelId, listen, succDele, errDele);
@@ -1992,7 +2035,8 @@ namespace CsChatClient
         /// 销毁频道
         /// </summary>
         /// <param name="channelId">频道ID</param>
-        /// <param name="callback">回调</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
         public void DestoryChannel(string channelId, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             _proto.destoryChannel(channelId, succDele, errDele);
@@ -2102,7 +2146,7 @@ namespace CsChatClient
             {
                 Console.WriteLine(e);
             }
-            
+
             return content;
         }
 
