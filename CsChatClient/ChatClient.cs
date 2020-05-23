@@ -13,7 +13,7 @@ namespace CsChatClient
     /// <summary>
     /// 连接状态监听
     /// </summary>
-    public interface ConnectionStatusListener
+    public interface IConnectionStatusListener
     {
         void OnConnectionStatusChanged(int status);
     }
@@ -22,7 +22,7 @@ namespace CsChatClient
     /// <summary>
     /// 消息监听
     /// </summary>
-    public interface ReceiveMessageListener
+    public interface IReceiveMessageListener
     {
         void OnReceiveMessages(List<MessageEx> messages, bool hasMore);
         void OnRecallMessage(long messageUid);
@@ -33,7 +33,7 @@ namespace CsChatClient
     /// <summary>
     /// 用户信息变更监听
     /// </summary>
-    public interface UserInfoUpdateListener
+    public interface IUserInfoUpdateListener
     {
         void OnUserInfoUpdated(List<UserInfo> userInfos);
     }
@@ -41,7 +41,7 @@ namespace CsChatClient
     /// <summary>
     /// 群组信息变更监听
     /// </summary>
-    public interface GroupInfoUpdateListener
+    public interface IGroupInfoUpdateListener
     {
         void OnGroupInfoUpdated(List<GroupInfo> groupInfos);
     }
@@ -49,7 +49,7 @@ namespace CsChatClient
     /// <summary>
     /// 群组成员变更监听
     /// </summary>
-    public interface GroupMemberUpdateListener
+    public interface IGroupMemberUpdateListener
     {
         void OnGroupMemberUpdated(string groupId);
     }
@@ -57,7 +57,7 @@ namespace CsChatClient
     /// <summary>
     /// 联系人状态监听
     /// </summary>
-    public interface ContactUpdateListener
+    public interface IContactUpdateListener
     {
         void OnContactUpdated(List<string> friendUids);
     }
@@ -65,7 +65,7 @@ namespace CsChatClient
     /// <summary>
     /// 好友请求状态变更坚挺
     /// </summary>
-    public interface FriendRequestUpdateListener
+    public interface IFriendRequestUpdateListener
     {
         void OnFriendRequestUpdated();
     }
@@ -73,7 +73,7 @@ namespace CsChatClient
     /// <summary>
     /// 用户设置监听
     /// </summary>
-    public interface UserSettingUpdateListener
+    public interface IUserSettingUpdateListener
     {
         void OnUserSettingUpdated();
     }
@@ -81,7 +81,7 @@ namespace CsChatClient
     /// <summary>
     /// 频道信息变更监听
     /// </summary>
-    public interface ChannelInfoUpdateListener
+    public interface IChannelInfoUpdateListener
     {
         void OnChannelInfoUpdated(List<ChannelInfo> channelInfos);
     }
@@ -93,7 +93,7 @@ namespace CsChatClient
     /// <summary>
     /// 通用的void的事件回调
     /// </summary>
-    public interface GeneralVoidCallback
+    public interface IGeneralVoidCallback
     {
         void OnSuccess();
         void OnFailure(int errorCode);
@@ -102,7 +102,7 @@ namespace CsChatClient
     /// <summary>
     /// 通用的string的事件回调
     /// </summary>
-    public interface GeneralStringCallback
+    public interface IGeneralStringCallback
     {
         void OnSuccess(string value);
         void OnFailure(int errorCode);
@@ -111,7 +111,7 @@ namespace CsChatClient
     /// <summary>
     /// 获取远程历史消息回调
     /// </summary>
-    public interface GetRemoteMessageCallback
+    public interface IGetRemoteMessageCallback
     {
         void OnSuccess(List<MessageEx> messages);
         void OnFailure(int errorCode);
@@ -120,7 +120,7 @@ namespace CsChatClient
     /// <summary>
     /// 发送消息回调
     /// </summary>
-    public interface WfSendMessageCallback
+    public interface IWFSendMessageCallback
     {
         void OnSuccess(long messageUid, long timestamp);
 
@@ -687,7 +687,7 @@ namespace CsChatClient
         /// 设置连接状态监听，在connect之前调用
         /// </summary>
         /// <param name="listener">连接回调监听</param>
-        public void SetConnectionStatusListener(ConnectionStatusListener listener)
+        public void SetConnectionStatusListener(IConnectionStatusListener listener)
         {
             _proto.setConnectStatusListener(listener.OnConnectionStatusChanged);
         }
@@ -696,7 +696,7 @@ namespace CsChatClient
         /// 设置接受消息监听，在connect之前调用
         /// </summary>
         /// <param name="listener">监听</param>
-        public void SetReceiveMessageListener(ReceiveMessageListener listener)
+        public void SetReceiveMessageListener(IReceiveMessageListener listener)
         {
             _proto.setMessageListener(new ReceiveMessageWrapper(listener).OnReceive, listener.OnRecallMessage, listener.OnDeleteMessage);
         }
@@ -706,7 +706,7 @@ namespace CsChatClient
         /// 设置用戶信息變更监听，在connect之前调用
         /// </summary>
         /// <param name="listener">监听</param>
-        public void SetUserInfoUpdateListener(UserInfoUpdateListener listener)
+        public void SetUserInfoUpdateListener(IUserInfoUpdateListener listener)
         {
             _proto.setUserInfoUpdateListener(new UserInfoUpdateWrapper(listener).OnUserInfoUpdated);
         }
@@ -715,7 +715,7 @@ namespace CsChatClient
         /// 设置群組信息變更监听，在connect之前调用
         /// </summary>
         /// <param name="listener">监听</param>
-        public void SetGroupInfoUpdateListener(GroupInfoUpdateListener listener)
+        public void SetGroupInfoUpdateListener(IGroupInfoUpdateListener listener)
         {
             _proto.setGroupInfoUpdateListener(new GroupInfoUpdateWrapper(listener).OnGroupInfoUpdated);
         }
@@ -724,7 +724,7 @@ namespace CsChatClient
         /// 设置群組成員信息變更监听，在connect之前调用
         /// </summary>
         /// <param name="listener">监听</param>
-        public void SetGroupMemberUpdateListener(GroupMemberUpdateListener listener)
+        public void SetGroupMemberUpdateListener(IGroupMemberUpdateListener listener)
         {
             _proto.setGroupMemberUpdateListener(listener.OnGroupMemberUpdated);
         }
@@ -733,7 +733,7 @@ namespace CsChatClient
         /// 设置聯係人狀態變更监听，在connect之前调用
         /// </summary>
         /// <param name="listener">监听</param>
-        public void SetContactUpdateListener(ContactUpdateListener listener)
+        public void SetContactUpdateListener(IContactUpdateListener listener)
         {
             _proto.setContactUpdateListener(new ContactUpdateWrapper(listener).OnContactUpdated);
         }
@@ -742,7 +742,7 @@ namespace CsChatClient
         /// 设置好友請求變更监听，在connect之前调用
         /// </summary>
         /// <param name="listener">监听</param>
-        public void SetFriendRequestUpdateListener(FriendRequestUpdateListener listener)
+        public void SetFriendRequestUpdateListener(IFriendRequestUpdateListener listener)
         {
             _proto.setFriendRequestUpdateListener(listener.OnFriendRequestUpdated);
         }
@@ -751,7 +751,7 @@ namespace CsChatClient
         /// 设置設置监听，在connect之前调用
         /// </summary>
         /// <param name="listener">监听</param>
-        public void SetUserSettingUpdateListener(UserSettingUpdateListener listener)
+        public void SetUserSettingUpdateListener(IUserSettingUpdateListener listener)
         {
             _proto.setUserSettingUpdateListener(listener.OnUserSettingUpdated);
         }
@@ -760,7 +760,7 @@ namespace CsChatClient
         /// 设置頻道信息更新监听，在connect之前调用
         /// </summary>
         /// <param name="listener">监听</param>
-        public void SetChannelInfoUpdateListener(ChannelInfoUpdateListener listener)
+        public void SetChannelInfoUpdateListener(IChannelInfoUpdateListener listener)
         {
             _proto.setChannelInfoUpdateListener(new ChannelInfoUpdateWrapper(listener).OnChannelInfoUpdated);
         }
@@ -2002,12 +2002,12 @@ namespace CsChatClient
 
         class ReceiveMessageWrapper
         {
-            public ReceiveMessageWrapper(ReceiveMessageListener listener)
+            public ReceiveMessageWrapper(IReceiveMessageListener listener)
             {
                 _mListener = listener;
             }
 
-            private ReceiveMessageListener _mListener;
+            private IReceiveMessageListener _mListener;
 
             public void OnReceive(string messages, bool hasMore)
             {
@@ -2018,12 +2018,12 @@ namespace CsChatClient
 
         class UserInfoUpdateWrapper
         {
-            public UserInfoUpdateWrapper(UserInfoUpdateListener listener)
+            public UserInfoUpdateWrapper(IUserInfoUpdateListener listener)
             {
                 _mListener = listener;
             }
 
-            private UserInfoUpdateListener _mListener;
+            private IUserInfoUpdateListener _mListener;
 
             public void OnUserInfoUpdated(string users)
             {
@@ -2034,12 +2034,12 @@ namespace CsChatClient
 
         class GroupInfoUpdateWrapper
         {
-            public GroupInfoUpdateWrapper(GroupInfoUpdateListener listener)
+            public GroupInfoUpdateWrapper(IGroupInfoUpdateListener listener)
             {
                 _mListener = listener;
             }
 
-            private GroupInfoUpdateListener _mListener;
+            private IGroupInfoUpdateListener _mListener;
 
             public void OnGroupInfoUpdated(string groups)
             {
@@ -2050,12 +2050,12 @@ namespace CsChatClient
 
         class ContactUpdateWrapper
         {
-            public ContactUpdateWrapper(ContactUpdateListener listener)
+            public ContactUpdateWrapper(IContactUpdateListener listener)
             {
                 _mListener = listener;
             }
 
-            private ContactUpdateListener _mListener;
+            private IContactUpdateListener _mListener;
 
             public void OnContactUpdated(string groups)
             {
@@ -2066,12 +2066,12 @@ namespace CsChatClient
 
         class ChannelInfoUpdateWrapper
         {
-            public ChannelInfoUpdateWrapper(ChannelInfoUpdateListener listener)
+            public ChannelInfoUpdateWrapper(IChannelInfoUpdateListener listener)
             {
                 _mListener = listener;
             }
 
-            private ChannelInfoUpdateListener _mListener;
+            private IChannelInfoUpdateListener _mListener;
 
             public void OnChannelInfoUpdated(string groups)
             {
