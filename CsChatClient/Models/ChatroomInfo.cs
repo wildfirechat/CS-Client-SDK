@@ -1,23 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace CsChatClient.Models
 {
-    public class ChatroomInfo : Serializable
+    public class ChatroomInfo : ISerializable
     {
-        public String chatRoomId;
-        public String title;
-        public String desc;
-        public String portrait;
-        public String extra;
-        public int state;
-        public int memberCount;
-        public long createDt;
-        public long updateDt;
+        public string ChatRoomId { get; set; }
+        public string Title { get; set; }
+        public string Desc { get; set; }
+        public string Portrait { get; set; }
+        public string Extra { get; set; }
+        public int State { get; set; }
+        public int MemberCount { get; set; }
+        public long CreateDt { get; set; }
+        public long UpdateDt { get; set; }
 
         public void Serialize(JsonWriter writer)
         {
@@ -33,39 +29,39 @@ namespace CsChatClient.Models
                     case JsonToken.PropertyName:
                         if (reader.Value.Equals("state"))
                         {
-                            state = JsonTools.getNextInt(reader);
+                            State = JsonTools.GetNextInt(reader);
                         }
                         else if (reader.Value.Equals("memberCount"))
                         {
-                            memberCount = JsonTools.getNextInt(reader);
+                            MemberCount = JsonTools.GetNextInt(reader);
                         }
                         else if (reader.Value.Equals("createDt"))
                         {
-                            createDt = JsonTools.getNextBigInt(reader);
+                            CreateDt = JsonTools.GetNextBigInt(reader);
                         }
                         else if (reader.Value.Equals("updateDt"))
                         {
-                            updateDt = JsonTools.getNextBigInt(reader);
+                            UpdateDt = JsonTools.GetNextBigInt(reader);
                         }
                         else if (reader.Value.Equals("chatRoomId"))
                         {
-                            chatRoomId = JsonTools.getNextString(reader);
+                            ChatRoomId = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("title"))
                         {
-                            title = JsonTools.getNextString(reader);
+                            Title = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("desc"))
                         {
-                            desc = JsonTools.getNextString(reader);
+                            Desc = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("portrait"))
                         {
-                            portrait = JsonTools.getNextString(reader);
+                            Portrait = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("extra"))
                         {
-                            extra = JsonTools.getNextString(reader);
+                            Extra = JsonTools.GetNextString(reader);
                         }
                         break;
                     case JsonToken.EndObject:

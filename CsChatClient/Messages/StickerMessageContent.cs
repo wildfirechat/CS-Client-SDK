@@ -1,62 +1,58 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CsChatClient.Messages
 {
     [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_STICKER, MessageContentPersistFlag.PersistFlag_PERSIST_AND_COUNT)]
     public class StickerMessageContent : MediaMessageContent
     {
-        public int width;
-        public int height;
+        public int Width { get; set; }
+        public int Height { get; set; }
 
-        public override void decode(MessagePayload payload)
+        public override void Decode(MessagePayload payload)
         {
-            base.decode(payload);
+            base.Decode(payload);
 
-            string json = Encoding.UTF8.GetString(payload.binaryContent);
+            string json = Encoding.UTF8.GetString(payload.BinaryContent);
             JObject jo = (JObject)JsonConvert.DeserializeObject(json);
 
             if (jo["x"] != null)
             {
-                width = jo["x"].Value<int>();
+                Width = jo["x"].Value<int>();
             }
 
             if (jo["y"] != null)
             {
-                height = jo["y"].Value<int>();
+                Height = jo["y"].Value<int>();
             }
         }
 
-        public override string digest(MessageEx message)
+        public override string Digest(MessageEx message)
         {
             return "[动态表情]";
         }
 
-        public override MessagePayload encode()
+        public override MessagePayload Encode()
         {
-            MessagePayload payload = base.encode();
+            MessagePayload payload = base.Encode();
 
             StringWriter sw = new StringWriter();
             JsonWriter writer = new JsonTextWriter(sw);
             writer.WriteStartObject();
 
             writer.WritePropertyName("x");
-            writer.WriteValue(width);
+            writer.WriteValue(Width);
 
             writer.WritePropertyName("y");
-            writer.WriteValue(height);
+            writer.WriteValue(Height);
 
             writer.WriteEndObject();
             writer.Flush();
             string jsonText2 = sw.GetStringBuilder().ToString();
 
-            payload.binaryContent = Encoding.UTF8.GetBytes(jsonText2);
+            payload.BinaryContent = Encoding.UTF8.GetBytes(jsonText2);
 
             return payload;
         }

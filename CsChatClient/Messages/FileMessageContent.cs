@@ -1,39 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CsChatClient.Messages
 {
     [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_FILE, MessageContentPersistFlag.PersistFlag_PERSIST_AND_COUNT)]
     public class FileMessageContent : MediaMessageContent
     {
-        public string name;
-        public int size;
+        public string Name { get; set; }
+        public int Size { get; set; }
 
-        public override void decode(MessagePayload payload)
+        public override void Decode(MessagePayload payload)
         {
-            base.decode(payload);
-            name = payload.searchableContent;
-            if(name.Contains("[文件]"))
+            base.Decode(payload);
+            Name = payload.SearchableContent;
+            if(Name.Contains("[文件]"))
             {
-                name = name.Replace("[文件]", "");
+                Name = Name.Replace("[文件]", "");
             }
-            size = Int32.Parse(payload.content);
+            Size = int.Parse(payload.Content);
         }
 
-        public override string digest(MessageEx message)
+        public override string Digest(MessageEx message)
         {
-            return "[文件]" + name;
+            return "[文件]" + Name;
         }
 
-        public override MessagePayload encode()
+        public override MessagePayload Encode()
         {
-            MessagePayload payload = base.encode();
-            payload.searchableContent = name;
-            payload.content = size + "";
-            payload.mediaType = MediaType.Media_Type_File;
+            MessagePayload payload = base.Encode();
+            payload.SearchableContent = Name;
+            payload.Content = Size + "";
+            payload.MediaType = MediaType.Media_Type_File;
             return payload;
         }
     }

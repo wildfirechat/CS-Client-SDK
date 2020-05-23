@@ -1,34 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace CsChatClient.Models
 {
-    public class UserInfo : Serializable
+    public class UserInfo : ISerializable
     {
-        public String uid;
-        public String name;
-        public String displayName;
-        // 用户在群里面给自己设置的备注，不同群不一样
-        public String groupAlias;
-        // 我为好友设置的备注
-        public String friendAlias;
-        public String portrait;
-        public int gender;
-        public String mobile;
-        public String email;
-        public String address;
-        public String company;
-        public String social;
-        public String extra;
-        public long updateDt;
-        //0 normal; 1 robot; 2 thing;
-        public int type;
-        //0 normal; 1 deleted;
-        public int deleted;
+        public string Uid { get; set; }
+        public string Name { get; set; }
+        public string DisplayName { get; set; }
+
+        /// <summary>
+        /// 用户在群里面给自己设置的备注，不同群不一样
+        /// </summary>
+        public string GroupAlias { get; set; }
+
+        /// <summary>
+        /// 我为好友设置的备注
+        /// </summary>
+        public string FriendAlias { get; set; }
+
+        public string Portrait { get; set; }
+        public int Gender { get; set; }
+        public string Mobile { get; set; }
+        public string Email { get; set; }
+        public string Address { get; set; }
+        public string Company { get; set; }
+        public string Social { get; set; }
+        public string Extra { get; set; }
+        public long UpdateDt { get; set; }
+
+        /// <summary>
+        /// 0 normal; 1 robot; 2 thing;
+        /// </summary>
+        public int Type { get; set; }
+
+        /// <summary>
+        /// normal; 1 deleted;
+        /// </summary>
+        public int Deleted { get; set; }
 
         public void Serialize(JsonWriter writer)
         {
@@ -44,77 +53,78 @@ namespace CsChatClient.Models
                     case JsonToken.PropertyName:
                         if (reader.Value.Equals("gender"))
                         {
-                            gender = JsonTools.getNextInt(reader);
+                            Gender = JsonTools.GetNextInt(reader);
                         }
                         else if (reader.Value.Equals("type"))
                         {
-                            type = JsonTools.getNextInt(reader);
+                            Type = JsonTools.GetNextInt(reader);
                         }
                         else if (reader.Value.Equals("deleted"))
                         {
-                            deleted = JsonTools.getNextInt(reader);
+                            Deleted = JsonTools.GetNextInt(reader);
                         }
                         else if (reader.Value.Equals("updateDt"))
                         {
-                            updateDt = JsonTools.getNextBigInt(reader);
+                            UpdateDt = JsonTools.GetNextBigInt(reader);
                         }
                         else if (reader.Value.Equals("uid"))
                         {
-                            uid = JsonTools.getNextString(reader);
+                            Uid = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("name"))
                         {
-                            name = JsonTools.getNextString(reader);
+                            Name = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("displayName"))
                         {
-                            displayName = JsonTools.getNextString(reader);
+                            DisplayName = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("groupAlias"))
                         {
-                            groupAlias = JsonTools.getNextString(reader);
+                            GroupAlias = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("friendAlias"))
                         {
-                            friendAlias = JsonTools.getNextString(reader);
+                            FriendAlias = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("portrait"))
                         {
-                            portrait = JsonTools.getNextString(reader);
+                            Portrait = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("mobile"))
                         {
-                            mobile = JsonTools.getNextString(reader);
+                            Mobile = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("email"))
                         {
-                            email = JsonTools.getNextString(reader);
+                            Email = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("address"))
                         {
-                            address = JsonTools.getNextString(reader);
+                            Address = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("company"))
                         {
-                            company = JsonTools.getNextString(reader);
+                            Company = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("social"))
                         {
-                            social = JsonTools.getNextString(reader);
+                            Social = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("extra"))
                         {
-                            extra = JsonTools.getNextString(reader);
+                            Extra = JsonTools.GetNextString(reader);
                         }
-                        else 
+                        else
                         {
-
                         }
+
                         break;
                     case JsonToken.EndObject:
                         return true;
                 }
             }
+
             return false;
         }
     }

@@ -1,25 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace CsChatClient.Models
 {
-    public class Conversation : Serializable
+    public class Conversation : ISerializable
     {
         public Conversation() { }
         public Conversation(ConversationType type, string target, int line)
         {
-            this.type = type;
-            this.target = target;
-            this.line = line;
+            this.Type = type;
+            this.Target = target;
+            this.Line = line;
         }
-        public ConversationType type;
-        public string target;
-        // 可以用来做自定义会话，区分不同业务线
-        public int line;
+        public ConversationType Type { get; set; }
+        public string Target { get; set; }
+        /// <summary>
+        /// 可以用来做自定义会话，区分不同业务线
+        /// </summary>
+        public int Line { get; set; }
 
         public void Serialize(JsonWriter writer)
         {
@@ -35,15 +33,15 @@ namespace CsChatClient.Models
                     case JsonToken.PropertyName:
                         if (reader.Value.Equals("conversationType"))
                         {
-                            type = (ConversationType)JsonTools.getNextInt(reader);
+                            Type = (ConversationType)JsonTools.GetNextInt(reader);
                         }
                         else if (reader.Value.Equals("target"))
                         {
-                            target = JsonTools.getNextString(reader);
+                            Target = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("line"))
                         {
-                            line = JsonTools.getNextInt(reader);
+                            Line = JsonTools.GetNextInt(reader);
                         }
                         break;
                     case JsonToken.EndObject:

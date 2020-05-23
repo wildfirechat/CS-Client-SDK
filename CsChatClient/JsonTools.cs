@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CsChatClient
 {
@@ -21,7 +18,7 @@ namespace CsChatClient
             return JsonConvert.SerializeObject(value, convert);
         } 
 
-        static public string getNextString(JsonReader reader)
+        static public string GetNextString(JsonReader reader)
         {
             if (reader.Read() && reader.TokenType == JsonToken.String)
             {
@@ -33,11 +30,11 @@ namespace CsChatClient
             }
         }
 
-        static public int getNextInt(JsonReader reader)
+        static public int GetNextInt(JsonReader reader)
         {
             if (reader.Read() && reader.TokenType == JsonToken.Integer)
             {
-                Int64 n = (Int64)reader.Value;
+                long n = (long)reader.Value;
                 return (int)n;
             }
             else
@@ -46,11 +43,11 @@ namespace CsChatClient
             }
         }
 
-        static public bool getNextBoolean(JsonReader reader)
+        static public bool GetNextBoolean(JsonReader reader)
         {
             if (reader.Read() && reader.TokenType == JsonToken.Boolean)
             {
-                return (Boolean)reader.Value;
+                return (bool)reader.Value;
             }
             else
             {
@@ -58,11 +55,11 @@ namespace CsChatClient
             }
         }
 
-        static public Int64 getNextBigInt(JsonReader reader)
+        static public long GetNextBigInt(JsonReader reader)
         {
             if (reader.Read() && reader.TokenType == JsonToken.Integer)
             {
-                Int64 n = (Int64)reader.Value;
+                long n = (long)reader.Value;
                 return n;
             }
             else
@@ -72,16 +69,16 @@ namespace CsChatClient
         }
 
 
-        static public object getNextObject(JsonReader reader, bool isInArray, Type type)
+        static public object GetNextObject(JsonReader reader, bool isInArray, Type type)
         {
             if (!isInArray)
                 reader.Read();
 
             if(type == typeof(List<string>))
             {
-                return getNextStringList(reader, isInArray);
+                return GetNextStringList(reader, isInArray);
             }
-            Serializable s = (Serializable)Activator.CreateInstance(type);
+            ISerializable s = (ISerializable)Activator.CreateInstance(type);
             if(s.Unserialize(reader))
             {
                 return s;
@@ -89,7 +86,7 @@ namespace CsChatClient
             return null;
         }
 
-        static public List<string> getNextStringList(JsonReader reader, bool isInArray)
+        static public List<string> GetNextStringList(JsonReader reader, bool isInArray)
         {
             List<string> result = new List<string>();
             while(reader.Read())
@@ -108,7 +105,7 @@ namespace CsChatClient
             }
             return null;
         }
-        static public List<int> getNextIntList(JsonReader reader, bool isInArray)
+        static public List<int> GetNextIntList(JsonReader reader, bool isInArray)
         {
             List<int> result = new List<int>();
             while (reader.Read())
@@ -118,7 +115,7 @@ namespace CsChatClient
                     case JsonToken.EndArray:
                         return result;
                     case JsonToken.Integer:
-                        result.Add((int)((Int64)reader.Value));
+                        result.Add((int)((long)reader.Value));
                         break;
                     default:
                         Console.WriteLine("not expact value");
@@ -128,16 +125,16 @@ namespace CsChatClient
             return null;
         }
 
-        static public void serializeList<T>(JsonWriter writer, List<T> value)
+        static public void SerializeList<T>(JsonWriter writer, List<T> value)
         {
             writer.WriteStartArray();
             if(value != null)
             {
                 foreach (var v in value)
                 {
-                    if (typeof(Serializable).IsAssignableFrom(typeof(T)))
+                    if (typeof(ISerializable).IsAssignableFrom(typeof(T)))
                     {
-                        Serializable s = (Serializable)v;
+                        ISerializable s = (ISerializable)v;
                         s.Serialize(writer);
                     }
                     else
@@ -149,7 +146,7 @@ namespace CsChatClient
 
             writer.WriteEndArray();
         }
-        static public void serializeStringList(JsonWriter writer, List<string> value)
+        static public void SerializeStringList(JsonWriter writer, List<string> value)
         {
             writer.WriteStartArray();
             foreach (var v in value)

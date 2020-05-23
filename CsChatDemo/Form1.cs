@@ -92,7 +92,7 @@ namespace CsChatDemo
             {
                 appendLog("当前登录用户信息为空，这可能是因为本地没有存储，协议栈会去服务器同步，同步后会通过用户信息更新回调来通知");
             } else {
-                appendLog("当前登录用户名：" + userInfo.displayName);
+                appendLog("当前登录用户名：" + userInfo.DisplayName);
             }
             
 
@@ -138,10 +138,10 @@ namespace CsChatDemo
             });
 
             FileMessageContent fileMsg = new FileMessageContent();
-            fileMsg.localPath = "d:\\Debug.zip";
+            fileMsg.LocalPath = "d:\\Debug.zip";
 
             TextMessageContent txt = new TextMessageContent();
-            txt.content = "你好 world";
+            txt.Content = "你好 world";
 
             ChatClient.Instance().sendMessage(conv, txt, null, 0, (long uid, long ts)=> {
                 appendLog("send success");
@@ -195,7 +195,7 @@ namespace CsChatDemo
             Console.WriteLine("receive messages");
             foreach (var msg in messages)
             {
-                UserInfo userInfo = ChatClient.Instance().getUserInfo(msg.sender, false);
+                UserInfo userInfo = ChatClient.Instance().getUserInfo(msg.Sender, false);
                 string line;
                 if (userInfo == null)
                 {
@@ -203,10 +203,10 @@ namespace CsChatDemo
                 }
                 else
                 {
-                    line = userInfo.displayName + ":";
+                    line = userInfo.DisplayName + ":";
                 }
 
-                line += msg.content.digest(msg);
+                line += msg.Content.Digest(msg);
                 appendLog(line);
             }
         }
@@ -222,7 +222,7 @@ namespace CsChatDemo
             }
             else
             {
-                line = userInfo.displayName + ":";
+                line = userInfo.DisplayName + ":";
             }
             line += "recall a message";
             appendLog(line);
@@ -238,7 +238,7 @@ namespace CsChatDemo
             string log = "User info of ";
             foreach(var ui in userInfos)
             {
-                log = log + ui.displayName;
+                log = log + ui.DisplayName;
                 log = log + " ";
             }
             log += "updated!";
@@ -264,7 +264,7 @@ namespace CsChatDemo
         {
             foreach(var channelInfo in channelInfos)
             {
-                string line = "channel " + channelInfo.name + " updated!";
+                string line = "channel " + channelInfo.Name + " updated!";
                 appendLog(line);
             }
         }
@@ -274,7 +274,7 @@ namespace CsChatDemo
             GroupInfo gi = ChatClient.Instance().getGroupInfo(groupId, false);
             if(gi != null)
             {
-                string line = gi.name + " group member changed";
+                string line = gi.Name + " group member changed";
                 appendLog(line);
             } else
             {
@@ -287,7 +287,7 @@ namespace CsChatDemo
             string line = "group ";
             foreach(var g in groupInfos)
             {
-                line += g.name;
+                line += g.Name;
                 line += " ";
             }
             appendLog(line);

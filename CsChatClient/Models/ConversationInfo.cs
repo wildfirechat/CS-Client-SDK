@@ -1,22 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CsChatClient.Messages;
 using Newtonsoft.Json;
 
 namespace CsChatClient.Models
 {
-    public class ConversationInfo : Serializable
+    public class ConversationInfo : ISerializable
     {
-        public Conversation conversation;
-        public MessageEx lastMessage;
-        public long timestamp;
-        public String draft;
-        public UnreadCount unreadCount;
-        public bool isTop;
-        public bool isSilent;
+        public Conversation Conversation { get; set; }
+        public MessageEx LastMessage { get; set; }
+        public long Timestamp { get; set; }
+        public string Draft { get; set; }
+        public UnreadCount UnreadCount { get; set; }
+        public bool IsTop { get; set; }
+        public bool IsSilent { get; set; }
 
         public void Serialize(JsonWriter writer)
         {
@@ -25,7 +21,7 @@ namespace CsChatClient.Models
 
         public bool Unserialize(JsonReader reader)
         {
-            conversation = new Conversation();
+            Conversation = new Conversation();
             while (reader.Read())
             {
                 switch (reader.TokenType)
@@ -33,39 +29,39 @@ namespace CsChatClient.Models
                     case JsonToken.PropertyName:
                         if (reader.Value.Equals("conversationType"))
                         {
-                            conversation.type = (ConversationType)JsonTools.getNextInt(reader);
+                            Conversation.Type = (ConversationType)JsonTools.GetNextInt(reader);
                         }
                         else if (reader.Value.Equals("target"))
                         {
-                            conversation.target = JsonTools.getNextString(reader);
+                            Conversation.Target = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("line"))
                         {
-                            conversation.line = JsonTools.getNextInt(reader);
+                            Conversation.Line = JsonTools.GetNextInt(reader);
                         }
                         else if (reader.Value.Equals("lastMessage"))
                         {
-                            lastMessage = (MessageEx)JsonTools.getNextObject(reader, false, typeof(MessageEx));
+                            LastMessage = (MessageEx)JsonTools.GetNextObject(reader, false, typeof(MessageEx));
                         }
                         else if (reader.Value.Equals("timestamp"))
                         {
-                            timestamp = JsonTools.getNextBigInt(reader);
+                            Timestamp = JsonTools.GetNextBigInt(reader);
                         }
                         else if (reader.Value.Equals("draft"))
                         {
-                            draft = JsonTools.getNextString(reader);
+                            Draft = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("unreadCount"))
                         {
-                            unreadCount = (UnreadCount)JsonTools.getNextObject(reader, false, typeof(UnreadCount));
+                            UnreadCount = (UnreadCount)JsonTools.GetNextObject(reader, false, typeof(UnreadCount));
                         }
                         else if (reader.Value.Equals("isTop"))
                         {
-                            isTop = JsonTools.getNextBoolean(reader);
+                            IsTop = JsonTools.GetNextBoolean(reader);
                         }
                         else if (reader.Value.Equals("isSilent"))
                         {
-                            isSilent = JsonTools.getNextBoolean(reader);
+                            IsSilent = JsonTools.GetNextBoolean(reader);
                         }
                         break;
                     case JsonToken.EndObject:

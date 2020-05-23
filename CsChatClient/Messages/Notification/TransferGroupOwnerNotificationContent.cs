@@ -1,81 +1,77 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CsChatClient.Messages.Notification
 {
     [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_TRANSFER_GROUP_OWNER, MessageContentPersistFlag.PersistFlag_PERSIST)]
     public class TransferGroupOwnerNotificationContent : GroupNotificationMessageContent
     {
-        public string operateUser;
-        public string owner;
-        public override void decode(MessagePayload payload)
+        public string OperateUser;
+        public string Owner;
+        public override void Decode(MessagePayload payload)
         {
-            string json = Encoding.UTF8.GetString(payload.binaryContent);
+            string json = Encoding.UTF8.GetString(payload.BinaryContent);
             JObject jo = (JObject)JsonConvert.DeserializeObject(json);
 
             if (jo["o"] != null)
             {
-                operateUser = jo["o"].Value<string>();
+                OperateUser = jo["o"].Value<string>();
             }
 
             if (jo["g"] != null)
             {
-                groupId = jo["g"].Value<string>();
+                GroupId = jo["g"].Value<string>();
             }
 
             if (jo["m"] != null)
             {
-                owner = jo["m"].Value<string>();
+                Owner = jo["m"].Value<string>();
             }
         }
 
-        public override string digest(MessageEx message)
+        public override string Digest(MessageEx message)
         {
             return "Transfer group";
         }
 
-        public override MessagePayload encode()
+        public override MessagePayload Encode()
         {
             MessagePayload payload = new MessagePayload();
             StringWriter sw = new StringWriter();
             JsonWriter writer = new JsonTextWriter(sw);
             writer.WriteStartObject();
-            if (operateUser != null)
+            if (OperateUser != null)
             {
                 writer.WritePropertyName("o");
-                writer.WriteValue(operateUser);
+                writer.WriteValue(OperateUser);
             }
 
-            if (groupId != null)
+            if (GroupId != null)
             {
                 writer.WritePropertyName("g");
-                writer.WriteValue(groupId);
+                writer.WriteValue(GroupId);
             }
 
-            if (owner != null)
+            if (Owner != null)
             {
                 writer.WritePropertyName("m");
-                writer.WriteValue(owner);
+                writer.WriteValue(Owner);
             }
 
             writer.WriteEndObject();
             writer.Flush();
             string jsonText2 = sw.GetStringBuilder().ToString();
 
-            payload.binaryContent = Encoding.UTF8.GetBytes(jsonText2);
+            payload.BinaryContent = Encoding.UTF8.GetBytes(jsonText2);
 
             return payload;
         }
 
-        public override string formatNotification(MessageEx message)
+        public override string FormatNotification(MessageEx message)
         {
-            return digest(message);
+            return Digest(message);
         }
     }
 }

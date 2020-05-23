@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace CsChatClient.Models
 {
-    public class GroupSearchInfo : Serializable
+    public class GroupSearchInfo : ISerializable
     {
-        public GroupInfo groupInfo;
-        //0 march group name, 1 march group member name, 2 both
-        public int marchedType;
-        public List<String> marchedMembers;
+        public GroupInfo GroupInfo { get; set; }
+        /// <summary>
+        /// 0 march group name, 1 march group member name, 2 both
+        /// </summary>
+        public int MarchedType { get; set; }
+        public List<string> MarchedMembers { get; set; }
 
         public void Serialize(JsonWriter writer)
         {
@@ -28,15 +27,15 @@ namespace CsChatClient.Models
                     case JsonToken.PropertyName:
                         if (reader.Value.Equals("groupInfo"))
                         {
-                            groupInfo = (GroupInfo)JsonTools.getNextObject(reader, false, typeof(GroupInfo));
+                            GroupInfo = (GroupInfo)JsonTools.GetNextObject(reader, false, typeof(GroupInfo));
                         }
                         else if (reader.Value.Equals("marchedType"))
                         {
-                            marchedType = JsonTools.getNextInt(reader);
+                            MarchedType = JsonTools.GetNextInt(reader);
                         }
                         else if (reader.Value.Equals("marchedMembers"))
                         {
-                            marchedMembers = JsonTools.getNextStringList(reader, false);
+                            MarchedMembers = JsonTools.GetNextStringList(reader, false);
                         } else
                         {
 

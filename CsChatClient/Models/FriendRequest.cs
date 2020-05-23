@@ -1,23 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace CsChatClient.Models
 {
-    public class FriendRequest : Serializable
+    public class FriendRequest : ISerializable
     {
-        public int direction;
-        public String target;
-        public String reason;
-        //    RequestStatus_Sent = 0,
-        //    RequestStatus_Accepted = 1,
-        //    RequestStatus_Rejected = 3
-        public int status;
-        public int readStatus;
-        public long timestamp;
+        public int Direction { get; set; }
+        public string Target { get; set; }
+        public string Reason { get; set; }
+        /// <summary>
+        /// RequestStatus_Sent = 0,
+        /// RequestStatus_Accepted = 1,
+        /// RequestStatus_Rejected = 3
+        /// </summary>
+        public int Status { get; set; }
+        public int ReadStatus { get; set; }
+        public long Timestamp { get; set; }
 
         public void Serialize(JsonWriter writer)
         {
@@ -33,27 +31,27 @@ namespace CsChatClient.Models
                     case JsonToken.PropertyName:
                         if (reader.Value.Equals("direction"))
                         {
-                            direction = JsonTools.getNextInt(reader);
+                            Direction = JsonTools.GetNextInt(reader);
                         }
                         else if (reader.Value.Equals("status"))
                         {
-                            status = JsonTools.getNextInt(reader);
+                            Status = JsonTools.GetNextInt(reader);
                         }
                         else if (reader.Value.Equals("readStatus"))
                         {
-                            readStatus = JsonTools.getNextInt(reader);
+                            ReadStatus = JsonTools.GetNextInt(reader);
                         }
                         else if (reader.Value.Equals("timestamp"))
                         {
-                            timestamp = JsonTools.getNextBigInt(reader);
+                            Timestamp = JsonTools.GetNextBigInt(reader);
                         }
                         else if (reader.Value.Equals("target"))
                         {
-                            target = JsonTools.getNextString(reader);
+                            Target = JsonTools.GetNextString(reader);
                         }
                         else if (reader.Value.Equals("reason"))
                         {
-                            reason = JsonTools.getNextString(reader);
+                            Reason = JsonTools.GetNextString(reader);
                         } else
                         {
 

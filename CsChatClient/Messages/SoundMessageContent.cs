@@ -1,52 +1,47 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CsChatClient.Messages
 {
     [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_SOUND, MessageContentPersistFlag.PersistFlag_PERSIST_AND_COUNT)]
     public class SoundMessageContent : MediaMessageContent
     {
-        public int duration;
+        public int Duration { get; set; }
 
-        public override void decode(MessagePayload payload)
+        public override void Decode(MessagePayload payload)
         {
-            base.decode(payload);
+            base.Decode(payload);
 
-            JObject jo = (JObject)JsonConvert.DeserializeObject(payload.content);
+            JObject jo = (JObject)JsonConvert.DeserializeObject(payload.Content);
 
             if (jo["duration"] != null)
             {
-                duration = jo["duration"].Value<int>();
+                Duration = jo["duration"].Value<int>();
             }
         }
 
-        public override string digest(MessageEx message)
+        public override string Digest(MessageEx message)
         {
             return "[语音]";
         }
 
-        public override MessagePayload encode()
+        public override MessagePayload Encode()
         {
-            MessagePayload payload = base.encode();
-            payload.searchableContent = "[语音]";
+            MessagePayload payload = base.Encode();
+            payload.SearchableContent = "[语音]";
 
             StringWriter sw = new StringWriter();
             JsonWriter writer = new JsonTextWriter(sw);
             writer.WriteStartObject();
 
             writer.WritePropertyName("duration");
-            writer.WriteValue(duration);
+            writer.WriteValue(Duration);
            
             writer.WriteEndObject();
             writer.Flush();
             string jsonText2 = sw.GetStringBuilder().ToString();
-            payload.content = jsonText2;
+            payload.Content = jsonText2;
 
             return payload;
         }

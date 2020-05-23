@@ -1,103 +1,99 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CsChatClient.Messages
 {
     [ContentAttribute(MessageContentType.VOIP_CONTENT_TYPE_START, MessageContentPersistFlag.PersistFlag_PERSIST_AND_COUNT)]
     public class CallStartMessageContent : MessageContent
     {
-        public String callId;
-        public String targetId;
-        public long connectTime;
-        public long endTime;
-        public bool audioOnly;
+        public string CallId { get; set; }
+        public string TargetId { get; set; }
+        public long ConnectTime { get; set; }
+        public long EndTime { get; set; }
+        public bool AudioOnly { get; set; }
 
-        /**
-         * 0, UnKnown,
-         * 1, Busy,
-         * 2, SignalError,
-         * 3, Hangup,
-         * 4, MediaError,
-         * 5, RemoteHangup,
-         * 6, OpenCameraFailure,
-         * 7, Timeout,
-         * 8, AcceptByOtherClient
-         */
-        public int status;
+        /// <summary>
+        /// 0, UnKnown,
+        /// 1, Busy,
+        /// 2, SignalError,
+        /// 3, Hangup,
+        /// 4, MediaError,
+        /// 5, RemoteHangup,
+        /// 6, OpenCameraFailure,
+        /// 7, Timeout,
+        /// 8, AcceptByOtherClient
+        /// </summary>
+        public int Status;
 
-
-        public override void decode(MessagePayload payload)
+        public override void Decode(MessagePayload payload)
         {
-            callId = payload.content;
-            string json = Encoding.UTF8.GetString(payload.binaryContent);
+            CallId = payload.Content;
+            string json = Encoding.UTF8.GetString(payload.BinaryContent);
             JObject jo = (JObject)JsonConvert.DeserializeObject(json);
 
             if(jo["c"] != null)
             {
-                connectTime = jo["c"].Value<Int64>();
+                ConnectTime = jo["c"].Value<long>();
             }
             if (jo["e"] != null)
             {
-                endTime = jo["e"].Value<Int64>();
+                EndTime = jo["e"].Value<long>();
             }
             if (jo["s"] != null)
             {
-                status = (int)jo["s"].Value<Int64>();
+                Status = (int)jo["s"].Value<long>();
             }
 
-            targetId = jo["t"].Value<string>();
+            TargetId = jo["t"].Value<string>();
             if(jo["o"] != null) { 
-                audioOnly = jo["o"].Value<Int64>() > 0;
+                AudioOnly = jo["o"].Value<long>() > 0;
             }
         }
 
-        public override string digest(MessageEx message)
+        public override string Digest(MessageEx message)
         {
-            return audioOnly ? "音频电话" : "视频电话";
+            return AudioOnly ? "音频电话" : "视频电话";
         }
 
-        public override MessagePayload encode()
+        public override MessagePayload Encode()
         {
             MessagePayload payload = new MessagePayload();
-            payload.content = callId;
+            payload.Content = CallId;
 
             StringWriter sw = new StringWriter();
             JsonWriter writer = new JsonTextWriter(sw);
             writer.WriteStartObject();
-            if(connectTime > 0) { 
+            if(ConnectTime > 0) { 
                 writer.WritePropertyName("c");
-                writer.WriteValue(connectTime);
+                writer.WriteValue(ConnectTime);
             }
 
-            if (endTime > 0)
+            if (EndTime > 0)
             {
                 writer.WritePropertyName("e");
-                writer.WriteValue(endTime);
+                writer.WriteValue(EndTime);
             }
 
-            if (status > 0)
+            if (Status > 0)
             {
                 writer.WritePropertyName("s");
-                writer.WriteValue(status);
+                writer.WriteValue(Status);
             }
 
             writer.WritePropertyName("t");
-            writer.WriteValue(targetId);
+            writer.WriteValue(TargetId);
 
             writer.WritePropertyName("a");
-            writer.WriteValue(audioOnly ? 1 : 0);
+            writer.WriteValue(AudioOnly ? 1 : 0);
 
             writer.WriteEndObject();
             writer.Flush();
             string jsonText2 = sw.GetStringBuilder().ToString();
 
-            payload.binaryContent = Encoding.UTF8.GetBytes(jsonText2);
+            payload.BinaryContent = Encoding.UTF8.GetBytes(jsonText2);
 
             return payload;
         }

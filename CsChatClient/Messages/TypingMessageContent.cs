@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CsChatClient.Messages
 {
@@ -15,22 +11,22 @@ namespace CsChatClient.Messages
         public static int TYPING_LOCATION = 3;
         public static int TYPING_FILE = 4;
 
-        private int typingType;
+        private int _typingType;
 
-        public override void decode(MessagePayload payload)
+        public override void Decode(MessagePayload payload)
         {
-            typingType = Int32.Parse(payload.content);
+            _typingType = int.Parse(payload.Content);
         }
 
-        public override string digest(MessageEx message)
+        public override string Digest(MessageEx message)
         {
             return "";
         }
 
-        public override MessagePayload encode()
+        public override MessagePayload Encode()
         {
             MessagePayload payload = new MessagePayload();
-            payload.content = typingType + "";
+            payload.Content = _typingType + "";
             return payload;
         }
     }
