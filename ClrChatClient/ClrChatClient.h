@@ -17,7 +17,7 @@ namespace ClrChatClient {
 
 	public delegate void OnConnectionStatusListenerDelegate(int);
 	public delegate void OnReceiveMessageDelegate(System::String^ messages, bool hasMore);
-	public delegate void OnRecallMessageDelegate(System::String^ operatorId, Int64 messageUid);
+	public delegate void OnRecallMessageDelegate(Int64 messageUid);
 	public delegate void OnDeleteMessageDelegate(Int64 messageUid);
 	public delegate void OnStringDelegate(System::String^ str);
 	public delegate void OnVoidDelegate();

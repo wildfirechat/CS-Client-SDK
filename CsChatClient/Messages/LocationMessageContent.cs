@@ -33,7 +33,7 @@ namespace CsChatClient.Messages
 
         public override string Digest(MessageEx message)
         {
-            throw new NotImplementedException();
+            return "Location message";
         }
 
         public override MessagePayload Encode()

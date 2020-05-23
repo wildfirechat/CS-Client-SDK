@@ -5,19 +5,22 @@ namespace CsChatClient.Messages.Notification
     [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_TIP, MessageContentPersistFlag.PersistFlag_PERSIST)]
     public class TipNotificationContent : NotificationMessageContent
     {
+        public string Tip { get; set; }
         public override void Decode(MessagePayload payload)
         {
-            throw new NotImplementedException();
+            Tip = payload.Content;
         }
 
         public override string Digest(MessageEx message)
         {
-            throw new NotImplementedException();
+            return Tip;
         }
 
         public override MessagePayload Encode()
         {
-            throw new NotImplementedException();
+            MessagePayload payload = new MessagePayload();
+            payload.Content = Tip;
+            return payload;
         }
 
         public override string FormatNotification(MessageEx message)

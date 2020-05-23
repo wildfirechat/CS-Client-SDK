@@ -65,7 +65,7 @@ namespace CsChatClient.Messages.Notification
 
         public override string Digest(MessageEx message)
         {
-            throw new NotImplementedException();
+            return "Recall message";
         }
 
         public override MessagePayload Encode()

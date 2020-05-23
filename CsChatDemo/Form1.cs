@@ -14,6 +14,7 @@ using CsChatClient.Messages;
 using CsChatClient.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using CsChatClient.Messages.Notification;
 
 namespace CsChatDemo
 {
@@ -211,10 +212,11 @@ namespace CsChatDemo
             }
         }
 
-        void ReceiveMessageListener.onRecallMessage(string operatorId, long messageUid)
+        void ReceiveMessageListener.onRecallMessage(long messageUid)
         {
             Console.WriteLine("recall message");
-            UserInfo userInfo = ChatClient.Instance().getUserInfo(operatorId, false);
+            RecallMessageContent recall = (RecallMessageContent)ChatClient.Instance().getMessageByUid(messageUid).Content;
+            UserInfo userInfo = ChatClient.Instance().getUserInfo(recall.OperatorUser, false);
             string line;
             if (userInfo == null)
             {

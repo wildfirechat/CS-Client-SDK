@@ -729,7 +729,7 @@ namespace ClrChatClient {
 
 	void Proto::onRecallMessage(const std::string &operatorId, int64_t messageUid) {
 		if (m_OnRecallMessageDelegate) {
-			m_OnRecallMessageDelegate(ConvertStr(operatorId), messageUid);
+			m_OnRecallMessageDelegate(messageUid);
 		}
 	}
 

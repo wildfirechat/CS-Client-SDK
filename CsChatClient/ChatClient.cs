@@ -27,9 +27,10 @@ namespace CsChatClient
     public interface ReceiveMessageListener
     {
         void onReceiveMessages(List<MessageEx> messages, bool hasMore);
-        void onRecallMessage(string operatorId, long messageUid);
+        void onRecallMessage(long messageUid);
         void onDeleteMessage(long messageUid);
-    }
+    };
+
 
     /// <summary>
     /// 用户信息变更监听
@@ -2095,7 +2096,15 @@ namespace CsChatClient
                 content = new UnknownMessageContent();
             }
 
-            content.Decode(payload);
+            try
+            {
+                content.Decode(payload);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            
             return content;
         }
 
