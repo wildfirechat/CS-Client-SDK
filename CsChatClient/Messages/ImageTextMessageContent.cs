@@ -5,7 +5,7 @@ using System.IO;
 
 namespace CsChatClient.Messages
 {
-    [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_IMAGETEXT, MessageContentPersistFlag.PersistFlag_PERSIST_AND_COUNT)]
+    [ContentAttribute(MessageContentType.MessageContentTypeImagetext, MessageContentPersistFlag.PersistFlagPersistAndCount)]
     public class ImageTextMessageContent : MessageContent
     {
         public string Title { get; set; }

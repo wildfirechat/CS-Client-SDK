@@ -2,7 +2,7 @@
 
 namespace CsChatClient.Messages
 {
-    [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_TYPING, MessageContentPersistFlag.PersistFlag_TRANSPARENT)]
+    [ContentAttribute(MessageContentType.MessageContentTypeTyping, MessageContentPersistFlag.PersistFlagTransparent)]
     public class TypingMessageContent : MessageContent
     {
         public static int TYPING_TEXT = 0;

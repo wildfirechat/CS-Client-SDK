@@ -7,7 +7,7 @@ using System.Text;
 
 namespace CsChatClient.Messages.Notification
 {
-    [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_SET_MANAGER, MessageContentPersistFlag.PersistFlag_PERSIST)]
+    [ContentAttribute(MessageContentType.MessageContentTypeSetManager, MessageContentPersistFlag.PersistFlagPersist)]
     public class GroupSetManagerChatNotificationContent : GroupNotificationMessageContent
     {
         public string OperateUser { get; set; }

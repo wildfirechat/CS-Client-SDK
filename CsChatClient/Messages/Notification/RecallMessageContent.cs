@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 
 namespace CsChatClient.Messages.Notification
 {
-    [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_RECALL, MessageContentPersistFlag.PersistFlag_PERSIST)]
+    [ContentAttribute(MessageContentType.MessageContentTypeRecall, MessageContentPersistFlag.PersistFlagPersist)]
     public class RecallMessageContent : NotificationMessageContent
     {
         public long MessageUid { get; set; }

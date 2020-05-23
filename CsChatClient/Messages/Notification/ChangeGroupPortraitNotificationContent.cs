@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CsChatClient.Messages.Notification
 {
-    [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_CHANGE_GROUP_PORTRAIT, MessageContentPersistFlag.PersistFlag_PERSIST)]
+    [ContentAttribute(MessageContentType.MessageContentTypeChangeGroupPortrait, MessageContentPersistFlag.PersistFlagPersist)]
     public class ChangeGroupPortraitNotificationContent : GroupNotificationMessageContent
     {
         public string OperateUser { get; set; }

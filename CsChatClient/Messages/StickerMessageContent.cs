@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CsChatClient.Messages
 {
-    [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_STICKER, MessageContentPersistFlag.PersistFlag_PERSIST_AND_COUNT)]
+    [ContentAttribute(MessageContentType.MessageContentTypeSticker, MessageContentPersistFlag.PersistFlagPersistAndCount)]
     public class StickerMessageContent : MediaMessageContent
     {
         public int Width { get; set; }
