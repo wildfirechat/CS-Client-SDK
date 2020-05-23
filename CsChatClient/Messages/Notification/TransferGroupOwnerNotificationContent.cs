@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CsChatClient.Messages.Notification
 {
-    [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_TRANSFER_GROUP_OWNER, MessageContentPersistFlag.PersistFlag_PERSIST)]
+    [ContentAttribute(MessageContentType.MessageContentTypeTransferGroupOwner, MessageContentPersistFlag.PersistFlagPersist)]
     public class TransferGroupOwnerNotificationContent : GroupNotificationMessageContent
     {
         public string OperateUser;

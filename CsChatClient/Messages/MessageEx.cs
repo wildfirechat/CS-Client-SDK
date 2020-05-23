@@ -55,7 +55,7 @@ namespace CsChatClient.Messages
                         else if (reader.Value.Equals("content"))
                         {
                             MessagePayload payload = (MessagePayload)JsonTools.GetNextObject(reader, false, typeof(MessagePayload));
-                            Content = CsChatClient.ChatClient.Instance().getContent(payload);
+                            Content = CsChatClient.ChatClient.Instance().GetContent(payload);
                         }
                         else if (reader.Value.Equals("direction"))
                         {

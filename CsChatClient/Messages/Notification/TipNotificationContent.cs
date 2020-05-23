@@ -2,7 +2,7 @@
 
 namespace CsChatClient.Messages.Notification
 {
-    [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_TIP, MessageContentPersistFlag.PersistFlag_PERSIST)]
+    [ContentAttribute(MessageContentType.MessageContentTypeTip, MessageContentPersistFlag.PersistFlagPersist)]
     public class TipNotificationContent : NotificationMessageContent
     {
         public string Tip { get; set; }

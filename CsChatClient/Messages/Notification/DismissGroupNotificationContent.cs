@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CsChatClient.Messages.Notification
 {
-    [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_DISMISS_GROUP, MessageContentPersistFlag.PersistFlag_PERSIST)]
+    [ContentAttribute(MessageContentType.MessageContentTypeDismissGroup, MessageContentPersistFlag.PersistFlagPersist)]
     public class DismissGroupNotificationContent : GroupNotificationMessageContent
     {
         public string OperateUser { get; set; }

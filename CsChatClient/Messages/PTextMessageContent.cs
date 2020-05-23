@@ -1,6 +1,6 @@
 ﻿namespace CsChatClient.Messages
 {
-    [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_P_TEXT, MessageContentPersistFlag.PersistFlag_PERSIST_AND_COUNT)]
+    [ContentAttribute(MessageContentType.MessageContentTypePText, MessageContentPersistFlag.PersistFlagPersistAndCount)]
     public class PTextMessageContent : MessageContent
     {
         public string Content { get; set; }

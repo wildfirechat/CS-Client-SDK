@@ -50,7 +50,7 @@ namespace CsChatClient.Messages
                     return attribute.Flag;
                 }
             }
-            return MessageContentPersistFlag.PersistFlag_NOT_PERSIST;
+            return MessageContentPersistFlag.PersistFlagNotPersist;
         }
     }
 }
