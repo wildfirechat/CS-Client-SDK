@@ -18,7 +18,7 @@ using CsChatClient.Messages.Notification;
 
 namespace CsChatDemo
 {
-    public partial class Form1 : Form, ConnectionStatusListener, ReceiveMessageListener, UserInfoUpdateListener, GroupInfoUpdateListener, GroupMemberUpdateListener, ContactUpdateListener, FriendRequestUpdateListener, UserSettingUpdateListener, ChannelInfoUpdateListener
+    public partial class Form1 : Form, IConnectionStatusListener, IReceiveMessageListener, IUserInfoUpdateListener, IGroupInfoUpdateListener, IGroupMemberUpdateListener, IContactUpdateListener, IFriendRequestUpdateListener, IUserSettingUpdateListener, IChannelInfoUpdateListener
     {
         public Form1()
         {
@@ -212,7 +212,7 @@ namespace CsChatDemo
             }
         }
 
-        void ReceiveMessageListener.OnRecallMessage(long messageUid)
+        void IReceiveMessageListener.OnRecallMessage(long messageUid)
         {
             Console.WriteLine("recall message");
             RecallMessageContent recall = (RecallMessageContent)ChatClient.Instance().GetMessageByUid(messageUid).Content;
