@@ -5,11 +5,11 @@ namespace CsChatClient.Messages
     [ContentAttribute(MessageContentType.MessageContentTypeTyping, MessageContentPersistFlag.PersistFlagTransparent)]
     public class TypingMessageContent : MessageContent
     {
-        public static int TYPING_TEXT = 0;
-        public static int TYPING_VOICE = 1;
-        public static int TYPING_CAMERA = 2;
-        public static int TYPING_LOCATION = 3;
-        public static int TYPING_FILE = 4;
+        public const int TypingText = 0;
+        public const int TypingVoice = 1;
+        public const int TypingCamera = 2;
+        public const int TypingLocation = 3;
+        public const int TypingFile = 4;
 
         private int _typingType;
 

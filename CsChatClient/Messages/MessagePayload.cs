@@ -24,11 +24,11 @@ namespace CsChatClient.Messages
         public string RemoteMediaUrl { get; set; }
 
         //前面的属性都会在网络发送，下面的属性只在本地存储
-        public string LocalMediaPath;
+        public string LocalMediaPath { get; set; }
 
         //前面的属性都会在网络发送，下面的属性只在本地存储
-        public string LocalContent;
-        public string Extra;
+        public string LocalContent { get; set; }
+        public string Extra { get; set; }
 
         public void Serialize(JsonWriter writer)
         {

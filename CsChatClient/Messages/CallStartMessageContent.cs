@@ -26,7 +26,7 @@ namespace CsChatClient.Messages
         /// 7, Timeout,
         /// 8, AcceptByOtherClient
         /// </summary>
-        public int Status;
+        public int Status { get; set; }
 
         public override void Decode(MessagePayload payload)
         {
