@@ -64,6 +64,7 @@ namespace CsChatClient.Messages.Notification
 
             if(Invitees != null && Invitees.Count() > 0)
             {
+                writer.WritePropertyName("ms");
                 writer.WriteStartArray();
 
                 foreach(var it in Invitees)
