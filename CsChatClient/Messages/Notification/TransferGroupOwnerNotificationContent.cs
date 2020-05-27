@@ -8,8 +8,8 @@ namespace CsChatClient.Messages.Notification
     [ContentAttribute(MessageContentType.MessageContentTypeTransferGroupOwner, MessageContentPersistFlag.PersistFlagPersist)]
     public class TransferGroupOwnerNotificationContent : GroupNotificationMessageContent
     {
-        public string OperateUser;
-        public string Owner;
+        public string OperateUser { get; set; }
+        public string Owner { get; set; }
         public override void Decode(MessagePayload payload)
         {
             string json = Encoding.UTF8.GetString(payload.BinaryContent);
