@@ -1,6 +1,6 @@
 ﻿namespace CsChatClient.Messages
 {
-    [ContentAttribute(MessageContentType.VoipContentTypeStart, MessageContentPersistFlag.PersistFlagPersistAndCount)]
+    [ContentAttribute(MessageContentType.MessageContentTypeVideo, MessageContentPersistFlag.PersistFlagPersistAndCount)]
     public class VideoMessageContent : MediaMessageContent
     {
         public byte[] ThumbnailData { get; set; }
