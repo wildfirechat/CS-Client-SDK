@@ -7,7 +7,7 @@ using System.Text;
 
 namespace CsChatClient.Messages.Notification
 {
-    [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_KICKOF_GROUP_MEMBER, MessageContentPersistFlag.PersistFlag_PERSIST)]
+    [ContentAttribute(MessageContentType.MessageContentTypeKickofGroupMember, MessageContentPersistFlag.PersistFlagPersist)]
     public class KickoffGroupMemberNotificationContent : GroupNotificationMessageContent
     {
         public string OperateUser { get; set; }

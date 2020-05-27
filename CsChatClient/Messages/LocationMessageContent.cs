@@ -5,7 +5,7 @@ using System.IO;
 
 namespace CsChatClient.Messages
 {
-    [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_LOCATION, MessageContentPersistFlag.PersistFlag_PERSIST_AND_COUNT)]
+    [ContentAttribute(MessageContentType.MessageContentTypeLocation, MessageContentPersistFlag.PersistFlagPersistAndCount)]
     public class LocationMessageContent : MessageContent
     {
         public string Title { get; set; }

@@ -2,7 +2,7 @@
 
 namespace CsChatClient.Messages
 {
-    [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_FILE, MessageContentPersistFlag.PersistFlag_PERSIST_AND_COUNT)]
+    [ContentAttribute(MessageContentType.MessageContentTypeFile, MessageContentPersistFlag.PersistFlagPersistAndCount)]
     public class FileMessageContent : MediaMessageContent
     {
         public string Name { get; set; }
@@ -29,7 +29,7 @@ namespace CsChatClient.Messages
             MessagePayload payload = base.Encode();
             payload.SearchableContent = Name;
             payload.Content = Size + "";
-            payload.MediaType = MediaType.Media_Type_File;
+            payload.MediaType = MediaType.MediaTypeFile;
             return payload;
         }
     }

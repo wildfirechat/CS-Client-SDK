@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CsChatClient.Messages.Notification
 {
-    [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_CHANGE_PRIVATECHAT, MessageContentPersistFlag.PersistFlag_PERSIST)]
+    [ContentAttribute(MessageContentType.MessageContentTypeChangePrivatechat, MessageContentPersistFlag.PersistFlagPersist)]
     public class GroupPrivateChatNotificationContent : GroupNotificationMessageContent
     {
         public string OperateUser { get; set; }

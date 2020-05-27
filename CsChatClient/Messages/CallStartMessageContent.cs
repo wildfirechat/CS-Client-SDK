@@ -6,7 +6,7 @@ using System.Text;
 
 namespace CsChatClient.Messages
 {
-    [ContentAttribute(MessageContentType.VOIP_CONTENT_TYPE_START, MessageContentPersistFlag.PersistFlag_PERSIST_AND_COUNT)]
+    [ContentAttribute(MessageContentType.VoipContentTypeStart, MessageContentPersistFlag.PersistFlagPersistAndCount)]
     public class CallStartMessageContent : MessageContent
     {
         public string CallId { get; set; }
@@ -26,7 +26,7 @@ namespace CsChatClient.Messages
         /// 7, Timeout,
         /// 8, AcceptByOtherClient
         /// </summary>
-        public int Status;
+        public int Status { get; set; }
 
         public override void Decode(MessagePayload payload)
         {

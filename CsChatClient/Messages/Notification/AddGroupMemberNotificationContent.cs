@@ -7,7 +7,7 @@ using System.Text;
 
 namespace CsChatClient.Messages.Notification
 {
-    [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_ADD_GROUP_MEMBER, MessageContentPersistFlag.PersistFlag_PERSIST)]
+    [ContentAttribute(MessageContentType.MessageContentTypeAddGroupMember, MessageContentPersistFlag.PersistFlagPersist)]
     public class AddGroupMemberNotificationContent : GroupNotificationMessageContent
     {
         public string Invitor { get; set; }

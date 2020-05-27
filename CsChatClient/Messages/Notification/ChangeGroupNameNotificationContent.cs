@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CsChatClient.Messages.Notification
 {
-    [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_CHANGE_GROUP_NAME, MessageContentPersistFlag.PersistFlag_PERSIST)]
+    [ContentAttribute(MessageContentType.MessageContentTypeChangeGroupName, MessageContentPersistFlag.PersistFlagPersist)]
     public class ChangeGroupNameNotificationContent : GroupNotificationMessageContent
     {
         public string OperateUser { get; set; }

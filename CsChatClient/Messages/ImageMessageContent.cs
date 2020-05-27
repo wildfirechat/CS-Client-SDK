@@ -1,6 +1,6 @@
 ﻿namespace CsChatClient.Messages
 {
-    [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_IMAGE, MessageContentPersistFlag.PersistFlag_PERSIST_AND_COUNT)]
+    [ContentAttribute(MessageContentType.MessageContentTypeImage, MessageContentPersistFlag.PersistFlagPersistAndCount)]
     public class ImageMessageContent : MediaMessageContent
     {
         /// <summary>

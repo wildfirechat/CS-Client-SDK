@@ -1,6 +1,6 @@
 ﻿namespace CsChatClient.Messages
 {
-    [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_UNKNOWN, MessageContentPersistFlag.PersistFlag_NOT_PERSIST)]
+    [ContentAttribute(MessageContentType.MessageContentTypeUnknown, MessageContentPersistFlag.PersistFlagNotPersist)]
     public class UnknownMessageContent : MessageContent
     {
         public MessagePayload RawPayload { get; set; }

@@ -4,7 +4,7 @@ using System.IO;
 
 namespace CsChatClient.Messages
 {
-    [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_SOUND, MessageContentPersistFlag.PersistFlag_PERSIST_AND_COUNT)]
+    [ContentAttribute(MessageContentType.MessageContentTypeSound, MessageContentPersistFlag.PersistFlagPersistAndCount)]
     public class SoundMessageContent : MediaMessageContent
     {
         public int Duration { get; set; }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CsChatClient.Messages.Notification
 {
-    [ContentAttribute(MessageContentType.MESSAGE_CONTENT_TYPE_CHANGE_MUTE, MessageContentPersistFlag.PersistFlag_PERSIST)]
+    [ContentAttribute(MessageContentType.MessageContentTypeChangeMute, MessageContentPersistFlag.PersistFlagPersist)]
     public class GroupMuteNotificationContent : GroupNotificationMessageContent
     {
         public string OperateUser { get; set; }
