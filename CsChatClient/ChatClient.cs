@@ -2090,6 +2090,9 @@ namespace CsChatClient
             {
                 Type type = MessageContentTypeDict[payload.ContentType];
                 content = (MessageContent) Activator.CreateInstance(type);
+                content.Extra = payload.Extra;
+                content.MentionedTargets = payload.MentionedTargets;
+                content.MentionedType = payload.MentionedType;
             }
             else
             {
