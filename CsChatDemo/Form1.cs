@@ -297,7 +297,17 @@ namespace CsChatDemo
 
         public void OnDeleteMessage(long messageUid)
         {
-            throw new NotImplementedException();
+            appendLog("message deleted");
+        }
+
+        public void OnMessageDeliveried(Dictionary<string, long> deliveryInfos)
+        {
+            appendLog("reced message deliveries");
+        }
+
+        public void OnMessageReaded(List<ReadEntry> readedInfos)
+        {
+            appendLog("reced message readed");
         }
     }
 }

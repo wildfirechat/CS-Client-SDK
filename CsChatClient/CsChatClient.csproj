@@ -111,6 +111,7 @@
     <Compile Include="Models\ChannelInfo.cs" />
     <Compile Include="Models\ChatroomInfo.cs" />
     <Compile Include="Models\ChatroomMemberInfo.cs" />
+    <Compile Include="Models\ReadEntry.cs" />
     <Compile Include="Models\Conversation.cs" />
     <Compile Include="Models\ConversationInfo.cs" />
     <Compile Include="Models\ConversationSearchInfo.cs" />

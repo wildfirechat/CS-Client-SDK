@@ -27,6 +27,9 @@ namespace CsChatClient
         void OnReceiveMessages(List<MessageEx> messages, bool hasMore);
         void OnRecallMessage(long messageUid);
         void OnDeleteMessage(long messageUid);
+        void OnMessageDeliveried(Dictionary<string, long> deliveryInfos);
+        void OnMessageReaded(List<ReadEntry> readedInfos);
+
     };
 
 
@@ -698,7 +701,7 @@ namespace CsChatClient
         /// <param name="listener">监听</param>
         public void SetReceiveMessageListener(IReceiveMessageListener listener)
         {
-            _proto.setMessageListener(new ReceiveMessageWrapper(listener).OnReceive, listener.OnRecallMessage, listener.OnDeleteMessage);
+            _proto.setMessageListener(new ReceiveMessageWrapper(listener).OnReceive, listener.OnRecallMessage, listener.OnDeleteMessage, new MessageDeliveredWrapper(listener).OnReceive, new MessageReadedWrapper(listener).OnReceive);
         }
 
 
@@ -1042,6 +1045,28 @@ namespace CsChatClient
         public void ClearAllUnreadStatus()
         {
             _proto.clearAllUnreadStatus();
+        }
+
+        /// <summary>
+        /// 获取某个会话的送达状态
+        /// </summary>
+        /// <param name="conversation">会话</param>
+        /// <returns>会话的送达状态</returns>
+        public Dictionary<string, long> GetMessageDelivery(Conversation conversation)
+        {
+            WfcJsonConverter convert = new WfcJsonConverter();
+            return JsonConvert.DeserializeObject<Dictionary<string, long>>(_proto.getMessageDelivery((int)conversation.Type, conversation.Target), convert);
+        }
+
+        /// <summary>
+        /// 获取某个会话的已读状态
+        /// </summary>
+        /// <param name="conversation">会话</param>
+        /// <returns>会话已读状态</returns>
+        public Dictionary<string, long> getConversationRead(Conversation conversation)
+        {
+            WfcJsonConverter convert = new WfcJsonConverter();
+            return JsonConvert.DeserializeObject<Dictionary<string, long>>(_proto.getConversationRead((int)conversation.Type, conversation.Target, conversation.Line), convert);
         }
 
         #endregion
@@ -1736,6 +1761,22 @@ namespace CsChatClient
         }
 
         /// <summary>
+        /// 设置群成员禁言
+        /// </summary>
+        /// <param name="groupId">群ID</param>
+        /// <param name="isSet">设置或取消</param>
+        /// <param name="memberIds">成员ID</param>
+        /// <param name="notifyLines">默认传</param>
+        /// <param name="notifyContent">通知消息</param>
+        /// <param name="succDele">成功回调</param>
+        /// <param name="errDele">错误回调</param>
+        public void MuteGroupMember(string groupId, bool isSet, List<string> memberIds, List<int> notifyLines, MessageContent notifyContent, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
+        {
+            var contentStr = JsonTools.Stringfy(notifyContent);
+            _proto.muteGroupMember(groupId, isSet, memberIds, notifyLines, contentStr, succDele, errDele);
+        }
+
+        /// <summary>
         /// 获取当前用户收藏的群组
         /// </summary>
         /// <returns>当前用户收藏的群组ID</returns>
@@ -2057,6 +2098,39 @@ namespace CsChatClient
             {
                 List<MessageEx> ms = JsonTools.Jsonfy<List<MessageEx>>(messages);
                 _mListener.OnReceiveMessages(ms, hasMore);
+            }
+        }
+
+        class MessageDeliveredWrapper
+        {
+            public MessageDeliveredWrapper(IReceiveMessageListener listener)
+            {
+                _mListener = listener;
+            }
+
+            private IReceiveMessageListener _mListener;
+
+            public void OnReceive(string str)
+            {
+                WfcJsonConverter convert = new WfcJsonConverter();
+                Dictionary<string, long> ms = JsonConvert.DeserializeObject<Dictionary<string, long>>(str, convert);
+                _mListener.OnMessageDeliveried(ms);
+            }
+        }
+
+        class MessageReadedWrapper
+        {
+            public MessageReadedWrapper(IReceiveMessageListener listener)
+            {
+                _mListener = listener;
+            }
+
+            private IReceiveMessageListener _mListener;
+
+            public void OnReceive(string str)
+            {
+                List<ReadEntry> ms = JsonTools.Jsonfy<List<ReadEntry>>(str);
+                _mListener.OnMessageReaded(ms);
             }
         }
 

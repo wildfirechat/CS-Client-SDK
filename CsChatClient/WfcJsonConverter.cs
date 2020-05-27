@@ -21,8 +21,13 @@ namespace CsChatClient
             {
                 return true;
             }
-          
-            if(HasImplementedRawGeneric(objectType, typeof(IList<>)))
+
+            if (objectType == typeof(Dictionary<string, long>))
+            {
+                return true;
+            }
+
+            if (HasImplementedRawGeneric(objectType, typeof(IList<>)))
             {
                 Type[] types = objectType.GetGenericArguments();
                 if(types != null && types.Length == 1)
@@ -85,7 +90,12 @@ namespace CsChatClient
                 else if (objectType == typeof(List<int>))
                 {
 
-                }
+                } 
+                
+            }
+            else if (objectType == typeof(Dictionary<string, long>))
+            {
+                return JsonTools.GetNetStringLongMap(reader);
             }
 
             return null;

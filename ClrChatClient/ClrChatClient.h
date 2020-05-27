@@ -19,6 +19,8 @@ namespace ClrChatClient {
 	public delegate void OnReceiveMessageDelegate(System::String^ messages, bool hasMore);
 	public delegate void OnRecallMessageDelegate(Int64 messageUid);
 	public delegate void OnDeleteMessageDelegate(Int64 messageUid);
+	public delegate void OnMessageDeliveredDelegate(System::String^ deliveryStr);
+	public delegate void OnMessageReadedDelegate(System::String^ readedStr);
 	public delegate void OnStringDelegate(System::String^ str);
 	public delegate void OnVoidDelegate();
 
@@ -31,6 +33,8 @@ namespace ClrChatClient {
 	public delegate void OnNativeReceiveMessageDelegate(const std::string &messages, bool hasMore);
 	public delegate void OnNativeRecallMessageDelegate(const std::string &operatorId, int64_t messageUid);
 	public delegate void OnNativeDeleteMessageDelegate(int64_t messageUid);
+	public delegate void OnNativeMessageDeliveredDelegate(const std::string &str);
+	public delegate void OnNativeMessageReadedDelegate(const std::string &str);
 	public delegate void OnNativeStringDelegate(const std::string &str);
 
 	public ref class Proto
@@ -52,10 +56,13 @@ namespace ClrChatClient {
 			WFClient::setConnectionStatusListener(static_cast<WFClient::fun_connection_callback>(ip.ToPointer()));
 		}
 
-		void setMessageListener(OnReceiveMessageDelegate^ receiveListener, OnRecallMessageDelegate^ recallListener, OnDeleteMessageDelegate^ deleteListener) {
+		void setMessageListener(OnReceiveMessageDelegate^ receiveListener, OnRecallMessageDelegate^ recallListener, OnDeleteMessageDelegate^ deleteListener, OnMessageDeliveredDelegate^ deliveryListener, OnMessageReadedDelegate^ readedListener) {
 			m_OnReceiveMessageDelegate = receiveListener;
 			m_OnRecallMessageDelegate = recallListener;
 			m_OnDeleteMessageDelegate = deleteListener;
+
+			m_OnMessageDeliveredDelegate = deliveryListener;
+			m_OnMessageReadedDelegate = readedListener;
 		}
 
 		void setUserInfoUpdateListener(OnStringDelegate^ listener) {
@@ -102,6 +109,9 @@ namespace ClrChatClient {
 		OnNativeRecallMessageDelegate^ m_NativeRecallMessageDelegate;
 		OnNativeDeleteMessageDelegate^ m_NativeDeleteMessageDelegate;
 
+		OnNativeMessageDeliveredDelegate^ m_NativeMessageDeliveredDelegate;
+		OnNativeMessageReadedDelegate^ m_NativeMessageReadedDelegate;
+
 		bool connect(System::String^ userId, System::String^ token) {
 			m_NativeReceiveMessageDelegate = gcnew OnNativeReceiveMessageDelegate(this, &Proto::onReceiveMessage);
 			IntPtr ip1 = Marshal::GetFunctionPointerForDelegate(m_NativeReceiveMessageDelegate);
@@ -109,7 +119,13 @@ namespace ClrChatClient {
 			IntPtr ip2 = Marshal::GetFunctionPointerForDelegate(m_NativeRecallMessageDelegate);
 			m_NativeDeleteMessageDelegate = gcnew OnNativeDeleteMessageDelegate(this, &Proto::onDeleteMessage);
 			IntPtr ip21 = Marshal::GetFunctionPointerForDelegate(m_NativeDeleteMessageDelegate);
-			WFClient::setReceiveMessageListener(static_cast<WFClient::fun_receive_message_callback>(ip1.ToPointer()), static_cast<WFClient::fun_recall_message_callback>(ip2.ToPointer()), static_cast<WFClient::fun_delete_message_callback>(ip21.ToPointer()));
+
+			m_NativeMessageDeliveredDelegate = gcnew OnNativeMessageDeliveredDelegate(this, &Proto::onMessageDelivered);
+			IntPtr ip22 = Marshal::GetFunctionPointerForDelegate(m_NativeMessageDeliveredDelegate);
+			m_NativeMessageReadedDelegate = gcnew OnNativeMessageReadedDelegate(this, &Proto::onMessageReaded);
+			IntPtr ip23 = Marshal::GetFunctionPointerForDelegate(m_NativeMessageReadedDelegate);
+
+			WFClient::setReceiveMessageListener(static_cast<WFClient::fun_receive_message_callback>(ip1.ToPointer()), static_cast<WFClient::fun_recall_message_callback>(ip2.ToPointer()), static_cast<WFClient::fun_delete_message_callback>(ip21.ToPointer()), static_cast<WFClient::fun_message_receipt_callback>(ip22.ToPointer()), static_cast<WFClient::fun_message_receipt_callback>(ip23.ToPointer()));
 
 			m_NativeUserInfoUpdateDelegate = gcnew OnNativeStringDelegate(this, &Proto::onUserInfoUpdate);
 			IntPtr ipUserinfo = Marshal::GetFunctionPointerForDelegate(m_NativeUserInfoUpdateDelegate);
@@ -217,6 +233,8 @@ namespace ClrChatClient {
 		void clearUnreadStatus(int type, System::String^ target, int line);
 		void clearUnreadStatus(List<int>^ conversationTypes, List<int>^ lines);
 		void clearAllUnreadStatus();
+		String^ Proto::getMessageDelivery(int conversationType, String^ target);
+		String^ Proto::getConversationRead(int conversationType, String^ target, int line);
 		void setMediaMessagePlayed(long messageId);
 		System::String^ getMessages(int type, System::String^ target, int line, List<int>^ contentTypes, Int64 fromIndex, int count, System::String^ user);
 		System::String^ getMessages(List<int>^ conversationTypes, List<int>^ lines, List<int>^ contentTypes, Int64 fromIndex, int count, System::String^ user);
@@ -267,6 +285,8 @@ namespace ClrChatClient {
 		void modifyGroupAlias(System::String^groupId, System::String^newAlias, List<int>^ notifyLines, System::String^ notifyContent, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
 		void transferGroup(System::String^groupId, System::String^newOwner, List<int>^ notifyLines, System::String^ notifyContent, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
 		void setGroupManager(System::String^groupId, bool isSet, List<System::String^>^ memberIds, List<int>^ notifyLines, System::String^ notifyContent, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
+		void muteGroupMember(System::String^groupId, bool isSet, List<System::String^>^ memberIds, List<int>^ notifyLines, System::String^ notifyContent, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
+
 		System::String^ getFavGroups();
 		bool isFavGroup(System::String^groupId);
 		void setFavGroup(System::String^groupId, bool fav, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
@@ -305,6 +325,8 @@ namespace ClrChatClient {
 		void onReceiveMessage(const std::string &messageList, bool hasMore);
 		void onRecallMessage(const std::string &operatorId, int64_t messageUid);
 		void onDeleteMessage(int64_t messageUid);
+		void onMessageDelivered(const std::string &str);
+		void onMessageReaded(const std::string &str);
 
 		void onUserInfoUpdate(const std::string &strValue);
 		void onGroupInfoUpdate(const std::string &strValue);
@@ -316,6 +338,9 @@ namespace ClrChatClient {
 		static OnReceiveMessageDelegate^ m_OnReceiveMessageDelegate;
 		static OnRecallMessageDelegate^ m_OnRecallMessageDelegate;
 		static OnDeleteMessageDelegate^ m_OnDeleteMessageDelegate;
+		static OnMessageDeliveredDelegate^ m_OnMessageDeliveredDelegate;
+		static OnMessageReadedDelegate^ m_OnMessageReadedDelegate;
+
 		static OnStringDelegate ^m_onUserInfoUpdateListener;
 		static OnStringDelegate ^m_onChannelInfoUpdateListener;
 		static OnStringDelegate ^m_onContactUpdateListener;
