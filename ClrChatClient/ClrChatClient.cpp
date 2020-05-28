@@ -317,6 +317,13 @@ namespace ClrChatClient {
 		WFClient::clearAllUnreadStatus();
 	}
 
+	String^ Proto::getMessageDelivery(int conversationType, String^ target) {
+		return ConvertStr(WFClient::getMessageDelivery(conversationType, ConvertStr(target)));
+	}
+	String^ Proto::getConversationRead(int conversationType, String^ target, int line) {
+		return ConvertStr(WFClient::getConversationRead(conversationType, ConvertStr(target), line));
+	}
+
 	void Proto::setMediaMessagePlayed(long messageId) {
 		WFClient::setMediaMessagePlayed(messageId);
 	}
@@ -575,6 +582,10 @@ namespace ClrChatClient {
 		WFClient::setGroupManager(ConvertStr(groupId), isSet, ConvertStringList(memberIds), ConvertIntList(notifyLines, false), ConvertStr(notifyContent), client_genernal_void_success_callback, client_genernal_error_callback, new CallbackWrapper(succDele, errDele));
 	}
 
+	void Proto::muteGroupMember(String^groupId, bool isSet, List<String^>^ memberIds, List<int>^ notifyLines, String^ notifyContent, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele) {
+		WFClient::muteGroupMember(ConvertStr(groupId), isSet, ConvertStringList(memberIds), ConvertIntList(notifyLines, false), ConvertStr(notifyContent), client_genernal_void_success_callback, client_genernal_error_callback, new CallbackWrapper(succDele, errDele));
+	}
+
 	String^ Proto::getFavGroups(){ 
 		return ConvertStr(WFClient::getFavGroups());
 	}
@@ -736,6 +747,20 @@ namespace ClrChatClient {
 	void Proto::onDeleteMessage(int64_t messageUid) {
 		if (m_OnDeleteMessageDelegate) {
 			m_OnDeleteMessageDelegate(messageUid);
+		}
+	}
+
+	void Proto::onMessageDelivered(const std::string & str)
+	{
+		if (m_OnMessageDeliveredDelegate) {
+			m_OnMessageDeliveredDelegate(ConvertStr(str));
+		}
+	}
+
+	void Proto::onMessageReaded(const std::string & str)
+	{
+		if (m_OnMessageReadedDelegate) {
+			m_OnMessageReadedDelegate(ConvertStr(str));
 		}
 	}
 

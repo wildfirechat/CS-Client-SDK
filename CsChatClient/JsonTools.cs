@@ -86,6 +86,38 @@ namespace CsChatClient
             return null;
         }
 
+        static public Dictionary<string, long> GetNetStringLongMap(JsonReader reader)
+        {
+            Dictionary<string, long> result = new Dictionary<string, long>();
+            string key = null;
+            long value = 0;
+            while (reader.Read())
+            {
+                switch (reader.TokenType)
+                {
+                    case JsonToken.StartObject:
+                        key = null;
+                        value = 0;
+                        break;
+                    case JsonToken.EndObject:
+                        result.Add(key, value);
+                        break;
+                    case JsonToken.EndArray:
+                        return result;
+                    case JsonToken.String:
+                        key = (string)reader.Value;
+                        break;
+                    case JsonToken.Integer:
+                        value = (long)reader.Value;
+                        break;
+                    default:
+                        Console.WriteLine("not expact value");
+                        break;
+                }
+            }
+            return result;
+        }
+
         static public List<string> GetNextStringList(JsonReader reader, bool isInArray)
         {
             List<string> result = new List<string>();
@@ -154,6 +186,13 @@ namespace CsChatClient
                 writer.WriteValue(v);
             }
             writer.WriteEndArray();
+        }
+
+        public static Dictionary<string, long> JsonfyStringLongMap(string jsonString)
+        {
+            Dictionary<string, long> resul = new Dictionary<string, long>();
+
+            return null;
         }
 
     }

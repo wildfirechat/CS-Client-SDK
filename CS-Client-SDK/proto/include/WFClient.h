@@ -107,6 +107,7 @@ typedef void (*fun_connection_callback)(int);
 typedef void (*fun_receive_message_callback)(const std::string &messages, bool moreMsg);
 typedef void (*fun_recall_message_callback)(const std::string &operatorId, int64_t messageUid);
 typedef void (*fun_delete_message_callback)(int64_t messageUid);
+typedef void (*fun_message_receipt_callback)(const std::string &strReceipt);
 
 typedef void (*fun_userInfo_update_callback)(const std::string &userInfos);
 
@@ -139,7 +140,7 @@ extern PROTOWRAPPER_API void disconnect(int flag);
 
 extern PROTOWRAPPER_API void setConnectionStatusListener(fun_connection_callback callback);
 
-extern PROTOWRAPPER_API void setReceiveMessageListener(fun_receive_message_callback receiveCallback, fun_recall_message_callback recallCallback, fun_delete_message_callback deleteCallback);
+extern PROTOWRAPPER_API void setReceiveMessageListener(fun_receive_message_callback receiveCallback, fun_recall_message_callback recallCallback, fun_delete_message_callback deleteCallback, fun_message_receipt_callback deliveryCallback, fun_message_receipt_callback readedCallback);
 
 extern PROTOWRAPPER_API void setUserInfoUpdateListener(fun_userInfo_update_callback callback);
 
@@ -230,6 +231,9 @@ extern PROTOWRAPPER_API const std::string* insertMessage(int conversationType, c
 
 extern PROTOWRAPPER_API void updateMessage(long messageId, const std::string &strcont);
 
+extern PROTOWRAPPER_API const std::string* getConversationRead(int conversationType, const std::string &target, int line);
+extern PROTOWRAPPER_API const std::string* getMessageDelivery(int conversationType, const std::string &target);
+
 extern PROTOWRAPPER_API const std::string* getUserInfo(const std::string &userId, bool refresh, const std::string &groupId);
 
 extern PROTOWRAPPER_API const std::string* getUserInfos(const std::list<std::string> &userIds, const std::string &groupId);
@@ -295,6 +299,7 @@ extern PROTOWRAPPER_API void transferGroup(const std::string &groupId, const std
 
 
 extern PROTOWRAPPER_API void setGroupManager(const std::string &groupId, bool isSet, const std::list<std::string> &members, const std::list<int> &lines, const std::string &strCont, fun_general_void_success_callback successBlock, fun_general_void_error_callback errorBlock, void *pObject);
+extern PROTOWRAPPER_API void muteGroupMember(const std::string &groupId, bool isSet, const std::list<std::string> &members, const std::list<int> &lines, const std::string &strCont, fun_general_void_success_callback successBlock, fun_general_void_error_callback errorBlock, void *pObject);
 
 extern PROTOWRAPPER_API const std::string* getFavGroups();
 extern PROTOWRAPPER_API const std::string* getUserSetting(int scope, const std::string &key);
