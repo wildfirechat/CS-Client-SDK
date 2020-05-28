@@ -167,6 +167,14 @@ namespace CsChatDemo
             {
                 appendLog("upload error");
             });
+
+            ChatClient.Instance().CreateGroup(null, "testGroup", null, GroupType.GroupTypeRestricted, null, null, null, (string groupId) =>
+            {
+                appendLog("create group done");
+            }, (int errorcode) =>
+            {
+                appendLog("create error");
+            });
         }
 
         public void OnConnectionStatusChanged(int status)

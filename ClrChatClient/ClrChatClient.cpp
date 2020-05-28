@@ -205,7 +205,7 @@ namespace ClrChatClient {
 
 	static void client_genernal_string_success_callback(void *pObj, const std::string &value) {
 		CallbackWrapper *callback = (CallbackWrapper *)pObj;
-		((onGeneralStringSuccessCallbackDelegate^)Marshal::GetDelegateForFunctionPointer(callback->voidSuccessCB, onGeneralStringSuccessCallbackDelegate::typeid))(Proto::ConvertStr(value));
+		((onGeneralStringSuccessCallbackDelegate^)Marshal::GetDelegateForFunctionPointer(callback->stringSuccessCB, onGeneralStringSuccessCallbackDelegate::typeid))(Proto::ConvertStr(value));
 		delete callback;
 	}
 
@@ -432,7 +432,6 @@ namespace ClrChatClient {
 
 	void Proto::uploadMedia(String^ fileName, String^ mediaData, int mediaType, onGeneralStringSuccessCallbackDelegate^ succDele, onIntIntCallbackDelegate^ progressDele, onErrorCallbackDelegate^ errDele){
 		std::string data = marshal_as<std::string>(mediaData);
-		//todo base64 encode
 		WFClient::uploadMedia(ConvertStr(fileName), data.c_str(), data.length(), mediaType, client_uploadMedia_success_callback, client_uploadMedia_error_callback, client_uploadMedia_progress_callback, new UploadMediaCallbackWrapper(succDele, progressDele, errDele));
 	}
 
@@ -693,6 +692,10 @@ namespace ClrChatClient {
 	}
 
 	const std::string Proto::ConvertStr(String^ str) {
+		if (!str)
+		{
+			return std::string();
+		}
 		std::wstring unicodeStr = marshal_as<std::wstring>(str);
 		std::string utf8Str = WideByte2Acsi(unicodeStr);
 		return utf8Str;
@@ -713,6 +716,13 @@ namespace ClrChatClient {
 
 	std::list<int> Proto::ConvertIntList(List<int>^ ls, bool defaultZero) {
 		std::list<int> result;
+		if (!ls)
+		{
+			if (defaultZero) {
+				result.push_back(0);
+			}
+			return result;
+		}
 		for each (int l in ls)
 		{
 			result.push_back(l);
@@ -726,6 +736,10 @@ namespace ClrChatClient {
 
 	std::list<std::string> Proto::ConvertStringList(List<String^>^ ls) {
 		std::list<std::string> result;
+		if (!ls)
+		{
+			return result;
+		}
 		for each (String^ s in ls)
 		{
 			result.push_back(ConvertStr(s));
