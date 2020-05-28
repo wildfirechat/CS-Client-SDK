@@ -432,6 +432,7 @@ namespace ClrChatClient {
 
 	void Proto::uploadMedia(String^ fileName, String^ mediaData, int mediaType, onGeneralStringSuccessCallbackDelegate^ succDele, onIntIntCallbackDelegate^ progressDele, onErrorCallbackDelegate^ errDele){
 		std::string data = marshal_as<std::string>(mediaData);
+		//todo base64 encode
 		WFClient::uploadMedia(ConvertStr(fileName), data.c_str(), data.length(), mediaType, client_uploadMedia_success_callback, client_uploadMedia_error_callback, client_uploadMedia_progress_callback, new UploadMediaCallbackWrapper(succDele, progressDele, errDele));
 	}
 
