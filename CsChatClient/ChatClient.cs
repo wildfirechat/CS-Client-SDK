@@ -630,6 +630,7 @@ namespace CsChatClient
         MessageContentTypeChangePrivatechat = 115,
         MessageContentTypeChangeSearchable = 116,
         MessageContentTypeSetManager = 117,
+        MessageContentTypeMuteGroupMember = 118,
 
         /// <summary>
         /// VoIP开始消息
@@ -823,6 +824,7 @@ namespace CsChatClient
             RegisterMessage(typeof(GroupMuteNotificationContent));
             RegisterMessage(typeof(GroupPrivateChatNotificationContent));
             RegisterMessage(typeof(GroupSetManagerChatNotificationContent));
+            RegisterMessage(typeof(MuteGroupMemberNotification));
             RegisterMessage(typeof(KickoffGroupMemberNotificationContent));
             RegisterMessage(typeof(ModifyGroupAliasNotificationContent));
             RegisterMessage(typeof(QuitGroupNotificationContent));

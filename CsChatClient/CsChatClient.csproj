@@ -96,6 +96,7 @@
     <Compile Include="Messages\Notification\GroupSetManagerChatNotificationContent.cs" />
     <Compile Include="Messages\Notification\KickoffGroupMemberNotificationContent.cs" />
     <Compile Include="Messages\Notification\ModifyGroupAliasNotificationContent.cs" />
+    <Compile Include="Messages\Notification\MuteGroupMemberNotification.cs" />
     <Compile Include="Messages\Notification\NotificationMessageContent.cs" />
     <Compile Include="Messages\Notification\QuitGroupNotificationContent.cs" />
     <Compile Include="Messages\Notification\RecallMessageContent.cs" />

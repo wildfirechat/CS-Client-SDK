@@ -65,6 +65,15 @@ static void client_delete_message_callback(int64_t messageUid) {
 	}
 }
 
+static void client_message_delivered_callback(const std::string &str) {
+
+}
+
+static void client_message_readed_callback(const std::string &str) {
+
+}
+
+
 
 static UserInfoUpdateListener *gUserInfoUpdateListener = NULL;
 void client_userInfo_update_callback(const std::string &userInfos) {
@@ -208,7 +217,7 @@ const std::string ChatClient::getClientId()
 bool ChatClient::connect(const std::string & userId, const std::string &token)
 {
 	WFClient::setConnectionStatusListener(client_connection_callback);
-	WFClient::setReceiveMessageListener(client_receive_message_callback, client_recall_message_callback, client_delete_message_callback);
+	WFClient::setReceiveMessageListener(client_receive_message_callback, client_recall_message_callback, client_delete_message_callback, client_message_delivered_callback, client_message_readed_callback);
     WFClient::setUserInfoUpdateListener(client_userInfo_update_callback);
     WFClient::setGroupInfoUpdateListener(client_groupInfo_update_callback);
     WFClient::setGroupMemberUpdateListener(client_groupMembers_update_callback);
