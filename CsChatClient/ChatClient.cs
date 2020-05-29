@@ -1249,7 +1249,7 @@ namespace CsChatClient
         /// 上传媒体(图片、语音、文件等)
         /// </summary>
         /// <param name="fileName">文件名，可为空</param>
-        /// <param name="mediaData">媒体信息</param>
+        /// <param name="mediaData">媒体信息, 经过Base64编码</param>
         /// <param name="mediaType">媒体类型</param>
         /// <param name="succDele">成功回调</param>
         /// <param name="progressDele">进度回调</param>

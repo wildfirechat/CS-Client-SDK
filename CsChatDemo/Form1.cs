@@ -151,6 +151,30 @@ namespace CsChatDemo
             }, (int errorcode)=> {
                 appendLog("send failure");
             });
+            string readmefile = @"..\..\..\..\README.md";
+            if (!File.Exists(readmefile))
+            {
+                readmefile = @"..\..\..\README.md";
+            }
+            string filestr = Convert.ToBase64String(File.ReadAllBytes(readmefile));
+            ChatClient.Instance().UploadMedia("readme.md", filestr, MediaType.MediaTypeFile, (string remoteUrl) =>
+            {
+                appendLog("upload done");
+            }, (int sended, int total) =>
+            {
+                appendLog("upload progress");
+            }, (int errorcode) =>
+            {
+                appendLog("upload error");
+            });
+
+            ChatClient.Instance().CreateGroup(null, "testGroup", null, GroupType.GroupTypeRestricted, null, null, null, (string groupId) =>
+            {
+                appendLog("create group done");
+            }, (int errorcode) =>
+            {
+                appendLog("create error");
+            });
         }
 
         public void OnConnectionStatusChanged(int status)
