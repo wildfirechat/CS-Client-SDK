@@ -199,7 +199,7 @@ namespace ClrChatClient {
 
 	static void client_genernal_error_callback(void *pObj, int errorCode) {
 		CallbackWrapper *callback = (CallbackWrapper *)pObj;
-		((onErrorCallbackDelegate^)Marshal::GetDelegateForFunctionPointer(callback->voidSuccessCB, onErrorCallbackDelegate::typeid))(errorCode);
+		((onErrorCallbackDelegate^)Marshal::GetDelegateForFunctionPointer(callback->errorCB, onErrorCallbackDelegate::typeid))(errorCode);
 		delete callback;
 	}
 
