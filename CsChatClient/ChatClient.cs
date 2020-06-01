@@ -779,11 +779,11 @@ namespace CsChatClient
         /// <param name="type">自定义消息原型</param>
         public void RegisterMessage(Type type)
         {
-            ContentAttribute attribute = (ContentAttribute) Attribute.GetCustomAttribute(type, typeof(ContentAttribute));
+            ContentAttribute attribute = (ContentAttribute)Attribute.GetCustomAttribute(type, typeof(ContentAttribute));
             if (attribute != null)
             {
                 _messageContentTypeDict[attribute.Type] = type;
-                _proto.registerMessageFlag(attribute.Type, (int) attribute.Flag);
+                _proto.registerMessageFlag(attribute.Type, (int)attribute.Flag);
             }
         }
 
@@ -856,7 +856,7 @@ namespace CsChatClient
         /// </summary>
         public ConnectionStatus GetConnectionStatus()
         {
-            return (ConnectionStatus) _proto.getConnectionStatus();
+            return (ConnectionStatus)_proto.getConnectionStatus();
         }
 
         /// <summary>
@@ -890,7 +890,7 @@ namespace CsChatClient
             List<int> types = new List<int>();
             foreach (var ct in conversationTypes)
             {
-                types.Add((int) ct);
+                types.Add((int)ct);
             }
 
             string infoStr = _proto.getConversationInfos(types, lines);
@@ -908,7 +908,7 @@ namespace CsChatClient
         /// <returns>会话信息</returns>
         public ConversationInfo GetConversationInfo(Conversation conversation)
         {
-            string info = _proto.getConversationInfo((int) conversation.Type, conversation.Target, conversation.Line);
+            string info = _proto.getConversationInfo((int)conversation.Type, conversation.Target, conversation.Line);
 
             WfcJsonConverter convert = new WfcJsonConverter();
             ConversationInfo ci = JsonConvert.DeserializeObject<ConversationInfo>(info, convert);
@@ -927,7 +927,7 @@ namespace CsChatClient
             List<int> types = new List<int>();
             foreach (var ct in conversationTypes)
             {
-                types.Add((int) ct);
+                types.Add((int)ct);
             }
 
             string infos = _proto.searchConversation(keyword, types, lines);
@@ -944,7 +944,7 @@ namespace CsChatClient
         /// <param name="clearMessage">是否删除会话中的消息</param>
         public void RemoveConversation(Conversation conversation, bool clearMessage)
         {
-            _proto.removeConversation((int) conversation.Type, conversation.Target, conversation.Line, clearMessage);
+            _proto.removeConversation((int)conversation.Type, conversation.Target, conversation.Line, clearMessage);
         }
 
         /// <summary>
@@ -956,7 +956,7 @@ namespace CsChatClient
         /// <param name="errDele">错误回调</param>
         public void SetConversationTop(Conversation conversation, bool top, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
-            _proto.setConversationTop((int) conversation.Type, conversation.Target, conversation.Line, top, () => { succDele(); }, errorCode => { errDele(errorCode); });
+            _proto.setConversationTop((int)conversation.Type, conversation.Target, conversation.Line, top, () => { succDele(); }, errorCode => { errDele(errorCode); });
         }
 
         /// <summary>
@@ -968,7 +968,7 @@ namespace CsChatClient
         /// <param name="errDele">错误回调</param>
         public void SetConversationSilent(Conversation conversation, bool silent, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
-            _proto.setConversationSilent((int) conversation.Type, conversation.Target, conversation.Line, silent, () => { succDele(); }, errorCode => { errDele(errorCode); });
+            _proto.setConversationSilent((int)conversation.Type, conversation.Target, conversation.Line, silent, () => { succDele(); }, errorCode => { errDele(errorCode); });
         }
 
         /// <summary>
@@ -978,7 +978,7 @@ namespace CsChatClient
         /// <param name="draft">草稿</param>
         public void SetConversationDraft(Conversation conversation, string draft)
         {
-            _proto.setConversationDraft((int) conversation.Type, conversation.Target, conversation.Line, draft);
+            _proto.setConversationDraft((int)conversation.Type, conversation.Target, conversation.Line, draft);
         }
 
         /// <summary>
@@ -992,7 +992,7 @@ namespace CsChatClient
             List<int> types = new List<int>();
             foreach (var ct in conversationTypes)
             {
-                types.Add((int) ct);
+                types.Add((int)ct);
             }
 
             string unreadStr = _proto.getUnreadCount(types, lines);
@@ -1009,7 +1009,7 @@ namespace CsChatClient
         /// <returns>未读数</returns>
         public UnreadCount GetUnreadCount(Conversation conversation)
         {
-            string unreadStr = _proto.getUnreadCount((int) conversation.Type, conversation.Target, conversation.Line);
+            string unreadStr = _proto.getUnreadCount((int)conversation.Type, conversation.Target, conversation.Line);
 
             WfcJsonConverter convert = new WfcJsonConverter();
             UnreadCount uc = JsonConvert.DeserializeObject<UnreadCount>(unreadStr, convert);
@@ -1022,7 +1022,7 @@ namespace CsChatClient
         /// <param name="conversation">会话</param>
         public void ClearUnreadStatus(Conversation conversation)
         {
-            _proto.clearUnreadStatus((int) conversation.Type, conversation.Target, conversation.Line);
+            _proto.clearUnreadStatus((int)conversation.Type, conversation.Target, conversation.Line);
         }
 
         /// <summary>
@@ -1035,7 +1035,7 @@ namespace CsChatClient
             List<int> types = new List<int>();
             foreach (var ct in conversationTypes)
             {
-                types.Add((int) ct);
+                types.Add((int)ct);
             }
 
             _proto.clearUnreadStatus(types, lines);
@@ -1065,7 +1065,7 @@ namespace CsChatClient
         /// </summary>
         /// <param name="conversation">会话</param>
         /// <returns>会话已读状态</returns>
-        public Dictionary<string, long> getConversationRead(Conversation conversation)
+        public Dictionary<string, long> GetConversationRead(Conversation conversation)
         {
             WfcJsonConverter convert = new WfcJsonConverter();
             return JsonConvert.DeserializeObject<Dictionary<string, long>>(_proto.getConversationRead((int)conversation.Type, conversation.Target, conversation.Line), convert);
@@ -1081,7 +1081,7 @@ namespace CsChatClient
         /// <param name="messageId">消息ID</param>
         public void SetMediaMessagePlayed(long messageId)
         {
-            _proto.setMediaMessagePlayed((int) messageId);
+            _proto.setMediaMessagePlayed((int)messageId);
         }
 
         /// <summary>
@@ -1095,7 +1095,7 @@ namespace CsChatClient
         /// <returns>消息实体</returns>
         public List<MessageEx> GetMessages(Conversation conversation, List<int> contentTypes, long fromIndex, int count, string user)
         {
-            string messagesStr = _proto.getMessages((int) conversation.Type, conversation.Target, conversation.Line, contentTypes, fromIndex, count, user);
+            string messagesStr = _proto.getMessages((int)conversation.Type, conversation.Target, conversation.Line, contentTypes, fromIndex, count, user);
 
             WfcJsonConverter convert = new WfcJsonConverter();
             List<MessageEx> ms = JsonConvert.DeserializeObject<List<MessageEx>>(messagesStr, convert);
@@ -1117,7 +1117,7 @@ namespace CsChatClient
             List<int> types = new List<int>();
             foreach (var ct in conversationTypes)
             {
-                types.Add((int) ct);
+                types.Add((int)ct);
             }
 
             string messagesStr = _proto.getMessages(types, lines, contentTypes, fromIndex, count, user);
@@ -1142,10 +1142,10 @@ namespace CsChatClient
             List<int> types = new List<int>();
             foreach (var ct in conversationTypes)
             {
-                types.Add((int) ct);
+                types.Add((int)ct);
             }
 
-            string messagesStr = _proto.getMessages(types, lines, (int) messageStatus, fromIndex, count, user);
+            string messagesStr = _proto.getMessages(types, lines, (int)messageStatus, fromIndex, count, user);
 
             WfcJsonConverter convert = new WfcJsonConverter();
             List<MessageEx> ms = JsonConvert.DeserializeObject<List<MessageEx>>(messagesStr, convert);
@@ -1162,12 +1162,12 @@ namespace CsChatClient
         /// <param name="errDele">错误回调</param>
         public void GetRemoteMessages(Conversation conversation, long beforeMessageUid, int count, OnGetRemoteMessageDelegate succDele, onErrorCallbackDelegate errDele)
         {
-            _proto.getRemoteMessages((int) conversation.Type, conversation.Target, conversation.Line, beforeMessageUid, count, messages =>
-            {
-                WfcJsonConverter convert = new WfcJsonConverter();
-                List<MessageEx> ms = JsonConvert.DeserializeObject<List<MessageEx>>(messages, convert);
-                succDele(ms);
-            }, errorCode => { errDele(errorCode); });
+            _proto.getRemoteMessages((int)conversation.Type, conversation.Target, conversation.Line, beforeMessageUid, count, messages =>
+           {
+               WfcJsonConverter convert = new WfcJsonConverter();
+               List<MessageEx> ms = JsonConvert.DeserializeObject<List<MessageEx>>(messages, convert);
+               succDele(ms);
+           }, errorCode => { errDele(errorCode); });
         }
 
         /// <summary>
@@ -1177,7 +1177,7 @@ namespace CsChatClient
         /// <returns>消息实体</returns>
         public MessageEx GetMessage(long messageId)
         {
-            string messageStr = _proto.getMessage((int) messageId);
+            string messageStr = _proto.getMessage((int)messageId);
 
             WfcJsonConverter convert = new WfcJsonConverter();
             MessageEx ms = JsonConvert.DeserializeObject<MessageEx>(messageStr, convert);
@@ -1207,7 +1207,7 @@ namespace CsChatClient
         /// <returns>命中的消息</returns>
         public List<MessageEx> SearchMessage(Conversation conversation, string keyword, int count)
         {
-            string messagesStr = _proto.searchMessage((int) conversation.Type, conversation.Target, conversation.Line, keyword, count);
+            string messagesStr = _proto.searchMessage((int)conversation.Type, conversation.Target, conversation.Line, keyword, count);
 
             WfcJsonConverter convert = new WfcJsonConverter();
             List<MessageEx> ms = JsonConvert.DeserializeObject<List<MessageEx>>(messagesStr, convert);
@@ -1228,7 +1228,7 @@ namespace CsChatClient
         public MessageEx SendMessage(Conversation conversation, MessageContent content, List<string> toUsers, int expireDuration, onBigIntBigIntCallbackDelegate succDele, onIntIntCallbackDelegate progressDele, onErrorCallbackDelegate errDele)
         {
             var contentStr = JsonTools.Stringfy(content);
-            string messageStr = _proto.sendMessage((int) conversation.Type, conversation.Target, conversation.Line, contentStr, toUsers, expireDuration, succDele, progressDele, errDele);
+            string messageStr = _proto.sendMessage((int)conversation.Type, conversation.Target, conversation.Line, contentStr, toUsers, expireDuration, succDele, progressDele, errDele);
             WfcJsonConverter convert = new WfcJsonConverter();
             MessageEx ms = JsonConvert.DeserializeObject<MessageEx>(messageStr, convert);
             return ms;
@@ -1256,7 +1256,7 @@ namespace CsChatClient
         /// <param name="errDele">错误回调</param>
         public void UploadMedia(string fileName, string mediaData, MediaType mediaType, OnUploadedMediaDelegate succDele, onIntIntCallbackDelegate progressDele, onErrorCallbackDelegate errDele)
         {
-            _proto.uploadMedia(fileName, mediaData, (int) mediaType, remoteUrl => { succDele(remoteUrl); }, progressDele, errDele);
+            _proto.uploadMedia(fileName, mediaData, (int)mediaType, remoteUrl => { succDele(remoteUrl); }, progressDele, errDele);
         }
 
         /// <summary>
@@ -1266,7 +1266,7 @@ namespace CsChatClient
         /// <returns>是否删除成功</returns>
         public bool DeleteMessage(long messageId)
         {
-            return _proto.deleteMessage((int) messageId);
+            return _proto.deleteMessage((int)messageId);
         }
 
         /// <summary>
@@ -1275,7 +1275,7 @@ namespace CsChatClient
         /// <param name="conversation">会话</param>
         public void ClearMessages(Conversation conversation)
         {
-            _proto.clearMessages((int) conversation.Type, conversation.Target, conversation.Line);
+            _proto.clearMessages((int)conversation.Type, conversation.Target, conversation.Line);
         }
 
         /// <summary>
@@ -1285,7 +1285,7 @@ namespace CsChatClient
         /// <param name="before">时间点，单位是毫秒</param>
         public void ClearMessages(Conversation conversation, long before)
         {
-            _proto.clearMessages((int) conversation.Type, conversation.Target, conversation.Line, before);
+            _proto.clearMessages((int)conversation.Type, conversation.Target, conversation.Line, before);
         }
 
         /// <summary>
@@ -1301,7 +1301,7 @@ namespace CsChatClient
         public MessageEx InsertMessage(Conversation conversation, string sender, MessageContent content, MessageStatus status, bool notify, long serverTime)
         {
             var contentStr = JsonTools.Stringfy(content);
-            string messageStr = _proto.insert((int) conversation.Type, conversation.Target, conversation.Line, sender, contentStr, (int) status, notify, serverTime);
+            string messageStr = _proto.insert((int)conversation.Type, conversation.Target, conversation.Line, sender, contentStr, (int)status, notify, serverTime);
             WfcJsonConverter convert = new WfcJsonConverter();
             MessageEx ms = JsonConvert.DeserializeObject<MessageEx>(messageStr, convert);
             return ms;
@@ -1315,7 +1315,7 @@ namespace CsChatClient
         public void UpdateMessage(long messageId, MessageContent content)
         {
             var contentStr = JsonTools.Stringfy(content);
-            _proto.updateMessage((int) messageId, contentStr);
+            _proto.updateMessage((int)messageId, contentStr);
         }
 
         #endregion
@@ -1375,12 +1375,12 @@ namespace CsChatClient
         /// <param name="errDele">错误回调</param>
         public void SearchUser(string keyword, SearchUserType searchType, int page, OnSearchUsersDelegate succDele, onErrorCallbackDelegate errDele)
         {
-            _proto.searchUser(keyword, (int) searchType, page, usersStr =>
-            {
-                WfcJsonConverter convert = new WfcJsonConverter();
-                List<UserInfo> us = JsonConvert.DeserializeObject<List<UserInfo>>(usersStr, convert);
-                succDele(us);
-            }, errDele);
+            _proto.searchUser(keyword, (int)searchType, page, usersStr =>
+           {
+               WfcJsonConverter convert = new WfcJsonConverter();
+               List<UserInfo> us = JsonConvert.DeserializeObject<List<UserInfo>>(usersStr, convert);
+               succDele(us);
+           }, errDele);
         }
 
         #endregion
@@ -1639,7 +1639,7 @@ namespace CsChatClient
         public void CreateGroup(string groupId, string groupName, string groupPortrait, GroupType type, List<string> groupMembers, List<int> notifyLines, MessageContent notifyContent, OnCreateGroupDelegate succDele, onErrorCallbackDelegate errDele)
         {
             var contentStr = JsonTools.Stringfy(notifyContent);
-            _proto.createGroup(groupId, groupName, groupPortrait, (int) type, groupMembers, notifyLines, contentStr, gid => { succDele(gid); }, errDele);
+            _proto.createGroup(groupId, groupName, groupPortrait, (int)type, groupMembers, notifyLines, contentStr, gid => { succDele(gid); }, errDele);
         }
 
         /// <summary>
@@ -1713,7 +1713,7 @@ namespace CsChatClient
         public void ModifyGroupInfo(string groupId, ModifyGroupInfoType type, string newValue, List<int> notifyLines, MessageContent notifyContent, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             var contentStr = JsonTools.Stringfy(notifyContent);
-            _proto.modifyGroupInfo(groupId, (int) type, newValue, notifyLines, contentStr, succDele, errDele);
+            _proto.modifyGroupInfo(groupId, (int)type, newValue, notifyLines, contentStr, succDele, errDele);
         }
 
         /// <summary>
@@ -1823,7 +1823,7 @@ namespace CsChatClient
         /// <returns>设置值</returns>
         public string GetUserSetting(UserSettingScope scope, string key)
         {
-            return _proto.getUserSetting((int) scope, key);
+            return _proto.getUserSetting((int)scope, key);
         }
 
         /// <summary>
@@ -1846,7 +1846,7 @@ namespace CsChatClient
         /// <param name="errDele">错误回调</param>
         public void SetUserSetting(UserSettingScope scope, string key, string value, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
-            _proto.setUserSetting((int) scope, key, value, succDele, errDele);
+            _proto.setUserSetting((int)scope, key, value, succDele, errDele);
         }
 
         /// <summary>
@@ -2010,7 +2010,7 @@ namespace CsChatClient
         /// <param name="errDele">错误回调</param>
         public void ModifyChannelInfo(string channelId, ModifyChannelInfoType type, string newValue, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
-            _proto.modifyChannelInfo(channelId, (int) type, newValue, succDele, errDele);
+            _proto.modifyChannelInfo(channelId, (int)type, newValue, succDele, errDele);
         }
 
         /// <summary>
@@ -2207,7 +2207,7 @@ namespace CsChatClient
             if (_messageContentTypeDict.ContainsKey(payload.ContentType))
             {
                 Type type = _messageContentTypeDict[payload.ContentType];
-                content = (MessageContent) Activator.CreateInstance(type);
+                content = (MessageContent)Activator.CreateInstance(type);
                 content.Extra = payload.Extra;
                 content.MentionedTargets = payload.MentionedTargets;
                 content.MentionedType = payload.MentionedType;
