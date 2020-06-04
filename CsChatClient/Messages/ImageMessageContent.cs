@@ -11,7 +11,7 @@
         public override void Decode(MessagePayload payload)
         {
             base.Decode(payload);
-            payload.BinaryContent = ThumbnailBytes;
+            ThumbnailBytes = payload.BinaryContent;
         }
 
         public override string Digest(MessageEx message)
