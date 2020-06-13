@@ -351,18 +351,26 @@ namespace ClrChatClient {
 		}
 
 		std::list<int> ls;
-		for each (int line in lines)
+		if (lines)
 		{
-			ls.push_back(line);
+			for each (int line in lines)
+			{
+				ls.push_back(line);
+			}
 		}
+
 		if (ls.size() == 0) {
 			ls.push_back(0);
 		}
 		std::list<int> cs;
-		for each (int type in contentTypes)
+		if (contentTypes)
 		{
-			cs.push_back(type);
+			for each (int type in contentTypes)
+			{
+				cs.push_back(type);
+			}
 		}
+
 		bool direction = false;
 		if (count < 0)
 		{
@@ -380,10 +388,14 @@ namespace ClrChatClient {
 		}
 
 		std::list<int> ls;
-		for each (int line in lines)
+		if (lines)
 		{
-			ls.push_back(line);
+			for each (int line in lines)
+			{
+				ls.push_back(line);
+			}
 		}
+
 		if (ls.size() == 0) {
 			ls.push_back(0);
 		}

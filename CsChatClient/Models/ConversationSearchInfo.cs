@@ -26,10 +26,29 @@ namespace CsChatClient.Models
                 switch (reader.TokenType)
                 {
                     case JsonToken.PropertyName:
-                        if (reader.Value.Equals("conversation"))
+                        if(reader.Value.Equals("conversationType"))
                         {
-                            Conversation = (Conversation)JsonTools.GetNextObject(reader, false, typeof(Conversation));
+                            if(Conversation == null)
+                            {
+                                Conversation = new Conversation();
+                            }
+                            Conversation.Type = (ConversationType)JsonTools.GetNextInt(reader);
                         }
+                        else if (reader.Value.Equals("target"))
+                        {
+                            if (Conversation == null)
+                            {
+                                Conversation = new Conversation();
+                            }
+                            Conversation.Target = JsonTools.GetNextString(reader);
+                        } else if (reader.Value.Equals("line"))
+                        {
+                            if (Conversation == null)
+                            {
+                                Conversation = new Conversation();
+                            }
+                            Conversation.Line = JsonTools.GetNextInt(reader);
+                        } 
                         else if (reader.Value.Equals("marchedMessage"))
                         {
                             MarchedMessage = (MessageEx)JsonTools.GetNextObject(reader, false, typeof(MessageEx));

@@ -20,6 +20,7 @@ namespace CsChatDemo
 {
     public partial class Form1 : Form, IConnectionStatusListener, IReceiveMessageListener, IUserInfoUpdateListener, IGroupInfoUpdateListener, IGroupMemberUpdateListener, IContactUpdateListener, IFriendRequestUpdateListener, IUserSettingUpdateListener, IChannelInfoUpdateListener
     {
+        int ConnStatus = -1;
         public Form1()
         {
             InitializeComponent();
@@ -157,7 +158,7 @@ namespace CsChatDemo
                 readmefile = @"..\..\..\README.md";
             }
             string filestr = Convert.ToBase64String(File.ReadAllBytes(readmefile));
-            ChatClient.Instance().UploadMedia("readme.md", filestr, MediaType.MediaTypeFile, (string remoteUrl) =>
+            ChatClient.Instance().UploadMedia("readme&.md", filestr, MediaType.MediaTypeFile, (string remoteUrl) =>
             {
                 appendLog("upload done");
             }, (int sended, int total) =>
@@ -175,10 +176,18 @@ namespace CsChatDemo
             {
                 appendLog("create error");
             });
+
+            List<ConversationType> types = new List<ConversationType>();
+            types.Add(ConversationType.SingleType);
+            types.Add(ConversationType.GroupType);
+
+            List<MessageEx> messages = ChatClient.Instance().GetMessages(types, null, null, 0, 100, null);
+            appendLog("get message count" + messages.Count());
         }
 
         public void OnConnectionStatusChanged(int status)
         {
+            ConnStatus = status;
             Console.WriteLine("status is " + status);
             string str = "Connect status changed to " + status;
             appendLog(str);
@@ -217,6 +226,13 @@ namespace CsChatDemo
 
         public void OnReceiveMessages(List<MessageEx> messages, bool hasMore)
         {
+            if (ConnStatus == 2)
+            {
+                appendLog("正在同步消息中，本次同步到" + messages.Count()+"条消息");
+
+                //离线消息有可能非常大的数量，如果每条消息都更新将会是有严重的性能问题，可以忽略掉同步时收到的消息，等待同步完成后刷新一次UI
+                return;
+            }
             Console.WriteLine("receive messages");
             foreach (var msg in messages)
             {
@@ -239,17 +255,8 @@ namespace CsChatDemo
         void IReceiveMessageListener.OnRecallMessage(long messageUid)
         {
             Console.WriteLine("recall message");
-            RecallMessageContent recall = (RecallMessageContent)ChatClient.Instance().GetMessageByUid(messageUid).Content;
-            UserInfo userInfo = ChatClient.Instance().GetUserInfo(recall.OperatorUser, false);
-            string line;
-            if (userInfo == null)
-            {
-                line = ":";
-            }
-            else
-            {
-                line = userInfo.DisplayName + ":";
-            }
+            string line = "";
+
             line += "recall a message";
             appendLog(line);
         }
