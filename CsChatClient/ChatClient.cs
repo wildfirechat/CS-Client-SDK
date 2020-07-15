@@ -2224,6 +2224,9 @@ namespace CsChatClient
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                content = new UnknownMessageContent();
+                //When decode failure, fallback to unknown message.
+                content.Decode(payload);
             }
 
             return content;
