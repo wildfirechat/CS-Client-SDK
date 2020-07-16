@@ -144,9 +144,14 @@ namespace CsChatDemo
 
             TextMessageContent txt = new TextMessageContent();
             txt.Content = "你好 world";
-
+            txt.Extra = "{\"key\":\"value\"}";
             ChatClient.Instance().SendMessage(conv, txt, null, 0, (long uid, long ts)=> {
                 appendLog("send success");
+                ChatClient.Instance().RecallMessage(uid, () =>
+                {
+                    ChatClient.Instance().GetMessageByUid(uid);
+                }, (int errorCode) => {
+                });
             }, (int sended, int total)=> {
                 appendLog("send progress:(" + total + ":" + sended + ")");
             }, (int errorcode)=> {
