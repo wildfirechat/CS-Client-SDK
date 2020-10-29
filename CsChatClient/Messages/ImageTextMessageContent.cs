@@ -2,60 +2,78 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
+using System.Text;
 
 namespace CsChatClient.Messages
 {
-    [ContentAttribute(MessageContentType.MessageContentTypeImagetext, MessageContentPersistFlag.PersistFlagPersistAndCount)]
+    [ContentAttribute(MessageContentType.MessageContentTypeLink, MessageContentPersistFlag.PersistFlagPersistAndCount)]
     public class ImageTextMessageContent : MessageContent
     {
         public string Title { get; set; }
         public string Content { get; set; }
         public string Url { get; set; }
-        public byte[] ThumbnailData { get; set; }
+        public string ThumbnailUrl { get; set; }
 
         public override void Decode(MessagePayload payload)
         {
             Title = payload.SearchableContent;
-            ThumbnailData = payload.BinaryContent;
-            JObject jo = (JObject)JsonConvert.DeserializeObject(payload.Content);
 
-            if (jo["c"] != null)
+            string json = Encoding.UTF8.GetString(payload.BinaryContent);
+            JObject jo = (JObject)JsonConvert.DeserializeObject(json);
+            if (jo != null)
             {
-                Content = jo["c"].Value<string>();
+                if (jo["d"] != null)
+                {
+                    Content = jo["d"].Value<string>();
+                }
+                if (jo["u"] != null)
+                {
+                    Url = jo["u"].Value<string>();
+                }
+                if (jo["t"] != null)
+                {
+                    ThumbnailUrl = jo["t"].Value<string>();
+                }
             }
-            if(jo["u"] != null)
-            {
-                Url = jo["u"].Value<string>();
-            }
+            
         }
 
         public override string Digest(MessageEx message)
         {
-            throw new NotImplementedException();
+            return "[Link]:" + Title;
         }
 
         public override MessagePayload Encode()
         {
             MessagePayload payload = new MessagePayload();
-            payload.BinaryContent = ThumbnailData;
             payload.SearchableContent = Title;
-
 
             StringWriter sw = new StringWriter();
             JsonWriter writer = new JsonTextWriter(sw);
             writer.WriteStartObject();
+            if (Content != null)
+            {
+                writer.WritePropertyName("d");
+                writer.WriteValue(Content);
+            }
 
+            if (Url != null)
+            {
+                writer.WritePropertyName("u");
+                writer.WriteValue(Url);
+            }
 
-            writer.WritePropertyName("c");
-            writer.WriteValue(Content);
-
-            writer.WritePropertyName("u");
-            writer.WriteValue(Url);
+            if (ThumbnailUrl != null )
+            {
+                writer.WritePropertyName("t");
+                writer.WriteValue(ThumbnailUrl);
+            }
 
             writer.WriteEndObject();
             writer.Flush();
             string jsonText2 = sw.GetStringBuilder().ToString();
-            payload.Content = jsonText2;
+
+            payload.BinaryContent = Encoding.UTF8.GetBytes(jsonText2);
 
             return payload;
         }

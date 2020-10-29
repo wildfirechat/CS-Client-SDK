@@ -380,7 +380,7 @@ namespace ClrChatClient {
 		return ConvertStr(WFClient::getMessages(ts, ls, cs, fromIndex, direction, count, ConvertStr(user)));
 	}
 
-	String^ Proto::getMessages(List<int>^ conversationTypes, List<int>^ lines, int messageStatus, Int64 fromIndex, int count, String^ user) {
+	String^ Proto::getMessagesByMessageStatus(List<int>^ conversationTypes, List<int>^ lines, List<int>^ messageStatus, Int64 fromIndex, int count, String^ user) {
 		std::list<int> ts;
 		for each (int type in conversationTypes)
 		{
@@ -407,7 +407,16 @@ namespace ClrChatClient {
 			direction = true;
 		}
 
-		return ConvertStr(WFClient::getMessages(ts, ls, messageStatus, fromIndex, direction, count, ConvertStr(user)));
+		std::list<int> ss;
+		if (messageStatus)
+		{
+			for each (int ms in messageStatus)
+			{
+				ss.push_back(ms);
+			}
+		}
+
+		return ConvertStr(WFClient::getMessagesByMessageStatus(ts, ls, ss, fromIndex, direction, count, ConvertStr(user)));
 	}
 	
 	void Proto::getRemoteMessages(int type, String^ target, int line, Int64 beforeMessageUid, int count, onGeneralStringSuccessCallbackDelegate^ strCB, onErrorCallbackDelegate^ errCB) {
@@ -699,8 +708,8 @@ namespace ClrChatClient {
 		WFClient::destoryChannel(ConvertStr(channelId), client_genernal_void_success_callback, client_genernal_error_callback, new CallbackWrapper(succDele, errDele));
 	}
 
-	void Proto::getAuthorizedMediaUrl(int mediaType, String^mediaPath, onGeneralStringSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele) {
-		WFClient::getAuthorizedMediaUrl(mediaType, ConvertStr(mediaPath), client_genernal_string_success_callback, client_genernal_error_callback, new CallbackWrapper(succDele, errDele));
+	void Proto::getAuthorizedMediaUrl(long long messageUid, int mediaType, String^mediaPath, onGeneralStringSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele) {
+		WFClient::getAuthorizedMediaUrl(messageUid, mediaType, ConvertStr(mediaPath), client_genernal_string_success_callback, client_genernal_error_callback, new CallbackWrapper(succDele, errDele));
 	}
 
 	const std::string Proto::ConvertStr(String^ str) {
@@ -819,6 +828,14 @@ namespace ClrChatClient {
 			m_onContactUpdateListener(ConvertStr(strValue));
 		}
 	}
+
+	void Proto::onFriendRequestUpdate(const std::string &strValue) {
+		if (m_onFriendRequestUpdateListener)
+		{
+			m_onFriendRequestUpdateListener(ConvertStr(strValue));
+		}
+	}
+	
 
 	void Proto::onChannelInfoUpdate(const std::string &strValue) {
 		if (m_onChannelInfoUpdateListener)

@@ -117,7 +117,7 @@ typedef void (*fun_groupMembers_update_callback)(const std::string &groupId);
 
 typedef void (*fun_friendList_update_callback)(const std::string &friendList);
 
-typedef void (*fun_receive_friendRequest_callback)();
+typedef void (*fun_receive_friendRequest_callback)(const std::string &newRequests);
 
 typedef void (*fun_user_setting_update_callback)();
 
@@ -197,7 +197,7 @@ extern PROTOWRAPPER_API const std::string* getMessages(int conversationType, con
 
 extern PROTOWRAPPER_API const std::string* getMessages(const std::list<int> &conversationTypes, const std::list<int> &lines, std::list<int> contTypes, int64_t fromIndex, bool direction, int count, const std::string &withUser);
 
-extern PROTOWRAPPER_API const std::string* getMessages(const std::list<int> &conversationTypes, const std::list<int> &lines, int messageStatus, int64_t fromIndex, bool direction, int count, const std::string &withUser);
+extern PROTOWRAPPER_API const std::string* getMessagesByMessageStatus(const std::list<int> &conversationTypes, const std::list<int> &lines, const std::list<int> &messageStatuses, int64_t fromIndex, bool direction, int count, const std::string &withUser);
 
 extern PROTOWRAPPER_API void getRemoteMessages(int conversationType, const std::string &target, int line, int64_t beforeUid, int count, fun_general_string_success_callback successCallback, fun_general_void_error_callback errorCallback, void *pObjectect);
 
@@ -252,6 +252,8 @@ extern PROTOWRAPPER_API const std::string* getIncommingFriendRequest();
 
 extern PROTOWRAPPER_API const std::string* getOutgoingFriendRequest();
 
+extern PROTOWRAPPER_API const std::string* getFriendRequest(const std::string &userId, bool incomming);
+
 extern PROTOWRAPPER_API void loadFriendRequestFromRemote();
 
 extern PROTOWRAPPER_API int getUnreadFriendRequestStatus();
@@ -300,6 +302,7 @@ extern PROTOWRAPPER_API void transferGroup(const std::string &groupId, const std
 
 extern PROTOWRAPPER_API void setGroupManager(const std::string &groupId, bool isSet, const std::list<std::string> &members, const std::list<int> &lines, const std::string &strCont, fun_general_void_success_callback successBlock, fun_general_void_error_callback errorBlock, void *pObject);
 extern PROTOWRAPPER_API void muteGroupMember(const std::string &groupId, bool isSet, const std::list<std::string> &members, const std::list<int> &lines, const std::string &strCont, fun_general_void_success_callback successBlock, fun_general_void_error_callback errorBlock, void *pObject);
+extern PROTOWRAPPER_API void allowGroupMember(const std::string &groupId, bool isSet, const std::list<std::string> &members, const std::list<int> &lines, const std::string &strCont, fun_general_void_success_callback successBlock, fun_general_void_error_callback errorBlock, void *pObject);
 
 extern PROTOWRAPPER_API const std::string* getFavGroups();
 extern PROTOWRAPPER_API const std::string* getUserSetting(int scope, const std::string &key);
@@ -313,7 +316,9 @@ extern PROTOWRAPPER_API bool isFavGroup(const std::string &groupId);
 
 extern PROTOWRAPPER_API void setFavGroup(const std::string &groupId, bool fav, fun_general_void_success_callback successBlock, fun_general_void_error_callback errorBlock, void *pObject);
 
-
+extern PROTOWRAPPER_API const std::string* getFavUsers();
+extern PROTOWRAPPER_API bool isFavUser(const std::string &userId);
+extern PROTOWRAPPER_API void setFavUser(const std::string &userId, bool fav, fun_general_void_success_callback successBlock, fun_general_void_error_callback errorBlock, void *pObj);
 
 extern PROTOWRAPPER_API void modifyMyInfo(const std::list<std::pair<int, std::string> > &infos, fun_general_void_success_callback successBlock, fun_general_void_error_callback errorBlock, void *pObject);
 
@@ -356,7 +361,7 @@ extern PROTOWRAPPER_API void destoryChannel(const std::string &channelId, fun_ge
 
 extern PROTOWRAPPER_API const std::string* getAppPath();
 
-extern PROTOWRAPPER_API void getAuthorizedMediaUrl(int mediaType, const std::string &mediaPath, fun_general_string_success_callback successBlock, fun_general_string_error_callback errorBlock, void *pObj);
+extern PROTOWRAPPER_API void getAuthorizedMediaUrl(long long messageUid, int mediaType, const std::string &mediaPath, fun_general_string_success_callback successBlock, fun_general_string_error_callback errorBlock, void *pObj);
 
 }
 

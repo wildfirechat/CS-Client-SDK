@@ -82,11 +82,9 @@ namespace ClrChatClient {
 		}
 
 
-		OnVoidDelegate^ m_NativeFriendRequestUpdateDelegate;
-		void setFriendRequestUpdateListener(OnVoidDelegate^ listener) {
-			m_NativeFriendRequestUpdateDelegate = listener;
-			IntPtr ip = Marshal::GetFunctionPointerForDelegate(listener);
-			WFClient::setFriendRequestListener(static_cast<WFClient::fun_receive_friendRequest_callback>(ip.ToPointer()));
+		
+		void setFriendRequestUpdateListener(OnStringDelegate^ listener) {
+			m_onFriendRequestUpdateListener = listener;
 		}
 
 		OnVoidDelegate^ m_NativeSettingUpdateDelegate;
@@ -104,6 +102,7 @@ namespace ClrChatClient {
 		OnNativeStringDelegate^ m_NativeGroupInfoDelegate;
 		OnNativeStringDelegate^ m_NativeGroupMemberDelegate;
 		OnNativeStringDelegate^ m_NativeContactUpdateDelegate;
+		OnNativeStringDelegate^ m_NativeFriendRequestUpdateDelegate;
 		OnNativeStringDelegate^ m_NativeChannelInfoUpdateDelegate;
 		OnNativeReceiveMessageDelegate^ m_NativeReceiveMessageDelegate;
 		OnNativeRecallMessageDelegate^ m_NativeRecallMessageDelegate;
@@ -149,6 +148,10 @@ namespace ClrChatClient {
 			m_NativeChannelInfoUpdateDelegate = gcnew OnNativeStringDelegate(this, &Proto::onChannelInfoUpdate);
 			IntPtr ip6 = Marshal::GetFunctionPointerForDelegate(m_NativeChannelInfoUpdateDelegate);
 			WFClient::setChannelInfoUpdateListener(static_cast<WFClient::fun_userInfo_update_callback>(ip6.ToPointer()));
+
+			m_NativeFriendRequestUpdateDelegate = gcnew OnNativeStringDelegate(this, &Proto::onFriendRequestUpdate);
+			IntPtr ip7 = Marshal::GetFunctionPointerForDelegate(m_NativeFriendRequestUpdateDelegate);
+			WFClient::setFriendRequestListener(static_cast<WFClient::fun_receive_friendRequest_callback>(ip7.ToPointer()));
 
 			const char* uid = (const char*)(Marshal::StringToHGlobalAnsi(userId)).ToPointer();
 			const char* tk = (const char*)(Marshal::StringToHGlobalAnsi(token)).ToPointer();
@@ -238,7 +241,7 @@ namespace ClrChatClient {
 		void setMediaMessagePlayed(long messageId);
 		System::String^ getMessages(int type, System::String^ target, int line, List<int>^ contentTypes, Int64 fromIndex, int count, System::String^ user);
 		System::String^ getMessages(List<int>^ conversationTypes, List<int>^ lines, List<int>^ contentTypes, Int64 fromIndex, int count, System::String^ user);
-		System::String^ getMessages(List<int>^ conversationTypes, List<int>^ lines, int messageStatus, Int64 fromIndex, int count, System::String^ user);
+		System::String^ getMessagesByMessageStatus(List<int>^ conversationTypes, List<int>^ lines, List<int>^ messageStatus, Int64 fromIndex, int count, String ^ user);
 		void getRemoteMessages(int type, System::String^ target, int line, Int64 beforeMessageUid, int count, onGeneralStringSuccessCallbackDelegate^ strCB, onErrorCallbackDelegate^ errCB);
 		System::String^ getMessage(long messageId);
 		System::String^ getMessageByUid(Int64 messageUid);	
@@ -312,7 +315,7 @@ namespace ClrChatClient {
 		System::String^ getMyChannels();
 		System::String^ getListenedChannels();
 		void destoryChannel(System::String^channelId, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
-		void getAuthorizedMediaUrl(int mediaType, String^mediaPath, onGeneralStringSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
+		void getAuthorizedMediaUrl(long long messageUid, int mediaType, String^mediaPath, onGeneralStringSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
 
 
 		static const std::string ConvertStr(System::String^ str);
@@ -332,6 +335,7 @@ namespace ClrChatClient {
 		void onGroupInfoUpdate(const std::string &strValue);
 		void onGroupMemberUpdate(const std::string &strValue);
 		void onContactUpdate(const std::string &strValue);
+		void onFriendRequestUpdate(const std::string &strValue);
 		void onChannelInfoUpdate(const std::string &strValue);
 
 		static OnConnectionStatusListenerDelegate^ m_OnConnectionStatusListenerDelegate;
@@ -344,6 +348,7 @@ namespace ClrChatClient {
 		static OnStringDelegate ^m_onUserInfoUpdateListener;
 		static OnStringDelegate ^m_onChannelInfoUpdateListener;
 		static OnStringDelegate ^m_onContactUpdateListener;
+		static OnStringDelegate ^m_onFriendRequestUpdateListener;
 		static OnStringDelegate ^m_onGroupMemberUpdateListener;
 		static OnStringDelegate ^m_onGroupInfoUpdateListener;
 	};

@@ -70,7 +70,7 @@ namespace CsChatClient
     /// </summary>
     public interface IFriendRequestUpdateListener
     {
-        void OnFriendRequestUpdated();
+        void OnFriendRequestUpdated(List<string> friendUids);
     }
 
     /// <summary>
@@ -556,7 +556,7 @@ namespace CsChatClient
         /// <summary>
         /// 图文消息
         /// </summary>
-        MessageContentTypeImagetext = 8,
+        MessageContentTypeLink = 8,
 
         /// <summary>
         /// 存储不计数文本消息
@@ -748,7 +748,7 @@ namespace CsChatClient
         /// <param name="listener">监听</param>
         public void SetFriendRequestUpdateListener(IFriendRequestUpdateListener listener)
         {
-            _proto.setFriendRequestUpdateListener(listener.OnFriendRequestUpdated);
+            _proto.setFriendRequestUpdateListener(new FriendRequestUpdateWrapper(listener).OnFriendRequestUpdated);
         }
 
         /// <summary>
@@ -1137,7 +1137,7 @@ namespace CsChatClient
         /// <param name="count">总数</param>
         /// <param name="user">用户</param>
         /// <returns>消息实体</returns>
-        public List<MessageEx> GetMessages(List<ConversationType> conversationTypes, List<int> lines, MessageStatus messageStatus, long fromIndex, int count, string user)
+        public List<MessageEx> GetMessagesByMessageStatus(List<ConversationType> conversationTypes, List<int> lines, List<MessageStatus> messageStatus, long fromIndex, int count, string user)
         {
             List<int> types = new List<int>();
             foreach (var ct in conversationTypes)
@@ -1145,7 +1145,13 @@ namespace CsChatClient
                 types.Add((int)ct);
             }
 
-            string messagesStr = _proto.getMessages(types, lines, (int)messageStatus, fromIndex, count, user);
+            List<int> ss = new List<int>();
+            foreach (var ct in messageStatus)
+            {
+                ss.Add((int)ct);
+            }
+
+            string messagesStr = _proto.getMessagesByMessageStatus(types, lines, ss, fromIndex, count, user);
 
             WfcJsonConverter convert = new WfcJsonConverter();
             List<MessageEx> ms = JsonConvert.DeserializeObject<List<MessageEx>>(messagesStr, convert);
@@ -2181,6 +2187,22 @@ namespace CsChatClient
             {
                 List<string> friends = JsonTools.Jsonfy<List<string>>(groups);
                 _mListener.OnContactUpdated(friends);
+            }
+        }
+
+        class FriendRequestUpdateWrapper
+        {
+            public FriendRequestUpdateWrapper(IFriendRequestUpdateListener listener)
+            {
+                _mListener = listener;
+            }
+
+            private IFriendRequestUpdateListener _mListener;
+
+            public void OnFriendRequestUpdated(string groups)
+            {
+                List<string> friends = JsonTools.Jsonfy<List<string>>(groups);
+                _mListener.OnFriendRequestUpdated(friends);
             }
         }
 

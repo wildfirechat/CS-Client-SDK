@@ -109,9 +109,9 @@ void client_friendList_update_callback(const std::string &friendList) {
 
 
 static FriendRequestUpdateListener *gFriendRequestUpdateListener = NULL;
-void client_friendRequest_update_callback() {
+void client_friendRequest_update_callback(const std::string &friendList) {
     if (gFriendRequestUpdateListener) {
-        gFriendRequestUpdateListener->onFriendRequestUpdated();
+        gFriendRequestUpdateListener->onFriendRequestUpdated(friendList);
     }
 }
 

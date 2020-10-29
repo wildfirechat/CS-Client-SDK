@@ -288,7 +288,7 @@ namespace CsChatDemo
             appendLog("friend list updated");
         }
 
-        public void OnFriendRequestUpdated()
+        public void OnFriendRequestUpdated(List<string> newRequests)
         {
             appendLog("firnd request updated!");
         }

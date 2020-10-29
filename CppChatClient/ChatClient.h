@@ -92,7 +92,7 @@ public:
     FriendRequestUpdateListener() {}
     virtual ~FriendRequestUpdateListener() {}
     
-    virtual void onFriendRequestUpdated() = 0;
+    virtual void onFriendRequestUpdated(const std::list<std::string> &newRequests) = 0;
 };
 
 /*
