@@ -268,7 +268,7 @@ extern PROTOWRAPPER_API void setFriendAlias(const std::string &userId, const std
 
 extern PROTOWRAPPER_API const std::string* getFriendExtra(const std::string &userId);
 
-extern PROTOWRAPPER_API void sendFriendRequest(const std::string &userId, const std::string &reason, fun_general_void_success_callback successCB, fun_general_void_error_callback errorCB, void *pObject);
+extern PROTOWRAPPER_API void sendFriendRequest(const std::string &userId, const std::string &reason, const std::string &extra, fun_general_void_success_callback successCB, fun_general_void_error_callback errorCB, void *pObject);
 
 extern PROTOWRAPPER_API void handleFriendRequest(const std::string &userId, bool accept, const std::string &extra, fun_general_void_success_callback successCB, fun_general_void_error_callback errorCB, void *pObject);
 
@@ -283,9 +283,9 @@ extern PROTOWRAPPER_API const std::string* getGroupInfo(const std::string &group
 
 extern PROTOWRAPPER_API const std::string* getGroupMember(const std::string &groupId, const std::string &memberId);
 
-extern PROTOWRAPPER_API void createGroup(const std::string &groupId, int groupType, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &members, const std::list<int> &lines, const std::string &strCont, fun_general_string_success_callback successCB, fun_general_string_error_callback errorCB, void *pObject);
+extern PROTOWRAPPER_API void createGroup(const std::string &groupId, int groupType, const std::string &groupName, const std::string &groupPortrait, const std::string &groupExtra, const std::list<std::string> &members, const std::string &memberExtra, const std::list<int> &lines, const std::string &strCont, fun_general_string_success_callback successCB, fun_general_string_error_callback errorCB, void *pObject);
 
-extern PROTOWRAPPER_API void addMembers(const std::string &groupId, const std::list<std::string> &members, std::list<int> lines, const std::string &strCont, fun_general_void_success_callback successBlock, fun_general_void_error_callback errorBlock, void *pObject);
+extern PROTOWRAPPER_API void addMembers(const std::string &groupId, const std::list<std::string> &members, const std::string &memberExtra, std::list<int> lines, const std::string &strCont, fun_general_void_success_callback successBlock, fun_general_void_error_callback errorBlock, void *pObject);
 
 extern PROTOWRAPPER_API void kickoffMembers(const std::string &groupId, const std::list<std::string> &members, std::list<int> lines, const std::string &strCont, fun_general_void_success_callback successBlock, fun_general_void_error_callback errorBlock, void *pObject);
 

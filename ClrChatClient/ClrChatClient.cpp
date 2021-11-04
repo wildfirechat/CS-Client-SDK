@@ -527,8 +527,8 @@ namespace ClrChatClient {
 		WFClient::deleteFriend(ConvertStr(userId), client_genernal_void_success_callback, client_genernal_error_callback, new CallbackWrapper(succDele, errDele));
 	}
 
-	void Proto::sendFriendRequest(String^userId, String^reason, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele){ 
-		WFClient::sendFriendRequest(ConvertStr(userId), ConvertStr(reason), client_genernal_void_success_callback, client_genernal_error_callback, new CallbackWrapper(succDele, errDele));
+	void Proto::sendFriendRequest(String^userId, String^reason, String^extra, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele){
+		WFClient::sendFriendRequest(ConvertStr(userId), ConvertStr(reason), ConvertStr(extra), client_genernal_void_success_callback, client_genernal_error_callback, new CallbackWrapper(succDele, errDele));
 	}
 
 	void Proto::handleFriendRequest(String^userId, bool isAccpet, String^ friendExtra, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele){ 
@@ -567,12 +567,12 @@ namespace ClrChatClient {
 		return ConvertStr(WFClient::getGroupMember(ConvertStr(groupId), ConvertStr(memberId)));
 	}
 
-	void Proto::createGroup(String^groupId, String^groupName, String^groupPortrait, int type, List<String^>^ groupMembers, List<int>^ notifyLines, String^ notifyContent, onGeneralStringSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele){ 
-		WFClient::createGroup(ConvertStr(groupId), type, ConvertStr(groupName), ConvertStr(groupPortrait), ConvertStringList(groupMembers), ConvertIntList(notifyLines, false), ConvertStr(notifyContent), client_genernal_string_success_callback, client_genernal_error_callback, new CallbackWrapper(succDele, errDele));
+	void Proto::createGroup(String^groupId, String^groupName, String^groupPortrait, int type, String^groupExtra, List<String^>^ groupMembers, String^memberExtra, List<int>^ notifyLines, String^ notifyContent, onGeneralStringSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele){
+		WFClient::createGroup(ConvertStr(groupId), type, ConvertStr(groupName), ConvertStr(groupPortrait), ConvertStr(groupExtra), ConvertStringList(groupMembers), ConvertStr(memberExtra), ConvertIntList(notifyLines, false), ConvertStr(notifyContent), client_genernal_string_success_callback, client_genernal_error_callback, new CallbackWrapper(succDele, errDele));
 	}
 
-	void Proto::addMembers(List<String^>^ members, String^groupId, List<int>^ notifyLines, String^ notifyContent, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele){ 
-		WFClient::addMembers(ConvertStr(groupId), ConvertStringList(members), ConvertIntList(notifyLines, false), ConvertStr(notifyContent), client_genernal_void_success_callback, client_genernal_error_callback, new CallbackWrapper(succDele, errDele));
+	void Proto::addMembers(List<String^>^ members, String^groupId, String^memberExtra, List<int>^ notifyLines, String^ notifyContent, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele){
+		WFClient::addMembers(ConvertStr(groupId), ConvertStringList(members), ConvertStr(memberExtra), ConvertIntList(notifyLines, false), ConvertStr(notifyContent), client_genernal_void_success_callback, client_genernal_error_callback, new CallbackWrapper(succDele, errDele));
 	}
 
 	void Proto::kickoffMembers(List<String^>^ members, String^groupId, List<int>^ notifyLines, String^ notifyContent, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele){ 

@@ -269,7 +269,7 @@ namespace ClrChatClient {
 		int getUnreadFriendRequestStatus();
 		void clearUnreadFriendRequestStatus();
 		void deleteFriend(System::String^userId, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
-		void sendFriendRequest(System::String^userId, System::String^reason, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
+		void sendFriendRequest(System::String^userId, System::String^reason, System::String^extra, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
 		void handleFriendRequest(System::String^userId, bool accpet, System::String^friendExtra, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
 		System::String^ getFriendAlias(System::String^userId);
 		void setFriendAlias(System::String^userId, System::String^alias, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
@@ -279,8 +279,8 @@ namespace ClrChatClient {
 		System::String^ getGroupMembers(System::String^groupId, bool forceUpdate);
 		System::String^ getGroupInfo(System::String^groupId, bool refresh);
 		System::String^ getGroupMember(System::String^groupId, System::String^memberId);
-		void createGroup(System::String^groupId, System::String^groupName, System::String^groupPortrait, int type, List<System::String^>^ groupMembers, List<int>^ notifyLines, System::String^ notifyContent, onGeneralStringSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
-		void addMembers(List<System::String^>^ members, System::String^groupId, List<int>^ notifyLines, System::String^ notifyContent, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
+		void createGroup(System::String^groupId, System::String^groupName, System::String^groupPortrait, int type, System::String^groupExtra, List<System::String^>^ groupMembers, System::String^memberExtra, List<int>^ notifyLines, System::String^ notifyContent, onGeneralStringSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
+		void addMembers(List<System::String^>^ members, System::String^groupId, System::String^memberExtra, List<int>^ notifyLines, System::String^ notifyContent, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
 		void kickoffMembers(List<System::String^>^ members, System::String^groupId, List<int>^ notifyLines, System::String^ notifyContent, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
 		void quitGroup(System::String^groupId, List<int>^ notifyLines, System::String^ notifyContent, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
 		void dismissGroup(System::String^groupId, List<int>^ notifyLines, System::String^ notifyContent, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);

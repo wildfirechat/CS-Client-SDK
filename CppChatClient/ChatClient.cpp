@@ -111,7 +111,7 @@ void client_friendList_update_callback(const std::string &friendList) {
 static FriendRequestUpdateListener *gFriendRequestUpdateListener = NULL;
 void client_friendRequest_update_callback(const std::string &friendList) {
     if (gFriendRequestUpdateListener) {
-        gFriendRequestUpdateListener->onFriendRequestUpdated(friendList);
+        gFriendRequestUpdateListener->onFriendRequestUpdated(parseStringList(friendList));
     }
 }
 
@@ -379,8 +379,13 @@ const std::list<Message> ChatClient::getMessages(const std::list<int> &conversat
     return serializableFromJsonList<Message>(str);
 }
 
-const std::list<Message> ChatClient::getMessages(const std::list<int> &conversationTypes, const std::list<int> &lines, MessageStatus messageStatus, int64_t fromIndex, int count, const std::string &user) {
-    std::string str = convertDllString(WFClient::getMessages(conversationTypes, lines, messageStatus, fromIndex, count>0, abs(count), user));
+const std::list<Message> ChatClient::getMessages(const std::list<int> &conversationTypes, const std::list<int> &lines, const std::list<MessageStatus> &messageStatus, int64_t fromIndex, int count, const std::string &user) {
+	std::list<int> ss;
+	for each (MessageStatus s in messageStatus)
+	{
+		ss.push_back((int)s);
+	}
+    std::string str = convertDllString(WFClient::getMessagesByMessageStatus(conversationTypes, lines, ss, fromIndex, count>0, abs(count), user));
 
     return serializableFromJsonList<Message>(str);
 }
@@ -569,8 +574,8 @@ void ChatClient::deleteFriend(const std::string &userId, GeneralVoidCallback *ca
     WFClient::deleteFriend(userId, client_genernal_void_success_callback, client_genernal_void_error_callback, callback);
 }
 
-void ChatClient::sendFriendRequest(const std::string &userId, const std::string &reason, GeneralVoidCallback *callback) {
-    WFClient::sendFriendRequest(userId, reason, client_genernal_void_success_callback, client_genernal_void_error_callback, callback);
+void ChatClient::sendFriendRequest(const std::string &userId, const std::string &reason, const std::string &extra, GeneralVoidCallback *callback) {
+    WFClient::sendFriendRequest(userId, reason, extra, client_genernal_void_success_callback, client_genernal_void_error_callback, callback);
 }
 
 void ChatClient::handleFriendRequest(const std::string &userId, bool accpet, const std::string &friendExtra, GeneralVoidCallback *callback) {
@@ -616,13 +621,13 @@ const GroupMember ChatClient::getGroupMember(const std::string &groupId, const s
    return member;
 }
 
-void ChatClient::createGroup(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, GroupType type, const std::list<std::string> &groupMembers, const std::list<int> &notifyLines, const MessageContent &notifyContent, GeneralStringCallback *callback) {
+void ChatClient::createGroup(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, GroupType type, const std::string &groupExtra, const std::list<std::string> &groupMembers, const std::string &memberExtra, const std::list<int> &notifyLines, const MessageContent &notifyContent, GeneralStringCallback *callback) {
 
-    WFClient::createGroup(groupId, type, groupName, groupPortrait, groupMembers, notifyLines, notifyContent.encode().toJson(), client_genernal_string_success_callback, client_genernal_string_error_callback, callback);
+    WFClient::createGroup(groupId, type, groupName, groupPortrait, groupExtra, groupMembers, memberExtra, notifyLines, notifyContent.encode().toJson(), client_genernal_string_success_callback, client_genernal_string_error_callback, callback);
 }
 
-void ChatClient::addMembers(const std::list<std::string> &members, const std::string &groupId, const std::list<int> &notifyLines, const MessageContent &notifyContent, GeneralVoidCallback *callback) {
-    WFClient::addMembers(groupId, members, notifyLines, notifyContent.encode().toJson(), client_genernal_void_success_callback, client_genernal_void_error_callback, callback);
+void ChatClient::addMembers(const std::list<std::string> &members, const std::string &groupId, const std::string &memberExtra, const std::list<int> &notifyLines, const MessageContent &notifyContent, GeneralVoidCallback *callback) {
+    WFClient::addMembers(groupId, members, memberExtra, notifyLines, notifyContent.encode().toJson(), client_genernal_void_success_callback, client_genernal_void_error_callback, callback);
 }
 
 void ChatClient::kickoffMembers(const std::list<std::string> &members, const std::string &groupId, const std::list<int> &notifyLines, const MessageContent &notifyContent, GeneralVoidCallback *callback) {
@@ -844,8 +849,8 @@ void ChatClient::destoryChannel(const std::string &channelId, GeneralVoidCallbac
     WFClient::destoryChannel(channelId, client_genernal_void_success_callback, client_genernal_void_error_callback, callback);
 }
 
-void ChatClient::getAuthorizedMediaUrl(int mediaType, const std::string &mediaPath, GeneralStringCallback *callback) {
-	WFClient::getAuthorizedMediaUrl(mediaType, mediaPath, client_genernal_string_success_callback, client_genernal_string_error_callback, callback);
+void ChatClient::getAuthorizedMediaUrl(long long messageId, int mediaType, const std::string &mediaPath, GeneralStringCallback *callback) {
+	WFClient::getAuthorizedMediaUrl(messageId, mediaType, mediaPath, client_genernal_string_success_callback, client_genernal_string_error_callback, callback);
 }
 
 template <typename T>

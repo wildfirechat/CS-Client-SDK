@@ -494,12 +494,12 @@ public:
 
      @param conversationTypes 会话类型
      @param lines 默认传 @[@(0)]
-     @param messageStatus 消息状态
+     @param messageStatuss 消息状态
      @param fromIndex 起始index
      @param count 总数
      @return 消息实体
      */
-    const std::list<Message> getMessages(const std::list<int> &conversationTypes, const std::list<int> &lines, MessageStatus messageStatus, int64_t fromIndex, int count, const std::string &user);
+    const std::list<Message> getMessages(const std::list<int> &conversationTypes, const std::list<int> &lines, const std::list<MessageStatus> &messageStatuss, int64_t fromIndex, int count, const std::string &user);
 
     /**
      获取服务器消息
@@ -723,9 +723,10 @@ public:
 
      @param userId 用户ID
      @param reason 请求说明
-     @param callback 回调
+     @param extra extra
+	 @param callback 回调
      */
-    void sendFriendRequest(const std::string &userId, const std::string &reason, GeneralVoidCallback *callback);
+    void sendFriendRequest(const std::string &userId, const std::string &reason, const std::string &extra, GeneralVoidCallback *callback);
 
     /**
      处理好友请求
@@ -811,23 +812,26 @@ public:
      @param groupId 群ID
      @param groupName 群名称
      @param groupPortrait 群头像
+	 @param groupExtra 群Extra
      @param groupMembers 群成员
+	 @param memberExtra 群成员Extra
      @param notifyLines 默认传 @[@(0)]
      @param notifyContent 通知消息
      @param callback 回调
      */
-    void createGroup(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, GroupType type, const std::list<std::string> &groupMembers, const std::list<int> &notifyLines, const MessageContent &notifyContent, GeneralStringCallback *callback);
+    void createGroup(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, GroupType type, const std::string &groupExtra, const std::list<std::string> &groupMembers, const std::string &memberExtra, const std::list<int> &notifyLines, const MessageContent &notifyContent, GeneralStringCallback *callback);
 
     /**
      添加群成员
 
      @param members 成员的用户ID列表
      @param groupId 群ID
+	 @param memberExtra 成员的Extra
      @param notifyLines 默认传 @[@(0)]
      @param notifyContent 通知消息
      @param callback 回调
      */
-    void addMembers(const std::list<std::string> &members, const std::string &groupId, const std::list<int> &notifyLines, const MessageContent &notifyContent, GeneralVoidCallback *callback);
+    void addMembers(const std::list<std::string> &members, const std::string &groupId, const std::string &memberExtra, const std::list<int> &notifyLines, const MessageContent &notifyContent, GeneralVoidCallback *callback);
 
     /**
      踢出群成员
@@ -1114,7 +1118,7 @@ public:
      */
     void destoryChannel(const std::string &channelId, GeneralVoidCallback *callback);
 
-	 void getAuthorizedMediaUrl(int mediaType, const std::string & mediaPath, GeneralStringCallback * callback);
+	 void getAuthorizedMediaUrl(long long messageId, int mediaType, const std::string & mediaPath, GeneralStringCallback * callback);
 
 
 

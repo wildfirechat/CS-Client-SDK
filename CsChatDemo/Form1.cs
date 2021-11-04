@@ -174,7 +174,7 @@ namespace CsChatDemo
                 appendLog("upload error");
             });
 
-            ChatClient.Instance().CreateGroup(null, "testGroup", null, GroupType.GroupTypeRestricted, null, null, null, (string groupId) =>
+            ChatClient.Instance().CreateGroup(null, "testGroup", null, GroupType.GroupTypeRestricted, null, null, null, null, null, (string groupId) =>
             {
                 appendLog("create group done");
             }, (int errorcode) =>
@@ -200,7 +200,7 @@ namespace CsChatDemo
 
         public string getToken(string jsonParam)
         {
-            string _url = "http://wildfirechat.cn:8888/login";
+            string _url = "http://wildfirechat.net:8888/login";
             //json参数
             //string jsonParam = "{ phonenumber:\"18665885202\",pwd:\"tsp\"}";
             var request = (HttpWebRequest)WebRequest.Create(_url);

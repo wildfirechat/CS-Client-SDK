@@ -1495,11 +1495,12 @@ namespace CsChatClient
         /// </summary>
         /// <param name="userId">用户ID</param>
         /// <param name="reason">请求说明</param>
+        /// <param name="extra">请求Extra</param>
         /// <param name="succDele">成功回调</param>
         /// <param name="errDele">错误回调</param>
-        public void SendFriendRequest(string userId, string reason, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
+        public void SendFriendRequest(string userId, string reason, string extra, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
-            _proto.sendFriendRequest(userId, reason, succDele, errDele);
+            _proto.sendFriendRequest(userId, reason, extra, succDele, errDele);
         }
 
         /// <summary>
@@ -1637,15 +1638,17 @@ namespace CsChatClient
         /// <param name="groupName">群名称</param>
         /// <param name="groupPortrait">群头像</param>
         /// <param name="type">群类型</param>
+        /// <param name="groupExtra">群Extra</param>
         /// <param name="groupMembers">群成员</param>
+        /// <param name="memberExtra">群成员Extra</param>
         /// <param name="notifyLines">默认传</param>
         /// <param name="notifyContent">通知消息</param>
         /// <param name="succDele">成功回调</param>
         /// <param name="errDele">错误回调</param>
-        public void CreateGroup(string groupId, string groupName, string groupPortrait, GroupType type, List<string> groupMembers, List<int> notifyLines, MessageContent notifyContent, OnCreateGroupDelegate succDele, onErrorCallbackDelegate errDele)
+        public void CreateGroup(string groupId, string groupName, string groupPortrait, GroupType type, string groupExtra, List<string> groupMembers, string memberExtra, List<int> notifyLines, MessageContent notifyContent, OnCreateGroupDelegate succDele, onErrorCallbackDelegate errDele)
         {
             var contentStr = JsonTools.Stringfy(notifyContent);
-            _proto.createGroup(groupId, groupName, groupPortrait, (int)type, groupMembers, notifyLines, contentStr, gid => { succDele(gid); }, errDele);
+            _proto.createGroup(groupId, groupName, groupPortrait, (int)type, groupExtra, groupMembers, memberExtra, notifyLines, contentStr, gid => { succDele(gid); }, errDele);
         }
 
         /// <summary>
@@ -1657,10 +1660,10 @@ namespace CsChatClient
         /// <param name="notifyContent">通知消息</param>
         /// <param name="succDele">成功回调</param>
         /// <param name="errDele">错误回调</param>
-        public void AddMembers(List<string> members, string groupId, List<int> notifyLines, MessageContent notifyContent, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
+        public void AddMembers(List<string> members, string groupId, string memberExtra, List<int> notifyLines, MessageContent notifyContent, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             var contentStr = JsonTools.Stringfy(notifyContent);
-            _proto.addMembers(members, groupId, notifyLines, contentStr, succDele, errDele);
+            _proto.addMembers(members, groupId, memberExtra, notifyLines, contentStr, succDele, errDele);
         }
 
         /// <summary>
