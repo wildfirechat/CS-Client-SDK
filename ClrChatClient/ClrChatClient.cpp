@@ -768,6 +768,12 @@ namespace ClrChatClient {
 		return result;
 	}
 
+	void Proto::onConnectionStatus(int connectionStatus) {
+		if (m_OnConnectionStatusListenerDelegate) {
+			m_OnConnectionStatusListenerDelegate(connectionStatus);
+		}
+	}
+
 	void Proto::onReceiveMessage(const std::string &messageList, bool hasMore) {
 		if (m_OnReceiveMessageDelegate) {
 			m_OnReceiveMessageDelegate(ConvertStr(messageList), hasMore);
@@ -841,6 +847,12 @@ namespace ClrChatClient {
 		if (m_onChannelInfoUpdateListener)
 		{
 			m_onChannelInfoUpdateListener(ConvertStr(strValue));
+		}
+	}
+
+	void Proto::onUserSettingUpdated(void) {
+		if (m_onUserSettingUpdateListener) {
+			m_onUserSettingUpdateListener();
 		}
 	}
 

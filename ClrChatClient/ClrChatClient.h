@@ -30,12 +30,14 @@ namespace ClrChatClient {
 	public delegate void onIntIntCallbackDelegate(int, int);
 	public delegate void onBigIntBigIntCallbackDelegate(Int64, Int64);
 
+	public delegate void OnNativeConnectionStatusDelegate(int);
 	public delegate void OnNativeReceiveMessageDelegate(const std::string &messages, bool hasMore);
 	public delegate void OnNativeRecallMessageDelegate(const std::string &operatorId, int64_t messageUid);
 	public delegate void OnNativeDeleteMessageDelegate(int64_t messageUid);
 	public delegate void OnNativeMessageDeliveredDelegate(const std::string &str);
 	public delegate void OnNativeMessageReadedDelegate(const std::string &str);
 	public delegate void OnNativeStringDelegate(const std::string &str);
+	public delegate void OnNativeVoidDelegate(void);
 
 	public ref class Proto
 	{
@@ -52,8 +54,6 @@ namespace ClrChatClient {
 
 		void setConnectStatusListener(OnConnectionStatusListenerDelegate^ listener) { 
 			m_OnConnectionStatusListenerDelegate = listener;  
-			IntPtr ip = Marshal::GetFunctionPointerForDelegate(m_OnConnectionStatusListenerDelegate);
-			WFClient::setConnectionStatusListener(static_cast<WFClient::fun_connection_callback>(ip.ToPointer()));
 		}
 
 		void setMessageListener(OnReceiveMessageDelegate^ receiveListener, OnRecallMessageDelegate^ recallListener, OnDeleteMessageDelegate^ deleteListener, OnMessageDeliveredDelegate^ deliveryListener, OnMessageReadedDelegate^ readedListener) {
@@ -81,17 +81,12 @@ namespace ClrChatClient {
 			m_onContactUpdateListener = listener;
 		}
 
-
-		
 		void setFriendRequestUpdateListener(OnStringDelegate^ listener) {
 			m_onFriendRequestUpdateListener = listener;
 		}
 
-		OnVoidDelegate^ m_NativeSettingUpdateDelegate;
 		void setUserSettingUpdateListener(OnVoidDelegate^ listener) {
-			m_NativeSettingUpdateDelegate = listener;
-			IntPtr ip = Marshal::GetFunctionPointerForDelegate(listener);
-			WFClient::setSettingUpdateListener(static_cast<WFClient::fun_user_setting_update_callback>(ip.ToPointer()));
+			m_onUserSettingUpdateListener = listener;
 		}
 
 		void setChannelInfoUpdateListener(OnStringDelegate^ listener) {
@@ -104,14 +99,25 @@ namespace ClrChatClient {
 		OnNativeStringDelegate^ m_NativeContactUpdateDelegate;
 		OnNativeStringDelegate^ m_NativeFriendRequestUpdateDelegate;
 		OnNativeStringDelegate^ m_NativeChannelInfoUpdateDelegate;
+		OnNativeVoidDelegate^ m_NativeSettingUpdateDelegate;
+
+		OnNativeConnectionStatusDelegate^ m_NativeConnectionStatusDelegate;
+
 		OnNativeReceiveMessageDelegate^ m_NativeReceiveMessageDelegate;
 		OnNativeRecallMessageDelegate^ m_NativeRecallMessageDelegate;
 		OnNativeDeleteMessageDelegate^ m_NativeDeleteMessageDelegate;
-
 		OnNativeMessageDeliveredDelegate^ m_NativeMessageDeliveredDelegate;
 		OnNativeMessageReadedDelegate^ m_NativeMessageReadedDelegate;
 
 		bool connect(System::String^ userId, System::String^ token) {
+			m_NativeConnectionStatusDelegate = gcnew OnNativeConnectionStatusDelegate(this, &Proto::onConnectionStatus);
+			IntPtr ipConnectionStatus = Marshal::GetFunctionPointerForDelegate(m_NativeConnectionStatusDelegate);
+			WFClient::setConnectionStatusListener(static_cast<WFClient::fun_connection_callback>(ipConnectionStatus.ToPointer()));
+
+			m_NativeSettingUpdateDelegate = gcnew OnNativeVoidDelegate(this, &Proto::onUserSettingUpdated);
+			IntPtr ipUserSetting = Marshal::GetFunctionPointerForDelegate(m_NativeSettingUpdateDelegate);
+			WFClient::setSettingUpdateListener(static_cast<WFClient::fun_user_setting_update_callback>(ipUserSetting.ToPointer()));
+
 			m_NativeReceiveMessageDelegate = gcnew OnNativeReceiveMessageDelegate(this, &Proto::onReceiveMessage);
 			IntPtr ip1 = Marshal::GetFunctionPointerForDelegate(m_NativeReceiveMessageDelegate);
 			m_NativeRecallMessageDelegate = gcnew OnNativeRecallMessageDelegate(this, &Proto::onRecallMessage);
@@ -152,7 +158,7 @@ namespace ClrChatClient {
 			m_NativeFriendRequestUpdateDelegate = gcnew OnNativeStringDelegate(this, &Proto::onFriendRequestUpdate);
 			IntPtr ip7 = Marshal::GetFunctionPointerForDelegate(m_NativeFriendRequestUpdateDelegate);
 			WFClient::setFriendRequestListener(static_cast<WFClient::fun_receive_friendRequest_callback>(ip7.ToPointer()));
-
+			
 			const char* uid = (const char*)(Marshal::StringToHGlobalAnsi(userId)).ToPointer();
 			const char* tk = (const char*)(Marshal::StringToHGlobalAnsi(token)).ToPointer();
 			return WFClient::connect(uid, tk);
@@ -325,6 +331,7 @@ namespace ClrChatClient {
 		static std::list<std::string> ConvertStringList(List<String^>^ ls);
 
 	private:
+		void onConnectionStatus(int connectionStatus);
 		void onReceiveMessage(const std::string &messageList, bool hasMore);
 		void onRecallMessage(const std::string &operatorId, int64_t messageUid);
 		void onDeleteMessage(int64_t messageUid);
@@ -337,6 +344,7 @@ namespace ClrChatClient {
 		void onContactUpdate(const std::string &strValue);
 		void onFriendRequestUpdate(const std::string &strValue);
 		void onChannelInfoUpdate(const std::string &strValue);
+		void onUserSettingUpdated(void);
 
 		static OnConnectionStatusListenerDelegate^ m_OnConnectionStatusListenerDelegate;
 		static OnReceiveMessageDelegate^ m_OnReceiveMessageDelegate;
@@ -351,5 +359,6 @@ namespace ClrChatClient {
 		static OnStringDelegate ^m_onFriendRequestUpdateListener;
 		static OnStringDelegate ^m_onGroupMemberUpdateListener;
 		static OnStringDelegate ^m_onGroupInfoUpdateListener;
+		static OnVoidDelegate ^m_onUserSettingUpdateListener;
 	};
 }
