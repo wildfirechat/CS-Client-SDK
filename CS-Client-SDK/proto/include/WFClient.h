@@ -103,35 +103,35 @@ namespace WFClient {
 
 
 //Global callback
-typedef void (*fun_connection_callback)(int);
-typedef void (*fun_receive_message_callback)(const std::string &messages, bool moreMsg);
-typedef void (*fun_recall_message_callback)(const std::string &operatorId, int64_t messageUid);
-typedef void (*fun_delete_message_callback)(int64_t messageUid);
-typedef void (*fun_message_receipt_callback)(const std::string &strReceipt);
+typedef void (__stdcall *fun_connection_callback)(int);
+typedef void (__stdcall *fun_receive_message_callback)(const std::string &messages, bool moreMsg);
+typedef void (__stdcall *fun_recall_message_callback)(const std::string &operatorId, int64_t messageUid);
+typedef void (__stdcall *fun_delete_message_callback)(int64_t messageUid);
+typedef void (__stdcall *fun_message_receipt_callback)(const std::string &strReceipt);
 
-typedef void (*fun_userInfo_update_callback)(const std::string &userInfos);
+typedef void (__stdcall *fun_userInfo_update_callback)(const std::string &userInfos);
 
-typedef void (*fun_groupInfo_update_callback)(const std::string &groupInfos);
+typedef void (__stdcall *fun_groupInfo_update_callback)(const std::string &groupInfos);
 
-typedef void (*fun_groupMembers_update_callback)(const std::string &groupId);
+typedef void (__stdcall *fun_groupMembers_update_callback)(const std::string &groupId);
 
-typedef void (*fun_friendList_update_callback)(const std::string &friendList);
+typedef void (__stdcall *fun_friendList_update_callback)(const std::string &friendList);
 
-typedef void (*fun_receive_friendRequest_callback)(const std::string &newRequests);
+typedef void (__stdcall *fun_receive_friendRequest_callback)(const std::string &newRequests);
 
-typedef void (*fun_user_setting_update_callback)();
+typedef void (__stdcall *fun_user_setting_update_callback)();
 
-typedef void (*fun_channelInfo_update_callback)(const std::string &channelInfo);
+typedef void (__stdcall *fun_channelInfo_update_callback)(const std::string &channelInfo);
 
 
 //function call back
-typedef void (*fun_general_void_success_callback)(void *pObjectect);
+typedef void (__stdcall *fun_general_void_success_callback)(void *pObjectect);
 
-typedef void (*fun_general_void_error_callback)(void *pObjectect, int errorCode);
+typedef void (__stdcall *fun_general_void_error_callback)(void *pObjectect, int errorCode);
 
-typedef void (*fun_general_string_success_callback)(void *pObjectect, const std::string &val);
+typedef void (__stdcall *fun_general_string_success_callback)(void *pObjectect, const std::string &val);
 
-typedef void (*fun_general_string_error_callback)(void *pObjectect, int errorCode);
+typedef void (__stdcall *fun_general_string_error_callback)(void *pObjectect, int errorCode);
 
 
 extern PROTOWRAPPER_API bool connect(const std::string &userId, const std::string &token);
@@ -208,11 +208,11 @@ extern PROTOWRAPPER_API const std::string* getMessageByUid(int64_t messageUid);
 
 extern PROTOWRAPPER_API const std::string* searchMessage(int conversationType, const std::string &target, int line, const std::string &keyword, int count);
 
-typedef void (*fun_sendMessage_success_callback)(void *pObjectect, int64_t messageUid, int64_t timestamp);
+typedef void (__stdcall *fun_sendMessage_success_callback)(void *pObjectect, int64_t messageUid, int64_t timestamp);
 
-typedef void (*fun_sendMessage_progress_callback)(void *pObjectect, int uploaded, int total);
+typedef void (__stdcall *fun_sendMessage_progress_callback)(void *pObjectect, int uploaded, int total);
 
-typedef void (*fun_sendMessage_error_callback)(void *pObjectect, int errorCode);
+typedef void (__stdcall *fun_sendMessage_error_callback)(void *pObjectect, int errorCode);
 
 
 extern PROTOWRAPPER_API const std::string* sendMessage(int conversationType, const std::string &target, int line, const std::string &strcont, const std::list<std::string> &toUsers, int expireDuration, fun_sendMessage_success_callback successCallback, fun_sendMessage_error_callback errorCallback,  fun_sendMessage_progress_callback progressCallback, void *pObjectect);

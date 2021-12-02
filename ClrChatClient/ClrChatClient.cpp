@@ -191,26 +191,26 @@ namespace ClrChatClient {
 		GCHandle erHandler;
 	};
 
-	static void client_genernal_void_success_callback(void *pObj) {
+	static void __stdcall client_genernal_void_success_callback(void *pObj) {
 		CallbackWrapper *callback = (CallbackWrapper *)pObj;
 		((onGeneralVoidSuccessCallbackDelegate^)Marshal::GetDelegateForFunctionPointer(callback->voidSuccessCB, onGeneralVoidSuccessCallbackDelegate::typeid))();
 		delete callback;
 	}
 
-	static void client_genernal_error_callback(void *pObj, int errorCode) {
+	static void __stdcall client_genernal_error_callback(void *pObj, int errorCode) {
 		CallbackWrapper *callback = (CallbackWrapper *)pObj;
 		((onErrorCallbackDelegate^)Marshal::GetDelegateForFunctionPointer(callback->errorCB, onErrorCallbackDelegate::typeid))(errorCode);
 		delete callback;
 	}
 
-	static void client_genernal_string_success_callback(void *pObj, const std::string &value) {
+	static void __stdcall client_genernal_string_success_callback(void *pObj, const std::string &value) {
 		CallbackWrapper *callback = (CallbackWrapper *)pObj;
 		((onGeneralStringSuccessCallbackDelegate^)Marshal::GetDelegateForFunctionPointer(callback->stringSuccessCB, onGeneralStringSuccessCallbackDelegate::typeid))(Proto::ConvertStr(value));
 		delete callback;
 	}
 
 
-	static void client_sendMessage_success_callback(void *pObject, int64_t messageUid, int64_t timestamp) {
+	static void __stdcall client_sendMessage_success_callback(void *pObject, int64_t messageUid, int64_t timestamp) {
 		if (pObject) {
 			SendMessageCallbackWrapper *callback = (SendMessageCallbackWrapper *)pObject;
 			((onBigIntBigIntCallbackDelegate^)Marshal::GetDelegateForFunctionPointer(callback->successCB, onBigIntBigIntCallbackDelegate::typeid))(messageUid, timestamp);
@@ -218,14 +218,14 @@ namespace ClrChatClient {
 		}
 	}
 
-	static void client_sendMessage_progress_callback(void *pObject, int uploaded, int total) {
+	static void __stdcall client_sendMessage_progress_callback(void *pObject, int uploaded, int total) {
 		if (pObject) {
 			SendMessageCallbackWrapper *callback = (SendMessageCallbackWrapper *)pObject;
 			((onIntIntCallbackDelegate^)Marshal::GetDelegateForFunctionPointer(callback->progressCB, onIntIntCallbackDelegate::typeid))(uploaded, total);
 		}
 	}
 
-	static void client_sendMessage_error_callback(void *pObject, int errorCode) {
+	static void __stdcall client_sendMessage_error_callback(void *pObject, int errorCode) {
 		if (pObject) {
 			SendMessageCallbackWrapper *callback = (SendMessageCallbackWrapper *)pObject;
 			((onErrorCallbackDelegate^)Marshal::GetDelegateForFunctionPointer(callback->errorCB, onErrorCallbackDelegate::typeid))(errorCode);
@@ -233,7 +233,7 @@ namespace ClrChatClient {
 		}
 	}
 
-	static void client_uploadMedia_success_callback(void *pObject, const std::string &remoteUrl) {
+	static void __stdcall client_uploadMedia_success_callback(void *pObject, const std::string &remoteUrl) {
 		if (pObject) {
 			UploadMediaCallbackWrapper *callback = (UploadMediaCallbackWrapper *)pObject;
 			((onGeneralStringSuccessCallbackDelegate^)Marshal::GetDelegateForFunctionPointer(callback->successCB, onGeneralStringSuccessCallbackDelegate::typeid))(Proto::ConvertStr(remoteUrl));
@@ -241,14 +241,14 @@ namespace ClrChatClient {
 		}
 	}
 
-	static void client_uploadMedia_progress_callback(void *pObject, int uploaded, int total) {
+	static void __stdcall client_uploadMedia_progress_callback(void *pObject, int uploaded, int total) {
 		if (pObject) {
 			UploadMediaCallbackWrapper *callback = (UploadMediaCallbackWrapper *)pObject;
 			((onIntIntCallbackDelegate^)Marshal::GetDelegateForFunctionPointer(callback->progressCB, onIntIntCallbackDelegate::typeid))(uploaded, total);
 		}
 	}
 
-	static void client_uploadMedia_error_callback(void *pObject, int errorCode) {
+	static void __stdcall client_uploadMedia_error_callback(void *pObject, int errorCode) {
 		if (pObject) {
 			UploadMediaCallbackWrapper *callback = (UploadMediaCallbackWrapper *)pObject;
 			((onErrorCallbackDelegate^)Marshal::GetDelegateForFunctionPointer(callback->errorCB, onErrorCallbackDelegate::typeid))(errorCode);
