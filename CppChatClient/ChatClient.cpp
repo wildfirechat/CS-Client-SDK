@@ -390,8 +390,8 @@ const std::list<Message> ChatClient::getMessages(const std::list<int> &conversat
     return serializableFromJsonList<Message>(str);
 }
 
-void ChatClient::getRemoteMessages(const Conversation &conversation, int64_t beforeMessageUid, int count, GetRemoteMessageCallback *callback) {
-    WFClient::getRemoteMessages(conversation.conversationType, conversation.target, conversation.line, beforeMessageUid, count, client_get_remote_message_success_callback, client_get_remote_message_error_callback, callback);
+void ChatClient::getRemoteMessages(const Conversation &conversation, const std::list<int> &contentTypes, int64_t beforeMessageUid, int count, GetRemoteMessageCallback *callback) {
+    WFClient::getRemoteMessages(conversation.conversationType, conversation.target, conversation.line, contentTypes, beforeMessageUid, count, client_get_remote_message_success_callback, client_get_remote_message_error_callback, callback);
 }
 
 const Message ChatClient::getMessage(long messageId) {

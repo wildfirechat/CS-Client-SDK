@@ -1166,9 +1166,9 @@ namespace CsChatClient
         /// <param name="count">总数</param>
         /// <param name="succDele">成功回调</param>
         /// <param name="errDele">错误回调</param>
-        public void GetRemoteMessages(Conversation conversation, long beforeMessageUid, int count, OnGetRemoteMessageDelegate succDele, onErrorCallbackDelegate errDele)
+        public void GetRemoteMessages(Conversation conversation, List<int> contentTypes, long beforeMessageUid, int count, OnGetRemoteMessageDelegate succDele, onErrorCallbackDelegate errDele)
         {
-            _proto.getRemoteMessages((int)conversation.Type, conversation.Target, conversation.Line, beforeMessageUid, count, messages =>
+            _proto.getRemoteMessages((int)conversation.Type, conversation.Target, conversation.Line, contentTypes, beforeMessageUid, count, messages =>
            {
                WfcJsonConverter convert = new WfcJsonConverter();
                List<MessageEx> ms = JsonConvert.DeserializeObject<List<MessageEx>>(messages, convert);

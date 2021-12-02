@@ -509,7 +509,7 @@ public:
      @param count 总数
      @param callback 结果回调
      */
-    void getRemoteMessages(const Conversation &conversation, int64_t beforeMessageUid, int count, GetRemoteMessageCallback *callback);
+    void getRemoteMessages(const Conversation &conversation, const std::list<int> &contentTypes, int64_t beforeMessageUid, int count, GetRemoteMessageCallback *callback);
     /**
      获取消息
 

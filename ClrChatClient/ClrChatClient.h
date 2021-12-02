@@ -248,7 +248,7 @@ namespace ClrChatClient {
 		System::String^ getMessages(int type, System::String^ target, int line, List<int>^ contentTypes, Int64 fromIndex, int count, System::String^ user);
 		System::String^ getMessages(List<int>^ conversationTypes, List<int>^ lines, List<int>^ contentTypes, Int64 fromIndex, int count, System::String^ user);
 		System::String^ getMessagesByMessageStatus(List<int>^ conversationTypes, List<int>^ lines, List<int>^ messageStatus, Int64 fromIndex, int count, String ^ user);
-		void getRemoteMessages(int type, System::String^ target, int line, Int64 beforeMessageUid, int count, onGeneralStringSuccessCallbackDelegate^ strCB, onErrorCallbackDelegate^ errCB);
+		void getRemoteMessages(int type, System::String^ target, int line, List<int>^ contentTypes, Int64 beforeMessageUid, int count, onGeneralStringSuccessCallbackDelegate^ strCB, onErrorCallbackDelegate^ errCB);
 		System::String^ getMessage(long messageId);
 		System::String^ getMessageByUid(Int64 messageUid);	
 		System::String^ searchMessage(int type, System::String^ target, int line, System::String^ keyword, int count);

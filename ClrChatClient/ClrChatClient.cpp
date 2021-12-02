@@ -419,8 +419,16 @@ namespace ClrChatClient {
 		return ConvertStr(WFClient::getMessagesByMessageStatus(ts, ls, ss, fromIndex, direction, count, ConvertStr(user)));
 	}
 	
-	void Proto::getRemoteMessages(int type, String^ target, int line, Int64 beforeMessageUid, int count, onGeneralStringSuccessCallbackDelegate^ strCB, onErrorCallbackDelegate^ errCB) {
-		WFClient::getRemoteMessages(type, ConvertStr(target), line, beforeMessageUid, count, client_genernal_string_success_callback, client_genernal_error_callback, new CallbackWrapper(strCB, errCB));
+	void Proto::getRemoteMessages(int type, String^ target, int line, List<int>^ contentTypes, Int64 beforeMessageUid, int count, onGeneralStringSuccessCallbackDelegate^ strCB, onErrorCallbackDelegate^ errCB) {
+		std::list<int> cs;
+		if (contentTypes)
+		{
+			for each (int type in contentTypes)
+			{
+				cs.push_back(type);
+			}
+		}
+		WFClient::getRemoteMessages(type, ConvertStr(target), line, cs, beforeMessageUid, count, client_genernal_string_success_callback, client_genernal_error_callback, new CallbackWrapper(strCB, errCB));
 	}
 
 	String^ Proto::getMessage(long messageId) {

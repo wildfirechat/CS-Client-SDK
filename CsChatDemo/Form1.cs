@@ -63,7 +63,7 @@ namespace CsChatDemo
             {
                 string userId = jo["result"]["userId"].Value<string>();
                 string token = jo["result"]["token"].Value<string>();
-
+                appendLog("获取token success " + token);
                 ChatClient.Instance().Connect(userId, token);
             } else
             {

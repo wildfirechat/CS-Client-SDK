@@ -199,7 +199,7 @@ extern PROTOWRAPPER_API const std::string* getMessages(const std::list<int> &con
 
 extern PROTOWRAPPER_API const std::string* getMessagesByMessageStatus(const std::list<int> &conversationTypes, const std::list<int> &lines, const std::list<int> &messageStatuses, int64_t fromIndex, bool direction, int count, const std::string &withUser);
 
-extern PROTOWRAPPER_API void getRemoteMessages(int conversationType, const std::string &target, int line, int64_t beforeUid, int count, fun_general_string_success_callback successCallback, fun_general_void_error_callback errorCallback, void *pObjectect);
+extern PROTOWRAPPER_API void getRemoteMessages(int conversationType, const std::string &target, int line, const std::list<int> &contentTypes, int64_t beforeUid, int count, fun_general_string_success_callback successCallback, fun_general_void_error_callback errorCallback, void *pObjectect);
 
 extern PROTOWRAPPER_API const std::string* getMessage(long messageId);
 
