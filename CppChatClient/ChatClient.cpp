@@ -40,7 +40,7 @@ std::list<T> serializableFromJsonList(const std::string &jsonListStr);
 
 static ConnectionStatusListener *gConnectionStatusListener = NULL;
 
-static void client_connection_callback(int status) {
+static void __stdcall client_connection_callback(int status) {
 	if (gConnectionStatusListener) {
 		gConnectionStatusListener->onConnectionStatusChanged((ConnectionStatus)status);
 	}
@@ -48,35 +48,35 @@ static void client_connection_callback(int status) {
 
 static ReceiveMessageListener *gReceiveMessageListener = NULL;
 
-static void client_receive_message_callback(const std::string &messages, bool moreMsg) {
+static void __stdcall client_receive_message_callback(const std::string &messages, bool moreMsg) {
     std::list<Message> tmsgs = serializableFromJsonList<Message>(messages);
 	if (gReceiveMessageListener) {
 		gReceiveMessageListener->onReceiveMessages(tmsgs, moreMsg);
 	}
 }
-static void client_recall_message_callback(const std::string &operatorId, int64_t messageUid) {
+static void __stdcall client_recall_message_callback(const std::string &operatorId, int64_t messageUid) {
 	if (gReceiveMessageListener) {
 		gReceiveMessageListener->onRecallMessage(operatorId, messageUid);
 	}
 }
-static void client_delete_message_callback(int64_t messageUid) {
+static void __stdcall client_delete_message_callback(int64_t messageUid) {
 	if (gReceiveMessageListener) {
 		gReceiveMessageListener->onDeleteMessage(messageUid);
 	}
 }
 
-static void client_message_delivered_callback(const std::string &str) {
+static void __stdcall client_message_delivered_callback(const std::string &str) {
 
 }
 
-static void client_message_readed_callback(const std::string &str) {
+static void __stdcall client_message_readed_callback(const std::string &str) {
 
 }
 
 
 
 static UserInfoUpdateListener *gUserInfoUpdateListener = NULL;
-void client_userInfo_update_callback(const std::string &userInfos) {
+void __stdcall client_userInfo_update_callback(const std::string &userInfos) {
     if (gUserInfoUpdateListener) {
         gUserInfoUpdateListener->onUserInfoUpdated(serializableFromJsonList<UserInfo>(userInfos));
     }
@@ -84,7 +84,7 @@ void client_userInfo_update_callback(const std::string &userInfos) {
 
 
 static GroupInfoUpdateListener *gGroupInfoUpdateListener = NULL;
-void client_groupInfo_update_callback(const std::string &groupInfos) {
+void __stdcall client_groupInfo_update_callback(const std::string &groupInfos) {
     if (gGroupInfoUpdateListener) {
         gGroupInfoUpdateListener->onGroupInfoUpdated(serializableFromJsonList<GroupInfo>(groupInfos));
     }
@@ -93,7 +93,7 @@ void client_groupInfo_update_callback(const std::string &groupInfos) {
 
 
 static GroupMemberUpdateListener *gGroupMemberUpdateListener = NULL;
-void client_groupMembers_update_callback(const std::string &groupId) {
+void __stdcall client_groupMembers_update_callback(const std::string &groupId) {
     if (gGroupMemberUpdateListener) {
         gGroupMemberUpdateListener->onGroupMemberUpdated(groupId);
     }
@@ -101,7 +101,7 @@ void client_groupMembers_update_callback(const std::string &groupId) {
 
 
 static ContactUpdateListener *gContactUpdateListener = NULL;
-void client_friendList_update_callback(const std::string &friendList) {
+void __stdcall client_friendList_update_callback(const std::string &friendList) {
     if (gContactUpdateListener) {
         gContactUpdateListener->onContactUpdated(parseStringList(friendList));
     }
@@ -109,7 +109,7 @@ void client_friendList_update_callback(const std::string &friendList) {
 
 
 static FriendRequestUpdateListener *gFriendRequestUpdateListener = NULL;
-void client_friendRequest_update_callback(const std::string &friendList) {
+void __stdcall client_friendRequest_update_callback(const std::string &friendList) {
     if (gFriendRequestUpdateListener) {
         gFriendRequestUpdateListener->onFriendRequestUpdated(parseStringList(friendList));
     }
@@ -117,46 +117,46 @@ void client_friendRequest_update_callback(const std::string &friendList) {
 
 
 static UserSettingUpdateListener *gUserSettingUpdateListener = NULL;
-void client_user_setting_update_callback() {
+void __stdcall client_user_setting_update_callback() {
     if (gUserSettingUpdateListener) {
         gUserSettingUpdateListener->onUserSettingUpdated();
     }
 }
 
 static ChannelInfoUpdateListener *gChannelInfoUpdateListener = NULL;
-void client_channelInfo_update_callback(const std::string &channelInfo) {
+void __stdcall client_channelInfo_update_callback(const std::string &channelInfo) {
     if (gChannelInfoUpdateListener) {
         gChannelInfoUpdateListener->onChannelInfoUpdated(serializableFromJsonList<ChannelInfo>(channelInfo));
     }
 }
 
 
-static void client_genernal_void_success_callback(void *pObj) {
+static void __stdcall client_genernal_void_success_callback(void *pObj) {
     GeneralVoidCallback *callback = (GeneralVoidCallback *)pObj;
     callback->onSuccess();
 }
 
-static void client_genernal_void_error_callback(void *pObj, int errorCode) {
+static void __stdcall client_genernal_void_error_callback(void *pObj, int errorCode) {
     GeneralVoidCallback *callback = (GeneralVoidCallback *)pObj;
     callback->onFailure(errorCode);
 }
 
-static void client_genernal_string_success_callback(void *pObj, const std::string &value) {
+static void __stdcall client_genernal_string_success_callback(void *pObj, const std::string &value) {
     GeneralStringCallback *callback = (GeneralStringCallback *)pObj;
     callback->onSuccess(value);
 }
 
-static void client_genernal_string_error_callback(void *pObj, int errorCode) {
+static void __stdcall client_genernal_string_error_callback(void *pObj, int errorCode) {
     GeneralStringCallback *callback = (GeneralStringCallback *)pObj;
     callback->onFailure(errorCode);
 }
 
-static void client_get_remote_message_success_callback(void *pObj, const std::string &value) {
+static void __stdcall client_get_remote_message_success_callback(void *pObj, const std::string &value) {
     GetRemoteMessageCallback *callback = (GetRemoteMessageCallback *)pObj;
     callback->onSuccess(serializableFromJsonList<Message>(value));
 }
 
-static void client_get_remote_message_error_callback(void *pObj, int errorCode) {
+static void __stdcall client_get_remote_message_error_callback(void *pObj, int errorCode) {
     GetRemoteMessageCallback *callback = (GetRemoteMessageCallback *)pObj;
     callback->onFailure(errorCode);
 }
@@ -412,21 +412,21 @@ const std::list<Message> ChatClient::searchMessage(const Conversation &conversat
     return serializableFromJsonList<Message>(convertDllString(WFClient::searchMessage(conversation.conversationType, conversation.target, conversation.line, keyword, count)));
 }
 
-void client_sendMessage_success_callback(void *pObject, int64_t messageUid, int64_t timestamp) {
+void __stdcall client_sendMessage_success_callback(void *pObject, int64_t messageUid, int64_t timestamp) {
     if (pObject) {
         WFSendMessageCallback *callback = (WFSendMessageCallback *)pObject;
         callback->onSuccess(messageUid, timestamp);
     }
 }
 
-void client_sendMessage_progress_callback(void *pObject, int uploaded, int total) {
+void __stdcall client_sendMessage_progress_callback(void *pObject, int uploaded, int total) {
     if (pObject) {
         WFSendMessageCallback *callback = (WFSendMessageCallback *)pObject;
         callback->onProgress(uploaded, total);
     }
 }
 
-void client_sendMessage_error_callback(void *pObject, int errorCode) {
+void __stdcall client_sendMessage_error_callback(void *pObject, int errorCode) {
     if (pObject) {
         WFSendMessageCallback *callback = (WFSendMessageCallback *)pObject;
         callback->onFailure(errorCode);
@@ -445,21 +445,21 @@ void ChatClient::recallMessage(int64_t messageUid, GeneralVoidCallback *callback
     WFClient::recallMessage(messageUid, client_genernal_void_success_callback, client_genernal_void_error_callback, callback);
 }
 
-void client_uploadMedia_success_callback(void *pObject, const std::string &remoteUrl) {
+void __stdcall client_uploadMedia_success_callback(void *pObject, const std::string &remoteUrl) {
     if (pObject) {
         UploadMediaCallback *callback = (UploadMediaCallback *)pObject;
         callback->onSuccess(remoteUrl);
     }
 }
 
-void client_uploadMedia_progress_callback(void *pObject, int uploaded, int total) {
+void __stdcall client_uploadMedia_progress_callback(void *pObject, int uploaded, int total) {
     if (pObject) {
         UploadMediaCallback *callback = (UploadMediaCallback *)pObject;
         callback->onProgress(uploaded, total);
     }
 }
 
-void client_uploadMedia_error_callback(void *pObject, int errorCode) {
+void __stdcall client_uploadMedia_error_callback(void *pObject, int errorCode) {
     if (pObject) {
         UploadMediaCallback *callback = (UploadMediaCallback *)pObject;
         callback->onFailure(errorCode);
@@ -510,14 +510,14 @@ const std::list<UserInfo> ChatClient::getUserInfos(std::list<std::string> &userI
     return serializableFromJsonList<UserInfo>(str);
 }
 
-static void client_searchUser_success_callback(void *pObj, const std::string &value) {
+static void __stdcall client_searchUser_success_callback(void *pObj, const std::string &value) {
     if (pObj) {
         SearchUserCallback *callback = (SearchUserCallback *)pObj;
         callback->onSuccess(serializableFromJsonList<UserInfo>(value));
     }
 }
 
-static void client_searchUser_error_callback(void *pObj, int errorCode) {
+static void __stdcall client_searchUser_error_callback(void *pObj, int errorCode) {
     if (pObj) {
         SearchUserCallback *callback = (SearchUserCallback *)pObj;
         callback->onFailure(errorCode);
@@ -738,7 +738,7 @@ void ChatClient::quitChatroom(const std::string &chatroomId, GeneralVoidCallback
     WFClient::quitChatroom(chatroomId, client_genernal_void_success_callback, client_genernal_void_error_callback, callback);
 }
 
-static void client_get_chatroomInfo_success_callback(void *pObj, const std::string &value) {
+static void __stdcall client_get_chatroomInfo_success_callback(void *pObj, const std::string &value) {
     if (pObj) {
         GetChatroomInfoCallback *callback = (GetChatroomInfoCallback *)pObj;
         ChatroomInfo info;
@@ -747,7 +747,7 @@ static void client_get_chatroomInfo_success_callback(void *pObj, const std::stri
     }
 }
 
-static void client_get_chatroomInfo_error_callback(void *pObj, int errorCode) {
+static void __stdcall client_get_chatroomInfo_error_callback(void *pObj, int errorCode) {
     if(pObj) {
         GetChatroomInfoCallback *callback = (GetChatroomInfoCallback *)pObj;
         callback->onFailure(errorCode);
@@ -758,7 +758,7 @@ void ChatClient::getChatroomInfo(const std::string &chatroomId, int64_t updateDt
     WFClient::getChatroomInfo(chatroomId, updateDt, client_get_chatroomInfo_success_callback, client_get_chatroomInfo_error_callback, callback);
 }
 
-static void client_get_chatroomMemberInfo_success_callback(void *pObj, const std::string &value) {
+static void __stdcall client_get_chatroomMemberInfo_success_callback(void *pObj, const std::string &value) {
     if (pObj) {
         GetChatroomMemberInfoCallback *callback = (GetChatroomMemberInfoCallback *)pObj;
         ChatroomMemberInfo info;
@@ -767,7 +767,7 @@ static void client_get_chatroomMemberInfo_success_callback(void *pObj, const std
     }
 }
 
-static void client_get_chatroomMemberInfo_error_callback(void *pObj, int errorCode) {
+static void __stdcall client_get_chatroomMemberInfo_error_callback(void *pObj, int errorCode) {
     if(pObj) {
         GetChatroomMemberInfoCallback *callback = (GetChatroomMemberInfoCallback *)pObj;
         callback->onFailure(errorCode);
@@ -780,7 +780,7 @@ void ChatClient::getChatroomMemberInfo(const std::string &chatroomId, int maxCou
 }
 
 
-static void client_get_channelInfo_success_callback(void *pObj, const std::string &value) {
+static void __stdcall client_get_channelInfo_success_callback(void *pObj, const std::string &value) {
     if (pObj) {
         GetChannelInfoCallback *callback = (GetChannelInfoCallback *)pObj;
         ChannelInfo info;
@@ -789,7 +789,7 @@ static void client_get_channelInfo_success_callback(void *pObj, const std::strin
     }
 }
 
-static void client_get_channelInfo_error_callback(void *pObj, int errorCode) {
+static void __stdcall client_get_channelInfo_error_callback(void *pObj, int errorCode) {
     if(pObj) {
         GetChannelInfoCallback *callback = (GetChannelInfoCallback *)pObj;
         callback->onFailure(errorCode);
@@ -811,14 +811,14 @@ void ChatClient::modifyChannelInfo(const std::string &channelId, ModifyChannelIn
     WFClient::modifyChannelInfo(channelId, type, newValue, client_genernal_void_success_callback, client_genernal_void_error_callback, callback);
 }
 
-static void client_search_channel_success_callback(void *pObj, const std::string &value) {
+static void __stdcall client_search_channel_success_callback(void *pObj, const std::string &value) {
     if (pObj) {
         SearchChannelCallback *callback = (SearchChannelCallback *)pObj;
         callback->onSuccess(serializableFromJsonList<ChannelInfo>(value));
     }
 }
 
-static void client_search_channel_error_callback(void *pObj, int errorCode) {
+static void __stdcall client_search_channel_error_callback(void *pObj, int errorCode) {
     if(pObj) {
         SearchChannelCallback *callback = (SearchChannelCallback *)pObj;
         callback->onFailure(errorCode);

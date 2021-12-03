@@ -70,18 +70,18 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(ProjectDir)vendor;$(ProjectDir)..\CS-Client-SDK\proto\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\CS-Client-SDK\proto\include;$(ProjectDir)..\..\;$(ProjectDir)vendor;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)..\CS-Client-SDK\proto\lib\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)vendor;$(ProjectDir)..\CS-Client-SDK\proto\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\CS-Client-SDK\proto\include;$(ProjectDir)..\..\;$(ProjectDir)vendor;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)..\CS-Client-SDK\proto\lib\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)vendor;$(ProjectDir)..\CS-Client-SDK\proto\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\CS-Client-SDK\proto\include;$(ProjectDir)vendor;$(ProjectDir)..\CS-Client-SDK\proto\include;$(ProjectDir)..\..\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)vendor;$(ProjectDir)..\CS-Client-SDK\proto\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\CS-Client-SDK\proto\include;$(ProjectDir)..\..\;$(ProjectDir)vendor;$(ProjectDir)..\CS-Client-SDK\proto\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -144,6 +144,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\WFClient.h" />
     <ClInclude Include="ChatClient.h" />
     <ClInclude Include="JsonTools.h" />
     <ClInclude Include="message\AddGroupMemberNotificationContent.h" />
