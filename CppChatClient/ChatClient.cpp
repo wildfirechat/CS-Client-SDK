@@ -448,8 +448,7 @@ void __stdcall client_sendMessage_error_callback(void *pObject, int errorCode) {
 }
 
 const Message ChatClient::sendMessage(const Conversation &conversation, const MessageContent &content, const std::list<std::string> &toUsers, int expireDuration, WFSendMessageCallback *callback) {
-    std::string str = convertDllString(WFClient::sendMessage(conversation.conversationType, conversation.target, conversation.line, content.encode().toJson(), toUsers, expireDuration, client_sendMessage_success_callback, client_sendMessage_error_callback, client_sendMessage_prepared_callback, client_sendMessage_progress_callback, client_sendMessage_media_uploaded_callback, callback))
-    ;
+    std::string str = convertDllString(WFClient::sendMessage(conversation.conversationType, conversation.target, conversation.line, content.encode().toJson(), toUsers, expireDuration, client_sendMessage_success_callback, client_sendMessage_error_callback, client_sendMessage_prepared_callback, client_sendMessage_progress_callback, client_sendMessage_media_uploaded_callback, callback));
     Message message;
     message.fromJson(str);
     return message;
