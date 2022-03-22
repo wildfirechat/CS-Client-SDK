@@ -12,7 +12,7 @@ namespace WFCLib {
 
 MessagePayload MediaMessageContent::encode() const {
     MessagePayload payload = MessageContent::encode();
-    payload.localContent = localPath;
+    payload.localMediaPath = localPath;
     payload.remoteMediaUrl = remoteUrl;
     payload.mediaType = getMediaType();
     return payload;
@@ -20,7 +20,7 @@ MessagePayload MediaMessageContent::encode() const {
 
 void MediaMessageContent::decode(const MessagePayload &payload) {
     MessageContent::decode(payload);
-    localPath = payload.localContent;
+    localPath = payload.localMediaPath;
     remoteUrl = payload.remoteMediaUrl;
 }
 };
