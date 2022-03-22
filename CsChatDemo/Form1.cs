@@ -152,9 +152,15 @@ namespace CsChatDemo
                     ChatClient.Instance().GetMessageByUid(uid);
                 }, (int errorCode) => {
                 });
-            }, (int sended, int total)=> {
+            }, (int messageId, long timestamp)=>
+            {
+                appendLog("message parpared:(" + messageId + ")");
+            } , (int sended, int total)=> {
                 appendLog("send progress:(" + total + ":" + sended + ")");
-            }, (int errorcode)=> {
+            }, (String remoteUrl) =>
+            {
+                appendLog("message uploaded:(" + remoteUrl + ")");
+            } , (int errorcode)=> {
                 appendLog("send failure");
             });
             string readmefile = @"..\..\..\..\README.md";

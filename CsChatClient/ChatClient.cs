@@ -1231,10 +1231,10 @@ namespace CsChatClient
         /// <param name="progressDele">进度回调</param>
         /// <param name="errDele">错误回调</param>
         /// <returns>消息实体</returns>
-        public MessageEx SendMessage(Conversation conversation, MessageContent content, List<string> toUsers, int expireDuration, onBigIntBigIntCallbackDelegate succDele, onIntIntCallbackDelegate progressDele, onErrorCallbackDelegate errDele)
+        public MessageEx SendMessage(Conversation conversation, MessageContent content, List<string> toUsers, int expireDuration, onBigIntBigIntCallbackDelegate succDele, onIntBigIntCallbackDelegate prepDele, onIntIntCallbackDelegate progressDele, onGeneralStringSuccessCallbackDelegate uploadedDele, onErrorCallbackDelegate errDele)
         {
             var contentStr = JsonTools.Stringfy(content);
-            string messageStr = _proto.sendMessage((int)conversation.Type, conversation.Target, conversation.Line, contentStr, toUsers, expireDuration, succDele, progressDele, errDele);
+            string messageStr = _proto.sendMessage((int)conversation.Type, conversation.Target, conversation.Line, contentStr, toUsers, expireDuration, succDele, prepDele, progressDele, uploadedDele, errDele);
             WfcJsonConverter convert = new WfcJsonConverter();
             MessageEx ms = JsonConvert.DeserializeObject<MessageEx>(messageStr, convert);
             return ms;
@@ -1872,20 +1872,20 @@ namespace CsChatClient
         /// <summary>
         /// 是否是全局禁止通知
         /// </summary>
-        public bool IsGlobalSlient()
+        public bool IsGlobalSilent()
         {
-            return _proto.isGlobalSlient();
+            return _proto.isGlobalSilent();
         }
 
         /// <summary>
         /// 设置全局禁止通知
         /// </summary>
-        /// <param name="slient">是否禁止通知</param>
+        /// <param name="silent">是否禁止通知</param>
         /// <param name="succDele">成功回调</param>
         /// <param name="errDele">错误回调</param>
-        public void SetGlobalSlient(bool slient, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
+        public void SetGlobalSilent(bool silent, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
-            _proto.setGlobalSlient(slient, succDele, errDele);
+            _proto.setGlobalSilent(silent, succDele, errDele);
         }
 
         /// <summary>
@@ -1985,14 +1985,13 @@ namespace CsChatClient
         /// </summary>
         /// <param name="channelName">频道名称</param>
         /// <param name="channelPortrait">频道头像</param>
-        /// <param name="status">频道状态，这里使用0</param>
         /// <param name="desc">频道描述</param>
         /// <param name="extra">频道extra</param>
         /// <param name="succDele">成功回调</param>
         /// <param name="errDele">错误回调</param>
-        public void CreateChannel(string channelName, string channelPortrait, int status, string desc, string extra, onGeneralStringSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
+        public void CreateChannel(string channelName, string channelPortrait, string desc, string extra, onGeneralStringSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
-            _proto.createChannel(channelName, channelPortrait, status, desc, extra, succDele, errDele);
+            _proto.createChannel(channelName, channelPortrait, desc, extra, succDele, errDele);
         }
 
         /// <summary>

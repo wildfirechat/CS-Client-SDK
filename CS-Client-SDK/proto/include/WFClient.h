@@ -181,6 +181,8 @@ extern PROTOWRAPPER_API void setConversationSlient(int conversationType, const s
 
 extern PROTOWRAPPER_API void setConversationDraft(int conversationType, const std::string &target, int line, const std::string &draft);
 
+extern PROTOWRAPPER_API void setConversationTimestamp(int conversationType, const std::string &target, int line, int64_t timestamp);
+
 extern PROTOWRAPPER_API const std::string* getUnreadCount(std::list<int> types, std::list<int> ls);
 
 extern PROTOWRAPPER_API const std::string* getConversationUnreadCount(int conversationType, const std::string &target, int line);
@@ -192,6 +194,8 @@ extern PROTOWRAPPER_API void clearUnreadStatus(const std::list<int> &types, cons
 extern PROTOWRAPPER_API void clearAllUnreadStatus();
 
 extern PROTOWRAPPER_API void setMediaMessagePlayed(long messageId);
+
+extern PROTOWRAPPER_API bool setMessageLocalExtra(long messageId, const std::string &localExtra);
 
 extern PROTOWRAPPER_API const std::string* getMessages(int conversationType, const std::string &target, int line, std::list<int> contTypes, int64_t fromIndex, bool direction, int count, const std::string &withUser);
 
@@ -205,17 +209,21 @@ extern PROTOWRAPPER_API const std::string* getMessage(long messageId);
 
 extern PROTOWRAPPER_API const std::string* getMessageByUid(int64_t messageUid);
 
+extern PROTOWRAPPER_API long getFirstUnreadMessageId(int conversationType, const std::string &target, int line);
 
 extern PROTOWRAPPER_API const std::string* searchMessage(int conversationType, const std::string &target, int line, const std::string &keyword, int count);
 
 typedef void (__stdcall *fun_sendMessage_success_callback)(void *pObjectect, int64_t messageUid, int64_t timestamp);
 
+typedef void (__stdcall *fun_sendMessage_prepared_callback)(void *pObjectect, int messageId, int64_t saveTime);
+
 typedef void (__stdcall *fun_sendMessage_progress_callback)(void *pObjectect, int uploaded, int total);
+
+typedef void(__stdcall *fun_sendMessage_media_uploaded_callback)(void *pObjectect, const std::string &remoteUrl);
 
 typedef void (__stdcall *fun_sendMessage_error_callback)(void *pObjectect, int errorCode);
 
-
-extern PROTOWRAPPER_API const std::string* sendMessage(int conversationType, const std::string &target, int line, const std::string &strcont, const std::list<std::string> &toUsers, int expireDuration, fun_sendMessage_success_callback successCallback, fun_sendMessage_error_callback errorCallback,  fun_sendMessage_progress_callback progressCallback, void *pObjectect);
+extern PROTOWRAPPER_API const std::string* sendMessage(int conversationType, const std::string &target, int line, const std::string &strcont, const std::list<std::string> &toUsers, int expireDuration, fun_sendMessage_success_callback successCallback, fun_sendMessage_error_callback errorCallback, fun_sendMessage_prepared_callback preparedCallback, fun_sendMessage_progress_callback progressCallback, fun_sendMessage_media_uploaded_callback uploadedCallback, void *pObject);
 
 extern PROTOWRAPPER_API void recallMessage(int64_t messageUid, fun_general_void_success_callback succCallback, fun_general_void_error_callback errCallback, void *pObject);
 
@@ -230,6 +238,8 @@ extern PROTOWRAPPER_API void clearMessages(int conversationType, const std::stri
 extern PROTOWRAPPER_API const std::string* insertMessage(int conversationType, const std::string &target, int line, const std::string &strfrom, const std::string &strcont, int status, bool notify, int64_t serverTime);
 
 extern PROTOWRAPPER_API void updateMessage(long messageId, const std::string &strcont);
+extern PROTOWRAPPER_API void updateMessageContentAndTime(long messageId, const std::string &strcont, int64_t timestamp);
+extern PROTOWRAPPER_API void updateMessageStatus(long messageId, int messageStatus);
 
 extern PROTOWRAPPER_API const std::string* getConversationRead(int conversationType, const std::string &target, int line);
 extern PROTOWRAPPER_API const std::string* getMessageDelivery(int conversationType, const std::string &target);
@@ -297,6 +307,10 @@ extern PROTOWRAPPER_API void modifyGroupInfo(const std::string &groupId, int typ
 
 extern PROTOWRAPPER_API void modifyGroupAlias(const std::string &groupId, const std::string &newAlias, const std::list<int> &lines, const std::string &strCont, fun_general_void_success_callback successBlock, fun_general_void_error_callback errorBlock, void *pObject);
 
+extern PROTOWRAPPER_API void modifyGroupMemberAlias(const std::string &groupId, const std::string &memberId, const std::string &newAlias, const std::list<int> &lines, const std::string &strCont, fun_general_void_success_callback successBlock, fun_general_void_error_callback errorBlock, void *pObject);
+
+extern PROTOWRAPPER_API void modifyGroupMemberExtra(const std::string &groupId, const std::string &memberId, const std::string &newExtra, const std::list<int> &lines, const std::string &strCont, fun_general_void_success_callback successBlock, fun_general_void_error_callback errorBlock, void *pObject);
+
 extern PROTOWRAPPER_API void transferGroup(const std::string &groupId, const std::string &newOwner, const std::list<int> &lines, const std::string &strCont, fun_general_void_success_callback successBlock, fun_general_void_error_callback errorBlock, void *pObject);
 
 
@@ -322,8 +336,8 @@ extern PROTOWRAPPER_API void setFavUser(const std::string &userId, bool fav, fun
 
 extern PROTOWRAPPER_API void modifyMyInfo(const std::list<std::pair<int, std::string> > &infos, fun_general_void_success_callback successBlock, fun_general_void_error_callback errorBlock, void *pObject);
 
-extern PROTOWRAPPER_API bool isGlobalSlient();
-extern PROTOWRAPPER_API void setGlobalSlient(bool slient, fun_general_void_success_callback successBlock, fun_general_void_error_callback errorBlock, void *pObject);
+extern PROTOWRAPPER_API bool isGlobalSilent();
+extern PROTOWRAPPER_API void setGlobalSilent(bool slient, fun_general_void_success_callback successBlock, fun_general_void_error_callback errorBlock, void *pObject);
 
 extern PROTOWRAPPER_API bool isHiddenNotificationDetail();
 
@@ -341,7 +355,7 @@ extern PROTOWRAPPER_API void getChatroomInfo(const std::string &chatroomId, int6
 
 extern PROTOWRAPPER_API void getChatroomMemberInfo(const std::string &chatroomId, int maxCount, fun_general_string_success_callback successBlock, fun_general_string_error_callback errorBlock, void *pObject);
 
-extern PROTOWRAPPER_API void createChannel(const std::string &channelName, const std::string &channelPortrait, int status, const std::string &desc, const std::string &extra, fun_general_string_success_callback successBlock, fun_general_string_error_callback errorBlock, void *pObject);
+extern PROTOWRAPPER_API void createChannel(const std::string &channelName, const std::string &channelPortrait, const std::string &desc, const std::string &extra, fun_general_string_success_callback successBlock, fun_general_string_error_callback errorBlock, void *pObject);
 
 extern PROTOWRAPPER_API const std::string* getChannelInfo(const std::string &channelId, bool refresh);
 

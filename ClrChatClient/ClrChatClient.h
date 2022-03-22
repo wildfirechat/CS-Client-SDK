@@ -29,6 +29,7 @@ namespace ClrChatClient {
 	public delegate void onGeneralStringSuccessCallbackDelegate(System::String^);
 	public delegate void onIntIntCallbackDelegate(int, int);
 	public delegate void onBigIntBigIntCallbackDelegate(Int64, Int64);
+	public delegate void onIntBigIntCallbackDelegate(int, Int64);
 
 	public delegate void OnNativeConnectionStatusDelegate(int);
 	public delegate void OnNativeReceiveMessageDelegate(const std::string &messages, bool hasMore);
@@ -253,7 +254,7 @@ namespace ClrChatClient {
 		System::String^ getMessageByUid(Int64 messageUid);	
 		System::String^ searchMessage(int type, System::String^ target, int line, System::String^ keyword, int count);
 		
-		System::String^ sendMessage(int type, System::String^ target, int line, System::String^ content, List<System::String^>^ toUsers, int expireDuration, onBigIntBigIntCallbackDelegate^ succDele, onIntIntCallbackDelegate^ progressDele, onErrorCallbackDelegate^ errDele);
+		System::String^ sendMessage(int type, System::String^ target, int line, System::String^ content, List<System::String^>^ toUsers, int expireDuration, onBigIntBigIntCallbackDelegate^ succDele, onIntBigIntCallbackDelegate^ prepDele, onIntIntCallbackDelegate^ progressDele, onGeneralStringSuccessCallbackDelegate^ uploadedDele, onErrorCallbackDelegate^ errDele);
 		void recallMessage(Int64 messageUid, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
 		void uploadMedia(System::String^ fileName, System::String^mediaData, int mediaType, onGeneralStringSuccessCallbackDelegate^ succDele, onIntIntCallbackDelegate^ progressDele, onErrorCallbackDelegate^ errDele);
 		bool deleteMessage(long messageId);
@@ -303,8 +304,8 @@ namespace ClrChatClient {
 		System::String^ getUserSettings(int scope);
 		void setUserSetting(int scope, System::String^key, System::String^value, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
 		void modifyMyInfo(Dictionary<int, String^>^ values, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
-		bool isGlobalSlient();
-		void setGlobalSlient(bool slient, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
+		bool isGlobalSilent();
+		void setGlobalSilent(bool slient, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
 		bool isHiddenNotificationDetail();
 		void setHiddenNotificationDetail(bool hidden, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
 		void setHiddenGroupMemberName(bool hidden, System::String^groupId, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
@@ -312,7 +313,7 @@ namespace ClrChatClient {
 		void quitChatroom(System::String^chatroomId, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
 		void getChatroomInfo(System::String^chatroomId, Int64 updateDt, onGeneralStringSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
 		void getChatroomMemberInfo(System::String^chatroomId, int maxCount, onGeneralStringSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
-		void createChannel(System::String^channelName, System::String^channelPortrait, int status, System::String^desc, System::String^extra, onGeneralStringSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
+		void createChannel(System::String^channelName, System::String^channelPortrait, System::String^desc, System::String^extra, onGeneralStringSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
 		System::String^ getChannelInfo(System::String^channelId, bool refresh);
 		void modifyChannelInfo(System::String^channelId, int type, System::String^newValue, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);
 		void searchChannel(System::String^keyword, onGeneralStringSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);

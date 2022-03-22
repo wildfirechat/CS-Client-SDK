@@ -419,11 +419,25 @@ void __stdcall client_sendMessage_success_callback(void *pObject, int64_t messag
     }
 }
 
+void __stdcall client_sendMessage_prepared_callback(void *pObject, int messageId, int64_t timestamp) {
+	if (pObject) {
+		WFSendMessageCallback *callback = (WFSendMessageCallback *)pObject;
+		callback->onPrepared(messageId, timestamp);
+	}
+}
+
 void __stdcall client_sendMessage_progress_callback(void *pObject, int uploaded, int total) {
     if (pObject) {
         WFSendMessageCallback *callback = (WFSendMessageCallback *)pObject;
         callback->onProgress(uploaded, total);
     }
+}
+
+void __stdcall client_sendMessage_media_uploaded_callback(void *pObject, const std::string &remoteUrl) {
+	if (pObject) {
+		WFSendMessageCallback *callback = (WFSendMessageCallback *)pObject;
+		callback->onUploaded(remoteUrl);
+	}
 }
 
 void __stdcall client_sendMessage_error_callback(void *pObject, int errorCode) {
@@ -434,7 +448,7 @@ void __stdcall client_sendMessage_error_callback(void *pObject, int errorCode) {
 }
 
 const Message ChatClient::sendMessage(const Conversation &conversation, const MessageContent &content, const std::list<std::string> &toUsers, int expireDuration, WFSendMessageCallback *callback) {
-    std::string str = convertDllString(WFClient::sendMessage(conversation.conversationType, conversation.target, conversation.line, content.encode().toJson(), toUsers, expireDuration, client_sendMessage_success_callback, client_sendMessage_error_callback, client_sendMessage_progress_callback, callback))
+    std::string str = convertDllString(WFClient::sendMessage(conversation.conversationType, conversation.target, conversation.line, content.encode().toJson(), toUsers, expireDuration, client_sendMessage_success_callback, client_sendMessage_error_callback, client_sendMessage_prepared_callback, client_sendMessage_progress_callback, client_sendMessage_media_uploaded_callback, callback))
     ;
     Message message;
     message.fromJson(str);
@@ -710,12 +724,12 @@ void ChatClient::modifyMyInfo(const std::list<std::pair<int, std::string> > &inf
     WFClient::modifyMyInfo(infos, client_genernal_void_success_callback, client_genernal_void_error_callback, callback);
 }
 
-bool ChatClient::isGlobalSlient() {
-    return WFClient::isGlobalSlient();
+bool ChatClient::isGlobalSilent() {
+    return WFClient::isGlobalSilent();
 }
 
-void ChatClient::setGlobalSlient(bool slient, GeneralVoidCallback *callback) {
-    WFClient::setGlobalSlient(slient, client_genernal_void_success_callback, client_genernal_void_error_callback, callback);
+void ChatClient::setGlobalSilent(bool slient, GeneralVoidCallback *callback) {
+    WFClient::setGlobalSilent(slient, client_genernal_void_success_callback, client_genernal_void_error_callback, callback);
 }
 
 bool ChatClient::isHiddenNotificationDetail() {
@@ -796,8 +810,8 @@ static void __stdcall client_get_channelInfo_error_callback(void *pObj, int erro
     }
 }
 
-void ChatClient::createChannel(const std::string &channelName, const std::string &channelPortrait, int status, const std::string &desc, const std::string &extra, GetChannelInfoCallback *callback) {
-    WFClient::createChannel(channelName, channelPortrait, status, desc, extra, client_get_channelInfo_success_callback, client_get_channelInfo_error_callback, callback);
+void ChatClient::createChannel(const std::string &channelName, const std::string &channelPortrait, const std::string &desc, const std::string &extra, GetChannelInfoCallback *callback) {
+    WFClient::createChannel(channelName, channelPortrait, desc, extra, client_get_channelInfo_success_callback, client_get_channelInfo_error_callback, callback);
 }
 
 ChannelInfo ChatClient::getChannelInfo(const std::string &channelId, bool refresh) {

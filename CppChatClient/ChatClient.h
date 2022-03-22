@@ -168,7 +168,9 @@ public:
 
     virtual void onSuccess(int64_t messageUid, int64_t timestamp) = 0;
     // 上传进度的回调，注意仅当媒体内容大于300K才会有回调
+	virtual void onPrepared(int messageId, int64_t timestamp) = 0;
     virtual void onProgress(int uploaded, int total) = 0;
+	virtual void onUploaded(const std::string &remoteUrl) = 0;
     virtual void onFailure(int errorCode) = 0;
 };
 
@@ -973,7 +975,7 @@ public:
     /**
      是否是全局禁止通知
     */
-    bool isGlobalSlient();
+    bool isGlobalSilent();
 
     /**
      设置全局禁止通知
@@ -981,7 +983,7 @@ public:
      @param slient 是否禁止通知
      @param callback 回调
      */
-    void setGlobalSlient(bool slient, GeneralVoidCallback *callback);
+    void setGlobalSilent(bool slient, GeneralVoidCallback *callback);
 
     /**
     通知是否隐藏详情，隐藏详情时通知内容为“您有一条新消息”
@@ -1045,12 +1047,11 @@ public:
 
      @param channelName 频道名称
      @param channelPortrait 频道头像
-     @param status 频道状态，这里使用0
      @param desc 频道描述
      @param extra 频道extra
      @param callback 回调
      */
-    void createChannel(const std::string &channelName, const std::string &channelPortrait, int status, const std::string &desc, const std::string &extra, GetChannelInfoCallback *callback);
+    void createChannel(const std::string &channelName, const std::string &channelPortrait, const std::string &desc, const std::string &extra, GetChannelInfoCallback *callback);
 
     /**
      获取频道信息

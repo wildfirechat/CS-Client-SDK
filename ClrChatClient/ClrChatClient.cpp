@@ -107,18 +107,26 @@ namespace ClrChatClient {
 
 	private class SendMessageCallbackWrapper {
 	public:
-		SendMessageCallbackWrapper(onBigIntBigIntCallbackDelegate^ succCB, onIntIntCallbackDelegate^ proCb, onErrorCallbackDelegate^ errCB) {
+		SendMessageCallbackWrapper(onBigIntBigIntCallbackDelegate^ succCB, onIntBigIntCallbackDelegate^ ppCB, onIntIntCallbackDelegate^ proCb, onGeneralStringSuccessCallbackDelegate^ upCB, onErrorCallbackDelegate^ errCB) {
 			if (succCB) {
 				scHandler = GCHandle::Alloc(succCB);
 				successCB = Marshal::GetFunctionPointerForDelegate(succCB);
 			}
-
+			if (ppCB)
+			{
+				ppHandler = GCHandle::Alloc(ppCB);
+				preparedCB = Marshal::GetFunctionPointerForDelegate(ppCB);
+			}
 			if (proCb)
 			{
 				pgHandler = GCHandle::Alloc(proCb);
 				progressCB = Marshal::GetFunctionPointerForDelegate(proCb);
 			}
-
+			if (upCB)
+			{
+				upHandler = GCHandle::Alloc(upCB);
+				uploadedCB = Marshal::GetFunctionPointerForDelegate(upCB);
+			}
 			if (errCB)
 			{
 				erHandler = GCHandle::Alloc(errCB);
@@ -127,10 +135,15 @@ namespace ClrChatClient {
 		}
 		
 		IntPtr successCB;
+		IntPtr preparedCB;
 		IntPtr progressCB;
+		IntPtr uploadedCB;
 		IntPtr errorCB;
+
 		GCHandle scHandler;
+		GCHandle ppHandler;
 		GCHandle pgHandler;
+		GCHandle upHandler;
 		GCHandle erHandler;
 		
 		virtual ~SendMessageCallbackWrapper() {
@@ -141,6 +154,14 @@ namespace ClrChatClient {
 			if (pgHandler.IsAllocated)
 			{
 				pgHandler.Free();
+			}
+			if (ppHandler.IsAllocated)
+			{
+				ppHandler.Free();
+			}
+			if (upHandler.IsAllocated)
+			{
+				upHandler.Free();
 			}
 			if (erHandler.IsAllocated)
 			{
@@ -218,10 +239,24 @@ namespace ClrChatClient {
 		}
 	}
 
+	static void __stdcall client_sendMessage_prepared_callback(void *pObject, int messageId, int64_t timestamp) {
+		if (pObject) {
+			SendMessageCallbackWrapper *callback = (SendMessageCallbackWrapper *)pObject;
+			((onIntBigIntCallbackDelegate^)Marshal::GetDelegateForFunctionPointer(callback->preparedCB, onIntIntCallbackDelegate::typeid))(messageId, timestamp);
+		}
+	}
+
 	static void __stdcall client_sendMessage_progress_callback(void *pObject, int uploaded, int total) {
 		if (pObject) {
 			SendMessageCallbackWrapper *callback = (SendMessageCallbackWrapper *)pObject;
 			((onIntIntCallbackDelegate^)Marshal::GetDelegateForFunctionPointer(callback->progressCB, onIntIntCallbackDelegate::typeid))(uploaded, total);
+		}
+	}
+
+	static void __stdcall client_sendMessage_media_uploaded_callback(void *pObject, const std::string &remoteUrl) {
+		if (pObject) {
+			SendMessageCallbackWrapper *callback = (SendMessageCallbackWrapper *)pObject;
+			((onGeneralStringSuccessCallbackDelegate^)Marshal::GetDelegateForFunctionPointer(callback->uploadedCB, onIntIntCallbackDelegate::typeid))(Proto::ConvertStr(remoteUrl));
 		}
 	}
 
@@ -443,7 +478,7 @@ namespace ClrChatClient {
 		return ConvertStr(WFClient::searchMessage(type, ConvertStr(target), line, ConvertStr(keyword), count));
 	}
 
-	String^ Proto::sendMessage(int type, String^ target, int line, String^ content, List<String^>^ toUsers, int expireDuration, onBigIntBigIntCallbackDelegate^ succDele, onIntIntCallbackDelegate^ progressDele, onErrorCallbackDelegate^ errDele){
+	String^ Proto::sendMessage(int type, String^ target, int line, String^ content, List<String^>^ toUsers, int expireDuration, onBigIntBigIntCallbackDelegate^ succDele, onIntBigIntCallbackDelegate^ prepDele, onIntIntCallbackDelegate^ progressDele, onGeneralStringSuccessCallbackDelegate^ uploadedDele, onErrorCallbackDelegate^ errDele){
 		std::list<std::string> us;
 		if(toUsers) {
 			for each (String^ user in toUsers)
@@ -452,7 +487,7 @@ namespace ClrChatClient {
 			}
 		}
 		
-		return ConvertStr(WFClient::sendMessage(type, ConvertStr(target), line, ConvertStr(content), us, expireDuration, client_sendMessage_success_callback, client_sendMessage_error_callback, client_sendMessage_progress_callback, new SendMessageCallbackWrapper(succDele, progressDele, errDele)));
+		return ConvertStr(WFClient::sendMessage(type, ConvertStr(target), line, ConvertStr(content), us, expireDuration, client_sendMessage_success_callback, client_sendMessage_error_callback, client_sendMessage_prepared_callback, client_sendMessage_progress_callback, client_sendMessage_media_uploaded_callback, new SendMessageCallbackWrapper(succDele, prepDele, progressDele, uploadedDele, errDele)));
 	}
 
 	void Proto::recallMessage(Int64 messageUid, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele){ 
@@ -648,11 +683,11 @@ namespace ClrChatClient {
 		WFClient::modifyMyInfo(pairs, client_genernal_void_success_callback, client_genernal_error_callback, new CallbackWrapper(succDele, errDele));
 	}
 
-	bool Proto::isGlobalSlient(){
-		return WFClient::isGlobalSlient();
+	bool Proto::isGlobalSilent(){
+		return WFClient::isGlobalSilent();
 	}
-	void Proto::setGlobalSlient(bool slient, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele){
-		WFClient::setGlobalSlient(slient, client_genernal_void_success_callback, client_genernal_error_callback, new CallbackWrapper(succDele, errDele));
+	void Proto::setGlobalSilent(bool slient, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele){
+		WFClient::setGlobalSilent(slient, client_genernal_void_success_callback, client_genernal_error_callback, new CallbackWrapper(succDele, errDele));
 	}
 	bool Proto::isHiddenNotificationDetail(){
 		return false;
@@ -681,8 +716,8 @@ namespace ClrChatClient {
 		WFClient::getChatroomMemberInfo(ConvertStr(chatroomId), maxCount, client_genernal_string_success_callback, client_genernal_error_callback, new CallbackWrapper(succDele, errDele));
 	}
 
-	void Proto::createChannel(String^channelName, String^channelPortrait, int status, String^desc, String^extra, onGeneralStringSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele){ 
-		WFClient::createChannel(ConvertStr(channelName), ConvertStr(channelPortrait), status, ConvertStr(desc), ConvertStr(extra), client_genernal_string_success_callback, client_genernal_error_callback, new CallbackWrapper(succDele, errDele));
+	void Proto::createChannel(String^channelName, String^channelPortrait, String^desc, String^extra, onGeneralStringSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele){ 
+		WFClient::createChannel(ConvertStr(channelName), ConvertStr(channelPortrait), ConvertStr(desc), ConvertStr(extra), client_genernal_string_success_callback, client_genernal_error_callback, new CallbackWrapper(succDele, errDele));
 	}
 
 	String^ Proto::getChannelInfo(String^channelId, bool refresh){
