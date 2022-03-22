@@ -242,7 +242,7 @@ namespace ClrChatClient {
 	static void __stdcall client_sendMessage_prepared_callback(void *pObject, int messageId, int64_t timestamp) {
 		if (pObject) {
 			SendMessageCallbackWrapper *callback = (SendMessageCallbackWrapper *)pObject;
-			((onIntBigIntCallbackDelegate^)Marshal::GetDelegateForFunctionPointer(callback->preparedCB, onIntIntCallbackDelegate::typeid))(messageId, timestamp);
+			((onIntBigIntCallbackDelegate^)Marshal::GetDelegateForFunctionPointer(callback->preparedCB, onIntBigIntCallbackDelegate::typeid))(messageId, timestamp);
 		}
 	}
 
