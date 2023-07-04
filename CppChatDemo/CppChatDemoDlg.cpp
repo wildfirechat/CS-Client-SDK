@@ -260,7 +260,7 @@ void CCppChatDemoDlg::OnBnClickedConnect()
 	std::string clientId = ChatClient::Instance()->getClientId();
 	printf(clientId.c_str());
 	const std::string userId = "MTL7N7XX";
-	const std::string token = "un4qIBo58JFYeLL2rYxM9IRX+A92M/0QRSFrgHQ9efCGpNgl0Ik7JIgToGWyxSjntkxR/wsfn18smQtKi/t1lccSKfadQOuriDBMWg5VubDtWPaiUKf+u2c7r9vuBiEPEzX11W0hWwk8NqNZ9bZBsE3TaLXtn2uykuxQrgpXvq8=";
+	const std::string token = "DkxMG1Xmnb2SWKeXfBuhoumloUhDui0nK2QLX970mQMIuGRcBQkyKZya2u3oCZLRzhheChM4NPkah5H5wc6aI8vLpxDxGlHDRGG+dLIkDCc548GoQNfWjiAumFiEh2950WCXQ9cneoEw2NtH78a/zxtbnE7RLh2lsHJ+ee8R4PM=";
 	bool isNewDB = ChatClient::Instance()->connect(userId, token);
 }
 

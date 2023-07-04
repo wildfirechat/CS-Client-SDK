@@ -474,8 +474,8 @@ namespace ClrChatClient {
 		return ConvertStr(WFClient::getMessageByUid(messageUid));
 	}
 
-	String^ Proto::searchMessage(int type, String^ target, int line, String^ keyword, int count) {
-		return ConvertStr(WFClient::searchMessage(type, ConvertStr(target), line, ConvertStr(keyword), count));
+	String^ Proto::searchMessage(int type, String^ target, int line, String^ keyword, bool desc, int limit, int offset, String^ withUser) {
+		return ConvertStr(WFClient::searchMessage(type, ConvertStr(target), line, ConvertStr(keyword), desc, limit, offset, ConvertStr(withUser)));
 	}
 
 	String^ Proto::sendMessage(int type, String^ target, int line, String^ content, List<String^>^ toUsers, int expireDuration, onBigIntBigIntCallbackDelegate^ succDele, onIntBigIntCallbackDelegate^ prepDele, onIntIntCallbackDelegate^ progressDele, onGeneralStringSuccessCallbackDelegate^ uploadedDele, onErrorCallbackDelegate^ errDele){

@@ -211,7 +211,7 @@ extern PROTOWRAPPER_API const std::string* getMessageByUid(int64_t messageUid);
 
 extern PROTOWRAPPER_API long getFirstUnreadMessageId(int conversationType, const std::string &target, int line);
 
-extern PROTOWRAPPER_API const std::string* searchMessage(int conversationType, const std::string &target, int line, const std::string &keyword, int count);
+extern PROTOWRAPPER_API const std::string* searchMessage(int conversationType, const std::string &target, int line, const std::string &keyword, bool desc, int limit, int offset, const std::string &withUser);
 
 typedef void (__stdcall *fun_sendMessage_success_callback)(void *pObjectect, int64_t messageUid, int64_t timestamp);
 

@@ -206,7 +206,7 @@ void ChatClient::setChannelInfoUpdateListener(ChannelInfoUpdateListener *listene
 void ChatClient::registerMessage(const MessageContentPrototype *prototype)
 {
     messageContentFactorys[prototype->getType()] = prototype;
-	WFClient::registerMessageFlag(prototype->getType(), prototype->getFlag());
+	//WFClient::registerMessageFlag(prototype->getType(), prototype->getFlag());
 }
 
 const std::string ChatClient::getClientId()
@@ -408,8 +408,8 @@ const Message ChatClient::getMessageByUid(int64_t messageUid) {
     return message;
 }
 
-const std::list<Message> ChatClient::searchMessage(const Conversation &conversation, const std::string &keyword, int count) {
-    return serializableFromJsonList<Message>(convertDllString(WFClient::searchMessage(conversation.conversationType, conversation.target, conversation.line, keyword, count)));
+const std::list<Message> ChatClient::searchMessage(const Conversation &conversation, const std::string &keyword, bool desc, int limit, int offset, const std::string &withUser) {
+    return serializableFromJsonList<Message>(convertDllString(WFClient::searchMessage(conversation.conversationType, conversation.target, conversation.line, keyword, desc, limit, offset, withUser)));
 }
 
 void __stdcall client_sendMessage_success_callback(void *pObject, int64_t messageUid, int64_t timestamp) {

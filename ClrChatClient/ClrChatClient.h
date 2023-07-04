@@ -252,7 +252,7 @@ namespace ClrChatClient {
 		void getRemoteMessages(int type, System::String^ target, int line, List<int>^ contentTypes, Int64 beforeMessageUid, int count, onGeneralStringSuccessCallbackDelegate^ strCB, onErrorCallbackDelegate^ errCB);
 		System::String^ getMessage(long messageId);
 		System::String^ getMessageByUid(Int64 messageUid);	
-		System::String^ searchMessage(int type, System::String^ target, int line, System::String^ keyword, int count);
+		System::String^ searchMessage(int type, System::String^ target, int line, System::String^ keyword, bool desc, int limit, int offset, System::String^ withUser);
 		
 		System::String^ sendMessage(int type, System::String^ target, int line, System::String^ content, List<System::String^>^ toUsers, int expireDuration, onBigIntBigIntCallbackDelegate^ succDele, onIntBigIntCallbackDelegate^ prepDele, onIntIntCallbackDelegate^ progressDele, onGeneralStringSuccessCallbackDelegate^ uploadedDele, onErrorCallbackDelegate^ errDele);
 		void recallMessage(Int64 messageUid, onGeneralVoidSuccessCallbackDelegate^ succDele, onErrorCallbackDelegate^ errDele);

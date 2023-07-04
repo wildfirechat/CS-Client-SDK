@@ -1211,9 +1211,9 @@ namespace CsChatClient
         /// <param name="keyword">关键词</param>
         /// <param name="count">数量</param>
         /// <returns>命中的消息</returns>
-        public List<MessageEx> SearchMessage(Conversation conversation, string keyword, int count)
+        public List<MessageEx> SearchMessage(Conversation conversation, string keyword, bool desc, int limit, int offset, string withUser)
         {
-            string messagesStr = _proto.searchMessage((int)conversation.Type, conversation.Target, conversation.Line, keyword, count);
+            string messagesStr = _proto.searchMessage((int)conversation.Type, conversation.Target, conversation.Line, keyword, desc, limit, offset, withUser);
 
             WfcJsonConverter convert = new WfcJsonConverter();
             List<MessageEx> ms = JsonConvert.DeserializeObject<List<MessageEx>>(messagesStr, convert);

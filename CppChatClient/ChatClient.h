@@ -533,10 +533,13 @@ public:
 
      @param conversation 会话
      @param keyword 关键词
-     @param count 数量
+	 @param desc 顺序
+     @param limit 数量
+	 @param offset 便宜
+	 @param withUser 对应用户
      @return 命中的消息
      */
-    const std::list<Message> searchMessage(const Conversation &conversation, const std::string &keyword, int count);
+    const std::list<Message> searchMessage(const Conversation &conversation, const std::string &keyword, bool desc, int limit, int offset, const std::string &withUser);
 
     /**
      发送消息
