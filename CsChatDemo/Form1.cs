@@ -132,7 +132,7 @@ namespace CsChatDemo
             }
 
 
-            ChatClient.Instance().SetConversationTop(conv, true, () => {
+            ChatClient.Instance().SetConversationTop(conv, 1, () => {
                 appendLog("set conversation top success");
             }, (int errorCode) =>
             {

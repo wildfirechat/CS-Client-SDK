@@ -334,7 +334,7 @@ public:
      @param userId 用户Id
      @param token 用户令牌
      */
-    bool connect(const std::string & userId, const std::string &token);
+    int64_t connect(const std::string & userId, const std::string &token);
 
     /**
     斷開連接
@@ -404,7 +404,7 @@ public:
      @param top 是否置顶
      @param callback 结果回调
      */
-    void setConversationTop(const Conversation &conversation, bool top, GeneralVoidCallback *callback);
+    void setConversationTop(const Conversation &conversation, int top, GeneralVoidCallback *callback);
 
     /**
      设置会话免打扰

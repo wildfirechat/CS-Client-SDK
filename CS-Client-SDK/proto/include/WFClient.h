@@ -134,7 +134,7 @@ typedef void (__stdcall *fun_general_string_success_callback)(void *pObjectect, 
 typedef void (__stdcall *fun_general_string_error_callback)(void *pObjectect, int errorCode);
 
 
-extern PROTOWRAPPER_API bool connect(const std::string &userId, const std::string &token);
+extern PROTOWRAPPER_API int64_t connect(const std::string &userId, const std::string &token);
 
 extern PROTOWRAPPER_API void disconnect(int flag);
 
@@ -175,7 +175,7 @@ extern PROTOWRAPPER_API const std::string* searchConversation(std::list<int> typ
 
 extern PROTOWRAPPER_API void removeConversation(int conversationType, const std::string &target, int line, bool clearMsg);
 
-extern PROTOWRAPPER_API void setConversationTop(int conversationType, const std::string &target, int line, bool isTop, fun_general_void_success_callback succCallback, fun_general_void_error_callback errCallback, void *pObject);
+extern PROTOWRAPPER_API void setConversationTop(int conversationType, const std::string &target, int line, int isTop, fun_general_void_success_callback succCallback, fun_general_void_error_callback errCallback, void *pObject);
 
 extern PROTOWRAPPER_API void setConversationSlient(int conversationType, const std::string &target, int line, bool isSlient, fun_general_void_success_callback succCallback, fun_general_void_error_callback errCallback, void *pObject);
 

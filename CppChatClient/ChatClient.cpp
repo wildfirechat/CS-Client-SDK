@@ -214,7 +214,7 @@ const std::string ChatClient::getClientId()
 	return convertDllString(WFClient::getClientId());
 }
 
-bool ChatClient::connect(const std::string & userId, const std::string &token)
+int64_t ChatClient::connect(const std::string & userId, const std::string &token)
 {
 	WFClient::setConnectionStatusListener(client_connection_callback);
 	WFClient::setReceiveMessageListener(client_receive_message_callback, client_recall_message_callback, client_delete_message_callback, client_message_delivered_callback, client_message_readed_callback);
@@ -325,7 +325,7 @@ void ChatClient::removeConversation(const Conversation &conversation,bool clearM
     WFClient::removeConversation(conversation.conversationType, conversation.target, conversation.line, clearMessage);
 }
 
-void ChatClient::setConversationTop(const Conversation &conversation, bool top, GeneralVoidCallback *callback) {
+void ChatClient::setConversationTop(const Conversation &conversation, int top, GeneralVoidCallback *callback) {
     WFClient::setConversationTop(conversation.conversationType, conversation.target, conversation.line, top, client_genernal_void_success_callback,client_genernal_void_error_callback, callback);
 }
 

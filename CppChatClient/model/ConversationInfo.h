@@ -24,7 +24,7 @@ public:
     int64_t timestamp;
     std::string draft;
     UnreadCount unreadCount;
-    bool isTop;
+    int isTop;
     bool isSilent;
     virtual ~ConversationInfo() {}
     virtual void Serialize(void *writer) const;

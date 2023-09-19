@@ -11,7 +11,7 @@ namespace CsChatClient.Models
         public long Timestamp { get; set; }
         public string Draft { get; set; }
         public UnreadCount UnreadCount { get; set; }
-        public bool IsTop { get; set; }
+        public int IsTop { get; set; }
         public bool IsSilent { get; set; }
 
         public void Serialize(JsonWriter writer)
@@ -57,7 +57,7 @@ namespace CsChatClient.Models
                         }
                         else if (reader.Value.Equals("isTop"))
                         {
-                            IsTop = JsonTools.GetNextBoolean(reader);
+                            IsTop = JsonTools.GetNextInt(reader);
                         }
                         else if (reader.Value.Equals("isSilent"))
                         {

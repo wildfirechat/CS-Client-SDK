@@ -291,7 +291,7 @@ namespace ClrChatClient {
 		}
 	}
 
-	void Proto::setConversationTop(int type, String^ target, int line, bool top, onGeneralVoidSuccessCallbackDelegate^ successCB, onErrorCallbackDelegate^ errorCB) {
+	void Proto::setConversationTop(int type, String^ target, int line, int top, onGeneralVoidSuccessCallbackDelegate^ successCB, onErrorCallbackDelegate^ errorCB) {
 		WFClient::setConversationTop(type, ConvertStr(target), line, top, client_genernal_void_success_callback, client_genernal_error_callback, new CallbackWrapper(successCB, errorCB));
 	}
 	void Proto::setConversationSilent(int type, String^ target, int line, bool silent, onGeneralVoidSuccessCallbackDelegate^ successCB, onErrorCallbackDelegate^ errorCB) {

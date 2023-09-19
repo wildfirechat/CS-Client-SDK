@@ -800,7 +800,8 @@ namespace CsChatClient
         /// </summary>
         /// <param name="userId">用户Id</param>
         /// <param name="token">用户令牌</param>
-        public bool Connect(string userId, string token)
+        /// <returns>上一次连接的时间，如果是首次连接返回0</returns>
+        public long Connect(string userId, string token)
         {
             RegisterMessage(typeof(TextMessageContent));
             RegisterMessage(typeof(CallStartMessageContent));
@@ -954,7 +955,7 @@ namespace CsChatClient
         /// <param name="top">是否置顶</param>
         /// <param name="succDele">成功回调</param>
         /// <param name="errDele">错误回调</param>
-        public void SetConversationTop(Conversation conversation, bool top, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
+        public void SetConversationTop(Conversation conversation, int top, onGeneralVoidSuccessCallbackDelegate succDele, onErrorCallbackDelegate errDele)
         {
             _proto.setConversationTop((int)conversation.Type, conversation.Target, conversation.Line, top, () => { succDele(); }, errorCode => { errDele(errorCode); });
         }

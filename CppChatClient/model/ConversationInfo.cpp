@@ -70,7 +70,7 @@ void ConversationInfo::Serialize(void *pwriter) const {
     unreadCount.Serialize(pwriter);
 //            bool isTop;
     writer.String("isTop");
-    writer.Bool(isTop);
+    writer.Int(isTop);
 //            bool isSilent;
     writer.String("isSilent");
     writer.Bool(isSilent);

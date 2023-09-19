@@ -110,7 +110,7 @@ namespace ClrChatClient {
 		OnNativeMessageDeliveredDelegate^ m_NativeMessageDeliveredDelegate;
 		OnNativeMessageReadedDelegate^ m_NativeMessageReadedDelegate;
 
-		bool connect(System::String^ userId, System::String^ token) {
+		long connect(System::String^ userId, System::String^ token) {
 			m_NativeConnectionStatusDelegate = gcnew OnNativeConnectionStatusDelegate(this, &Proto::onConnectionStatus);
 			IntPtr ipConnectionStatus = Marshal::GetFunctionPointerForDelegate(m_NativeConnectionStatusDelegate);
 			WFClient::setConnectionStatusListener(static_cast<WFClient::fun_connection_callback>(ipConnectionStatus.ToPointer()));
@@ -235,7 +235,7 @@ namespace ClrChatClient {
 			WFClient::removeConversation(type, ConvertStr(target), line, clearMessage);
 		}
 
-		void setConversationTop(int type, System::String^ target, int line, bool top, onGeneralVoidSuccessCallbackDelegate^ successCB, onErrorCallbackDelegate^ errorCB);
+		void setConversationTop(int type, System::String^ target, int line, int top, onGeneralVoidSuccessCallbackDelegate^ successCB, onErrorCallbackDelegate^ errorCB);
 		void setConversationSilent(int type, System::String^ target, int line, bool silent, onGeneralVoidSuccessCallbackDelegate^ successCB, onErrorCallbackDelegate^ errorCB);
 		void setConversationDraft(int type, System::String^ target, int line, System::String^ draft);
 		System::String^ getUnreadCount(List<int>^ types, List<int>^ lines);
