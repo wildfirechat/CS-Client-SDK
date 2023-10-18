@@ -788,6 +788,14 @@ namespace CsChatClient
         }
 
         /// <summary>
+        /// 设置数据目录，需要在调用所有接口之前才能生效
+        /// </summary>
+        public void SetDBPath(string dbPath)
+        {
+            _proto.setDBPath(dbPath);
+        }
+
+        /// <summary>
         /// 获取当前设备的设备Id
         /// </summary>
         public string GetClientId()

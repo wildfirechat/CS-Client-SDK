@@ -53,6 +53,10 @@ namespace ClrChatClient {
 			return ConvertStr(stdStr);
 		}
 
+		void setDBPath(System::String^ path) {
+			WFClient::setDBPath(ConvertStr(path));
+		}
+
 		void setConnectStatusListener(OnConnectionStatusListenerDelegate^ listener) { 
 			m_OnConnectionStatusListenerDelegate = listener;  
 		}
