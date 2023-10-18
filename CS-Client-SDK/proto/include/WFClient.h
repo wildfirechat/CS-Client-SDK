@@ -136,6 +136,8 @@ typedef void (__stdcall *fun_general_string_error_callback)(void *pObjectect, in
 
 extern PROTOWRAPPER_API int64_t connect(const std::string &userId, const std::string &token);
 
+extern PROTOWRAPPER_API void setDBPath(const std::string &path);
+
 extern PROTOWRAPPER_API void disconnect(int flag);
 
 extern PROTOWRAPPER_API void setConnectionStatusListener(fun_connection_callback callback);
