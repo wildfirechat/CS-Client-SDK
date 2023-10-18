@@ -41,6 +41,12 @@ namespace CsChatDemo
                 return;
             }
 
+            string appDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+
+            Console.WriteLine("当前应用程序所在的目录: " + appDirectory);
+            ChatClient.Instance().SetDBPath(appDirectory);
+
             string clientId = ChatClient.Instance().GetClientId();
             Console.WriteLine(clientId);
 
