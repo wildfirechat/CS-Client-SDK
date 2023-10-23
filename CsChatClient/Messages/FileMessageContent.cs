@@ -6,7 +6,7 @@ namespace CsChatClient.Messages
     public class FileMessageContent : MediaMessageContent
     {
         public string Name { get; set; }
-        public int Size { get; set; }
+        public long Size { get; set; }
 
         public override void Decode(MessagePayload payload)
         {
@@ -16,7 +16,7 @@ namespace CsChatClient.Messages
             {
                 Name = Name.Replace("[文件]", "");
             }
-            Size = int.Parse(payload.Content);
+            Size = long.Parse(payload.Content);
         }
 
         public override string Digest(MessageEx message)
@@ -27,7 +27,7 @@ namespace CsChatClient.Messages
         public override MessagePayload Encode()
         {
             MessagePayload payload = base.Encode();
-            payload.SearchableContent = Name;
+            payload.SearchableContent = "[文件]" + Name;
             payload.Content = Size + "";
             payload.MediaType = MediaType.MediaTypeFile;
             return payload;
