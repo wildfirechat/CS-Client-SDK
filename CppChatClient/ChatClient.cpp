@@ -226,7 +226,7 @@ int64_t ChatClient::connect(const std::string & userId, const std::string &token
     WFClient::setSettingUpdateListener(client_user_setting_update_callback);
     WFClient::setChannelInfoUpdateListener(client_channelInfo_update_callback);
     
-	return WFClient::connect(userId, token);
+	return WFClient::connect2Server(userId, token);
 }
 
 ChatClient::ChatClient()
@@ -356,7 +356,7 @@ void ChatClient::clearUnreadStatus(const Conversation &conversation) {
 }
 
 void ChatClient::clearUnreadStatus(const std::list<int> &conversationTypes, const std::list<int> &lines) {
-    WFClient::clearUnreadStatus(conversationTypes, lines);
+    WFClient::clearUnreadStatusEx(conversationTypes, lines);
 }
 
 void ChatClient::clearAllUnreadStatus() {
@@ -374,7 +374,7 @@ const std::list<Message> ChatClient::getMessages(const Conversation &conversatio
 }
 
 const std::list<Message> ChatClient::getMessages(const std::list<int> &conversationTypes, const std::list<int> &lines, const std::list<int> &contentTypes, int64_t fromIndex, int count, const std::string &user) {
-    std::string str = convertDllString(WFClient::getMessages(conversationTypes, lines, contentTypes, fromIndex, count>0, abs(count), user));
+    std::string str = convertDllString(WFClient::getMessagesEx(conversationTypes, lines, contentTypes, fromIndex, count>0, abs(count), user));
 
     return serializableFromJsonList<Message>(str);
 }
@@ -493,7 +493,7 @@ void ChatClient::clearMessages(const Conversation &conversation) {
 }
 
 void ChatClient::clearMessages(const Conversation &conversation, int64_t before) {
-    WFClient::clearMessages(conversation.conversationType, conversation.target, conversation.line, before);
+    WFClient::clearMessagesBefore(conversation.conversationType, conversation.target, conversation.line, before);
 }
 
 const Message ChatClient::insert(const Conversation &conversation, const std::string &sender, const MessageContent &content, MessageStatus status, bool notify, int64_t serverTime) {

@@ -345,7 +345,7 @@ namespace ClrChatClient {
 			ls.push_back(0);
 		}
 
-		WFClient::clearUnreadStatus(ts, ls);
+		WFClient::clearUnreadStatusEx(ts, ls);
 	}
 
 	void Proto::clearAllUnreadStatus() {
@@ -412,7 +412,7 @@ namespace ClrChatClient {
 			count = -count;
 			direction = true;
 		}
-		return ConvertStr(WFClient::getMessages(ts, ls, cs, fromIndex, direction, count, ConvertStr(user)));
+		return ConvertStr(WFClient::getMessagesEx(ts, ls, cs, fromIndex, direction, count, ConvertStr(user)));
 	}
 
 	String^ Proto::getMessagesByMessageStatus(List<int>^ conversationTypes, List<int>^ lines, List<int>^ messageStatus, Int64 fromIndex, int count, String^ user) {
@@ -508,7 +508,7 @@ namespace ClrChatClient {
 	}
 
 	void Proto::clearMessages(int type, String^ target, int line, Int64 before){ 
-		WFClient::clearMessages(type, ConvertStr(target), line, before);
+		WFClient::clearMessagesBefore(type, ConvertStr(target), line, before);
 	}
 
 	String^ Proto::insert(int type, String^ target, int line, String^sender, String^ content, int status, bool notify, Int64 serverTime){

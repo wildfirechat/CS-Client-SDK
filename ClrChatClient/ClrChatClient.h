@@ -166,7 +166,7 @@ namespace ClrChatClient {
 			
 			const char* uid = (const char*)(Marshal::StringToHGlobalAnsi(userId)).ToPointer();
 			const char* tk = (const char*)(Marshal::StringToHGlobalAnsi(token)).ToPointer();
-			return WFClient::connect(uid, tk);
+			return WFClient::connect2Server(uid, tk);
 		}
 
 		void disconnect() {
