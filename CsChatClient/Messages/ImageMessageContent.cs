@@ -22,6 +22,7 @@
         public override MessagePayload Encode()
         {
             MessagePayload payload = base.Encode();
+            payload.SearchableContent = "[图片]";
             payload.BinaryContent = ThumbnailBytes;
             return payload;
         }
