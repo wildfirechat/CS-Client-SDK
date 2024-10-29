@@ -156,6 +156,9 @@
     <ClInclude Include="model\UserSettingEntry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\WFClient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChatClient.cpp">

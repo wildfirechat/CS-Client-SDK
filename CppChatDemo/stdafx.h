@@ -32,13 +32,15 @@
 
 #include <afxcontrolbars.h>     // MFC support for ribbons and control bars
 
+#include <string>
+
+
+#include "global_stu.h"
 
 
 
 
 
 
-
-
-
-
+void PutLog(std::string logStr);
+void PutLog(CString logStr);

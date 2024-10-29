@@ -110,7 +110,8 @@ namespace CsChatDemo
             List<ConversationInfo> convs = ChatClient.Instance().GetConversationInfos(new List<ConversationType>() { ConversationType.SingleType, ConversationType.GroupType, ConversationType.ChannelType }, new List<int>() { 0 });
             appendLog("获取到 " + convs.Count() + " 条会话记录");
 
-            Conversation conv = new Conversation(ConversationType.SingleType, "cgc8c8VV", 0);
+            //Conversation conv = new Conversation(ConversationType.SingleType, "cgc8c8VV", 0);
+            Conversation conv = new Conversation(ConversationType.SingleType, "cgc8c8VB", 0);
 
             ConversationInfo convInfo = ChatClient.Instance().GetConversationInfo(conv);
             if(convInfo != null)
@@ -149,7 +150,7 @@ namespace CsChatDemo
             fileMsg.LocalPath = "d:\\Debug.zip";
 
             TextMessageContent txt = new TextMessageContent();
-            txt.Content = "你好 world";
+            txt.Content = "123 world";
             txt.Extra = "{\"key\":\"value\"}";
             ChatClient.Instance().SendMessage(conv, txt, null, 0, (long uid, long ts)=> {
                 appendLog("send success");
@@ -212,7 +213,8 @@ namespace CsChatDemo
 
         public string getToken(string jsonParam)
         {
-            string _url = "http://wildfirechat.net:8888/login";
+            //string _url = "http://wildfirechat.net:8888/login";
+            string _url = "http://172.16.64.140:8888/login";
             //json参数
             //string jsonParam = "{ phonenumber:\"18665885202\",pwd:\"tsp\"}";
             var request = (HttpWebRequest)WebRequest.Create(_url);

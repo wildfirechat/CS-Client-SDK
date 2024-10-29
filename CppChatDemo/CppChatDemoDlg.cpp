@@ -7,56 +7,21 @@
 #include "CppChatDemoDlg.h"
 #include "afxdialogex.h"
 #include "ChatClient.h"
+#include "CGCurlHelper.h"
+#include "CChatTools.h"
+#include "WFire.h"
+#include "message/TextMessageContent.h"
 #include <iostream>
 #include <cstdlib>
 #include <string.h>
 #include <string>
 #include <vector>
+#include <atlstr.h> // For CA2T
 
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
-//UTF-8转Unicode 
-std::wstring Utf82Unicode(const std::string& utf8string)
-{
-	int widesize = ::MultiByteToWideChar(CP_UTF8, 0, utf8string.c_str(), -1, NULL, 0);
-	if (widesize == ERROR_NO_UNICODE_TRANSLATION)
-	{
-		throw std::exception("Invalid UTF-8 sequence.");
-	}
-	if (widesize == 0)
-	{
-		throw std::exception("Error in conversion.");
-	}
-	std::vector<wchar_t> resultstring(widesize);
-	int convresult = ::MultiByteToWideChar(CP_UTF8, 0, utf8string.c_str(), -1, &resultstring[0], widesize);
-	if (convresult != widesize)
-	{
-		throw std::exception("La falla!");
-	}
-	return std::wstring(&resultstring[0]);
-}
-
-//unicode 转为 ascii 
-std::string WideByte2Acsi(std::wstring& wstrcode) {
-	int asciisize = ::WideCharToMultiByte(CP_OEMCP, 0, wstrcode.c_str(), -1, NULL, 0, NULL, NULL);
-	if (asciisize == ERROR_NO_UNICODE_TRANSLATION)
-	{
-		throw std::exception("Invalid UTF-8 sequence.");
-	}
-	if (asciisize == 0)
-	{
-		throw std::exception("Error in conversion.");
-	}
-	std::vector<char> resultstring(asciisize);
-	int convresult = ::WideCharToMultiByte(CP_OEMCP, 0, wstrcode.c_str(), -1, &resultstring[0], asciisize, NULL, NULL);
-	if (convresult != asciisize)
-	{
-		throw std::exception("La falla!");
-	}
-	return std::string(&resultstring[0]);
-}
 
 
 // CAboutDlg dialog used for App About
@@ -100,8 +65,11 @@ CCppChatDemoDlg::CCppChatDemoDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_CPPCHATDEMO_DIALOG, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-	ChatClient::Instance()->setConnectionStatusListener(this);
-	ChatClient::Instance()->setReceiveMessageListener(this);
+}
+
+CCppChatDemoDlg::~CCppChatDemoDlg()
+{
+  CChatTools::GetInstance()->OnLogoutBtn();
 }
 
 void CCppChatDemoDlg::DoDataExchange(CDataExchange* pDX)
@@ -110,60 +78,16 @@ void CCppChatDemoDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_LOG, m_log);
 }
 
-void CCppChatDemoDlg::onConnectionStatusChanged(ConnectionStatus status)
-{
-	if (status == kConnectionStatusConnected)
-	{
-		::SetWindowText(m_hWnd, _T("已連接"));
-	}
-	else if (status == kConnectionStatusConnecting) {
-		::SetWindowText(m_hWnd, _T("連接中..."));
-	}
-	else if (status == kConnectionStatusReceiving) {
-		::SetWindowText(m_hWnd, _T("同步中..."));
-	}
-	else {
-		::SetWindowText(m_hWnd, _T("鏈接狀態有問題！！！！"));
-	}
-}
-
-void CCppChatDemoDlg::onReceiveMessages(const std::list<Message> & messageLists, bool hasMore)
-{
-	if (m_log)
-	{
-		CString existLog;
-		m_log.GetWindowTextW(existLog);
-
-		for (std::list<Message>::const_iterator it = messageLists.begin(); it != messageLists.end(); ++it) {
-			const Message &msg = *it;
-			UserInfo sender = ChatClient::Instance()->getUserInfo(msg.from, false);
-			std::string line = sender.displayName;
-			line += ":";
-			line += msg.content->digest();
-			line += "\n";
-
-			existLog = Utf82Unicode(line).c_str() + existLog;
-		}
-
-		
-		m_log.SetWindowTextW(existLog);
-	}
-}
-
-void CCppChatDemoDlg::onRecallMessage(const std::string & operatorId, int64_t messageUid)
-{
-}
-void CCppChatDemoDlg::onDeleteMessage(int64_t messageUid)
-{
-}
-
-
 BEGIN_MESSAGE_MAP(CCppChatDemoDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BUTTON1, &CCppChatDemoDlg::OnBnClickedConnect)
 	ON_BN_CLICKED(IDC_BUTTON2, &CCppChatDemoDlg::OnBnClickedTest)
+  ON_EN_CHANGE(IDC_EDIT1, &CCppChatDemoDlg::OnEnChangeEdit1)
+  ON_MESSAGE(UPDATE_LOG, &CCppChatDemoDlg::OnUpdateLogMessage)
+  ON_MESSAGE(WM_HANDLEMESSAGE, &CCppChatDemoDlg::OnHandleMessage)
+  ON_BN_CLICKED(IDC_BUTTON3, &CCppChatDemoDlg::OnBnClickedButton3)
 END_MESSAGE_MAP()
 
 
@@ -199,6 +123,9 @@ BOOL CCppChatDemoDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
+  SetImWndHwnd(GetSafeHwnd());
+  GetDlgItem(IDC_EDIT1)->SetWindowText(L"18717313325");
+  GetDlgItem(IDC_EDIT2)->SetWindowText(L"66666");
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -257,11 +184,10 @@ HCURSOR CCppChatDemoDlg::OnQueryDragIcon()
 void CCppChatDemoDlg::OnBnClickedConnect()
 {
 	// TODO: Add your control notification handler code here
-	std::string clientId = ChatClient::Instance()->getClientId();
-	printf(clientId.c_str());
-	const std::string userId = "MTL7N7XX";
-	const std::string token = "DkxMG1Xmnb2SWKeXfBuhoumloUhDui0nK2QLX970mQMIuGRcBQkyKZya2u3oCZLRzhheChM4NPkah5H5wc6aI8vLpxDxGlHDRGG+dLIkDCc548GoQNfWjiAumFiEh2950WCXQ9cneoEw2NtH78a/zxtbnE7RLh2lsHJ+ee8R4PM=";
-	bool isNewDB = ChatClient::Instance()->connect(userId, token);
+  LoginInfo info;
+  GetLoginInfo(info);
+
+  bool isNewDB = ChatClient::Instance()->connect(info.userId, info.token);
 }
 
 
@@ -269,4 +195,132 @@ void CCppChatDemoDlg::OnBnClickedTest()
 {
 	UserInfo userInfo = ChatClient::Instance()->getUserInfo("MTL7N7XX", false);
 	std::cout << "start test" << std::endl;
+  test();
+}
+
+
+void CCppChatDemoDlg::OnEnChangeEdit1()
+{
+  // TODO:  如果该控件是 RICHEDIT 控件，它将不
+  // 发送此通知，除非重写 __super::OnInitDialog()
+  // 函数并调用 CRichEditCtrl().SetEventMask()，
+  // 同时将 ENM_CHANGE 标志“或”运算到掩码中。
+
+  // TODO:  在此添加控件通知处理程序代码
+}
+
+LRESULT CCppChatDemoDlg::OnUpdateLogMessage(WPARAM wParam, LPARAM lParam)
+{
+  if (m_log)
+  {
+    CString existLog;
+    m_log.GetWindowTextW(existLog);
+
+    CString rmsg((LPCTSTR)wParam);
+    existLog = rmsg + existLog;
+
+    m_log.SetWindowTextW(existLog);
+  }
+
+  return 0;
+}
+
+LRESULT CCppChatDemoDlg::OnHandleMessage(WPARAM wParam, LPARAM lParam)
+{
+  eHandleType e = (eHandleType)wParam;
+  switch ((eHandleType)wParam)
+  {
+  case eRequestConvList:
+  {
+    if (!CChatTools::GetInstance()->isLogined())
+    {
+      appendLog(L"未登录");
+      return 0;
+    }
+  }
+  break;
+  default:
+    break;
+  }
+
+  return 0;
+}
+
+void CCppChatDemoDlg::GetLoginInfo(LoginInfo & info)
+{
+  std::string clientId = ChatClient::Instance()->getClientId();
+
+  // SDK初始化
+  CChatTools::GetInstance()->Init(new WFire);
+
+  // 请求userid token
+  CString phone, superCode, json;
+  GetDlgItem(IDC_EDIT1)->GetWindowText(phone);
+  GetDlgItem(IDC_EDIT2)->GetWindowText(superCode);
+  json.Format(L"{\"mobile\":\"%s\", \"code\":\"%s\", \"clientId\":\"%s\", \"platform\":\"3\"}", phone, superCode, CString(clientId.c_str()));
+
+  CString strRep;
+  _queryPageJsonByCurl(L"http://101.42.33.126:8888/login", json, strRep);
+
+  JSON_PARSE::ParseLoginInfo(std::string(CT2A(strRep)), info);
+}
+
+void CCppChatDemoDlg::test()
+{
+  appendLog(L"开始测试");
+
+  std::string userid = ChatClient::Instance()->getCurrentUserId();
+  appendLog(L"当前用户userId为:", userid);
+
+  UserInfo useInfo = ChatClient::Instance()->getUserInfo(userid, false);
+  if (useInfo.uid.empty())
+  {
+    appendLog(L"当前登录用户信息为空，这可能是因为本地没有存储，协议栈会去服务器同步，同步后会通过用户信息更新回调来通知");
+  }
+  else 
+  {
+    appendLog(L"当前登录用户名：", useInfo.displayName);
+  }
+
+  int64_t deltaTime = ChatClient::Instance()->getServerDeltaTime();
+  appendLog(L"当前设备与服务器之间的时间差为:", std::to_string(deltaTime));
+
+  // 请求会话列表
+  std::list<int> convType = { Single_Type, Group_Type, Channel_Type };
+  std::list<int> lines = { 0 };
+  std::list<ConversationInfo> convs = ChatClient::Instance()->getConversationInfos(convType, lines);
+  CString log;
+  log.Format(L"获取到 %d 条会话记录", convs.size());
+  appendLog(log);
+
+  // 创建会话
+  Conversation conv;
+  conv.conversationType = Single_Type;
+  conv.target = "cgc8c8VB";
+  ConversationInfo info = ChatClient::Instance()->getConversationInfo(conv);
+  ChatClient::Instance()->setConversationTop(conv, true, WFGeneralVoidCallback::GetInstance());
+
+  // 文字消息
+  TextMessageContent text;
+  text.content = "hello world2";
+  text.extra = "123";
+
+  std::string content = text.encode().toJson();
+  ChatClient::Instance()->sendMessage(conv, text, std::list<std::string>(), 0, CChatTools::GetInstance());
+
+  std::list<int> types = { Single_Type, Group_Type };
+  std::list<int> contentTypes = { MESSAGE_CONTENT_TYPE_TEXT };
+  std::list<Message> messages = ChatClient::Instance()->getMessages(types, lines, contentTypes, 0, 100, "");
+  appendLog("get message count" + messages.size());
+}
+
+// 添加好友按钮
+void CCppChatDemoDlg::OnBnClickedButton3()
+{
+  // 添加好友
+  CString sUid;
+  GetDlgItem(IDC_EDIT3)->GetWindowText(sUid);
+  std::string targetUid = CT2A(sUid);
+  ChatClient::Instance()->sendFriendRequest(targetUid, "friendReq", "plz", WFGeneralVoidCallback::GetInstance());
+  appendLog(L"已发送好友请求：", targetUid);
 }

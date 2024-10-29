@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{137A06C7-4003-4F18-BE9E-4D705353C312}</ProjectGuid>
     <RootNamespace>CppChatDemo</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
     <Keyword>MFCProj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -43,14 +43,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
@@ -80,7 +80,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\CppChatClient;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\CppChatClient;$(ProjectDir)..\CS-Client-SDK\proto\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)..\CS-Client-SDK\proto\lib\$(PlatformTarget);$(ProjectDir)..\CS-Client-SDK\$(PlatformTarget)\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -91,7 +91,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <LibraryPath>$(ProjectDir)..\CS-Client-SDK\proto\lib\$(PlatformTarget);$(ProjectDir)..\CS-Client-SDK\$(PlatformTarget)\$(Configuration);$(LibraryPath)</LibraryPath>
-    <IncludePath>$(ProjectDir)..\CppChatClient;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\CppChatClient;$(ProjectDir)..\CS-Client-SDK\proto\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -125,7 +125,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>ProtoWrapper.lib;CppChatClient.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ProtoWrapper.lib;CppChatClient.lib;gcurl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -168,7 +168,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -177,7 +177,7 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>ProtoWrapper.lib;CppChatClient.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ProtoWrapper.lib;CppChatClient.lib;gcurl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -194,21 +194,34 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Base.h" />
+    <ClInclude Include="CChatTools.h" />
+    <ClInclude Include="CGCurlHelper.h" />
+    <ClInclude Include="CIMImpl.h" />
     <ClInclude Include="CppChatDemo.h" />
     <ClInclude Include="CppChatDemoDlg.h" />
+    <ClInclude Include="global_stu.h" />
+    <ClInclude Include="json.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="WFire.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CChatTools.cpp" />
+    <ClCompile Include="CGCurlHelper.cpp" />
+    <ClCompile Include="CIMImpl.cpp" />
     <ClCompile Include="CppChatDemo.cpp" />
     <ClCompile Include="CppChatDemoDlg.cpp" />
+    <ClCompile Include="global_stu.cpp" />
+    <ClCompile Include="jsoncpp.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="WFire.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CppChatDemo.rc" />

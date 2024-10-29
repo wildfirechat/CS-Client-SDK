@@ -9,12 +9,12 @@
 using namespace WFCLib;
 
 // CCppChatDemoDlg dialog
-class CCppChatDemoDlg : public CDialogEx, public ConnectionStatusListener, public ReceiveMessageListener
+class CCppChatDemoDlg : public CDialogEx
 {
 // Construction
 public:
 	CCppChatDemoDlg(CWnd* pParent = NULL);	// standard constructor
-
+  ~CCppChatDemoDlg();
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_CPPCHATDEMO_DIALOG };
@@ -22,10 +22,6 @@ public:
 
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
-	virtual void onConnectionStatusChanged(ConnectionStatus status);
-	virtual void onReceiveMessages(const std::list<Message> &messages, bool hasMore);
-	virtual void onRecallMessage(const std::string &operatorId, int64_t messageUid);
-	virtual void onDeleteMessage(int64_t messageUid);
 // Implementation
 protected:
 	HICON m_hIcon;
@@ -40,4 +36,15 @@ public:
 	afx_msg void OnBnClickedConnect();
 	afx_msg void OnBnClickedTest();
 	CStatic m_log;
+  afx_msg void OnEnChangeEdit1();
+  afx_msg LRESULT OnUpdateLogMessage(WPARAM wParam, LPARAM lParam);
+  afx_msg LRESULT OnHandleMessage(WPARAM wParam, LPARAM lParam);
+
+  // «Î«Ûuserid token
+  void GetLoginInfo(LoginInfo& info);
+
+private:
+  void test();
+public:
+  afx_msg void OnBnClickedButton3();
 };
