@@ -206,7 +206,7 @@ void ChatClient::setChannelInfoUpdateListener(ChannelInfoUpdateListener *listene
 void ChatClient::registerMessage(const MessageContentPrototype *prototype)
 {
     messageContentFactorys[prototype->getType()] = prototype;
-	//WFClient::registerMessageFlag(prototype->getType(), prototype->getFlag());
+		WFClient::registerMessageFlag(prototype->getType(), prototype->getFlag());
 }
 
 const std::string ChatClient::getClientId()
