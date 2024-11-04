@@ -414,6 +414,21 @@ namespace CsChatClient
     public enum ConnectionStatus
     {
         /// <summary>
+        /// 服务器和客户端时间相差太大
+        /// </summary>
+        kConnectionStatusTimeInconsistent = -9,
+
+        /// <summary>
+        /// 专业版IM服务没有授权或者授权过期，社区版不会有此状态
+        /// </summary>
+        kConnectionStatusNotLicensed = -8,
+
+        /// <summary>
+        /// 多端登录被迫下线
+        /// </summary>
+        kConnectionStatusKickedoff = -7,
+
+        /// <summary>
         /// 密钥错误
         /// </summary>
         KConnectionStatusSecretKeyMismatch = -6,

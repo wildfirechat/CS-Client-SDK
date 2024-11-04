@@ -137,6 +137,9 @@ enum MediaType {
 /**
  连接状态
 
+ - kConnectionStatusTimeInconsistent 服务器和客户端时间相差太大
+ - kConnectionStatusNotLicensed  专业版IM服务没有授权或者授权过期，社区版不会有此状态
+ - kConnectionStatusKickedoff 多端登录被迫下线。
  - kConnectionStatusSecretKeyMismatch 密钥错误
  - kConnectionStatusTokenIncorrect Token错误
  - kConnectionStatusServerDown 服务器关闭
@@ -148,6 +151,10 @@ enum MediaType {
  - kConnectionStatusReceiving: 获取离线消息中，可忽略
  */
 enum ConnectionStatus {
+  kConnectionStatusTimeInconsistent = -9,
+  kConnectionStatusNotLicensed = -8,
+  //错误码kConnectionStatusKickedoff是IM服务2021.9.15之后的版本才支持，并且打开服务器端开关server.client_support_kickoff_event
+  kConnectionStatusKickedoff = -7,
   kConnectionStatusSecretKeyMismatch = -6,
   kConnectionStatusTokenIncorrect = -5,
   kConnectionStatusServerDown = -4,
