@@ -20,7 +20,7 @@ void Conversation::Unserialize(const void *pvalue) {
     int i;
     getValue(value, "conversationType", i);
     conversationType = (ConversationType)i;
-    
+
 //            std::string target;
     getValue(value, "target", target);
 //            int line;
@@ -32,8 +32,6 @@ void Conversation::Serialize(void *pwriter) const {
 
     writer.StartObject();
 
-    writer.String("conversation");
-    writer.StartObject();
 //            int conversationType;
     writer.String("conversationType");
     writer.Int(conversationType);
@@ -41,6 +39,10 @@ void Conversation::Serialize(void *pwriter) const {
 //            std::string target;
     writer.String("target");
     writer.String(target);
+
+//            int line;
+    writer.String("line");
+    writer.Int(line);
 
     writer.EndObject();
 }
