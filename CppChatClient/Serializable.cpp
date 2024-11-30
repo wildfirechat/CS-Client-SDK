@@ -7,6 +7,7 @@
 //
 
 #include "Serializable.h"
+#include <sstream>
 #include "rapidjson/rapidjson.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/prettywriter.h"
@@ -57,6 +58,12 @@ std::string Serializable::list2Json(std::list<int> &is) {
     writer.EndArray();
 
     return sb.GetString();
+}
+
+std::string Serializable::longlongToStr(long long llv) {
+    std::stringstream ss;
+    ss << llv;
+    return ss.str();
 }
 
 };

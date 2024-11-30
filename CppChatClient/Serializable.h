@@ -28,6 +28,7 @@ public:
     std::string toJson() const;
     static std::string list2Json(std::list<std::string> &strs);
     static std::string list2Json(std::list<int> &is);
+    static std::string longlongToStr(long long llv);
 };
 };
 #endif /* Serializable_hpp */

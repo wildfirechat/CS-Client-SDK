@@ -80,7 +80,7 @@ void Message::Serialize(void *pwriter) const {
 
 //            int64_t messageUid;
     writer.String("messageUid");
-    writer.Int64(messageUid);
+    writer.String(longlongToStr(messageUid));
 
 //            int64_t timestamp;
     writer.String("timestamp");
