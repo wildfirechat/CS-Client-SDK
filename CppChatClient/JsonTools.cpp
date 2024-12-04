@@ -535,7 +535,7 @@ void JsonBuilder::setValue(const std::string &tag, const std::list<std::string> 
 
 std::string JsonBuilder::build() {
     writer.EndObject();
-    return std::string(sb.GetSize(), sb.GetLength());
+    return std::string(sb.GetString(), sb.GetLength());
 }
 
 JsonBuilder::JsonBuilder():sb(), writer(sb) {
