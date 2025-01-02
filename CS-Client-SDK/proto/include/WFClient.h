@@ -225,6 +225,8 @@ typedef void(__stdcall *fun_sendMessage_media_uploaded_callback)(void *pObjectec
 
 typedef void (__stdcall *fun_sendMessage_error_callback)(void *pObjectect, int errorCode);
 
+extern "C" PROTOWRAPPER_API void WFCAPI setAppName(const std::string &appName);
+
 extern "C" PROTOWRAPPER_API const std::string* WFCAPI sendMessage(int conversationType, const std::string &target, int line, const std::string &strcont, const std::list<std::string> &toUsers, int expireDuration, fun_sendMessage_success_callback successCallback, fun_sendMessage_error_callback errorCallback, fun_sendMessage_prepared_callback preparedCallback, fun_sendMessage_progress_callback progressCallback, fun_sendMessage_media_uploaded_callback uploadedCallback, void *pObject);
 
 extern "C" PROTOWRAPPER_API void WFCAPI recallMessage(int64_t messageUid, fun_general_void_success_callback succCallback, fun_general_void_error_callback errCallback, void *pObject);

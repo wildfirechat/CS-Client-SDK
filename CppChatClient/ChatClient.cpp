@@ -209,6 +209,10 @@ void ChatClient::registerMessage(const MessageContentPrototype *prototype)
 		WFClient::registerMessageFlag(prototype->getType(), prototype->getFlag());
 }
 
+void ChatClient::setAppName(const std::string &appName) {
+	WFClient::setAppName(appName);
+}
+
 const std::string ChatClient::getClientId()
 {
 	return convertDllString(WFClient::getClientId());

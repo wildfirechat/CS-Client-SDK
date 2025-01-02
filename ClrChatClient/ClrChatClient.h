@@ -53,6 +53,10 @@ namespace ClrChatClient {
 			return ConvertStr(stdStr);
 		}
 
+		void setAppName(System::String^ appName) {
+			WFClient::setAppName(ConvertStr(appName));
+		}
+
 		void setDBPath(System::String^ path) {
 			WFClient::setDBPath(ConvertStr(path));
 		}

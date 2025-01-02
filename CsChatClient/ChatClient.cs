@@ -803,6 +803,14 @@ namespace CsChatClient
         }
 
         /// <summary>
+        /// 设置应用名称。应用数据会保存在用户目录应用名称目录下，需要是英文，需要在调用所有接口之前才能生效（特别是必须在GetClientId和Connect)之前。
+        /// </summary>
+        public void SetAppName(string appName)
+        {
+            _proto.setAppName(appName);
+        }
+
+        /// <summary>
         /// 设置数据目录，需要在调用所有接口之前才能生效
         /// </summary>
         public void SetDBPath(string dbPath)

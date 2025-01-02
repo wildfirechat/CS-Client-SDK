@@ -323,6 +323,13 @@ public:
     */
     void registerMessage(const MessageContentPrototype *prototype);
 
+	/**
+	设置应用名称，应用数据会保存在用户数据应用名称下，请使用英文
+
+	@param appName 应用名
+	*/
+	void setAppName(const std::string &appName);
+
     /**
      获取当前设备的设备Id
      */
