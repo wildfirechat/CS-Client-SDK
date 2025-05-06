@@ -103,42 +103,54 @@ namespace WFClient {
 
 
 //Global callback
-typedef void (__stdcall *fun_connection_callback)(int);
-typedef void (__stdcall *fun_receive_message_callback)(const std::string &messages, bool moreMsg);
-typedef void (__stdcall *fun_recall_message_callback)(const std::string &operatorId, int64_t messageUid);
-typedef void (__stdcall *fun_delete_message_callback)(int64_t messageUid);
-typedef void (__stdcall *fun_message_receipt_callback)(const std::string &strReceipt);
+typedef void (WFCAPI *fun_connection_callback)(int);
+typedef void (WFCAPI *fun_receive_message_callback)(const std::string &messages, bool moreMsg);
+typedef void (WFCAPI *fun_recall_message_callback)(const std::string &operatorId, int64_t messageUid);
+typedef void (WFCAPI *fun_delete_message_callback)(int64_t messageUid);
+typedef void (WFCAPI *fun_message_receipt_callback)(const std::string &strReceipt);
 
-typedef void (__stdcall *fun_userInfo_update_callback)(const std::string &userInfos);
+typedef void (WFCAPI *fun_userInfo_update_callback)(const std::string &userInfos);
 
-typedef void (__stdcall *fun_groupInfo_update_callback)(const std::string &groupInfos);
+typedef void (WFCAPI *fun_groupInfo_update_callback)(const std::string &groupInfos);
 
-typedef void (__stdcall *fun_groupMembers_update_callback)(const std::string &groupId);
+typedef void (WFCAPI *fun_groupMembers_update_callback)(const std::string &groupId);
 
-typedef void (__stdcall *fun_friendList_update_callback)(const std::string &friendList);
+typedef void (WFCAPI *fun_friendList_update_callback)(const std::string &friendList);
 
-typedef void (__stdcall *fun_receive_friendRequest_callback)(const std::string &newRequests);
+typedef void (WFCAPI *fun_receive_friendRequest_callback)(const std::string &newRequests);
 
-typedef void (__stdcall *fun_user_setting_update_callback)();
+typedef void (WFCAPI *fun_user_setting_update_callback)();
 
-typedef void (__stdcall *fun_channelInfo_update_callback)(const std::string &channelInfo);
+typedef void (WFCAPI *fun_channelInfo_update_callback)(const std::string &channelInfo);
 
 
 //function call back
-typedef void (__stdcall *fun_general_void_success_callback)(void *pObjectect);
+typedef void (WFCAPI *fun_general_void_success_callback)(void *pObjectect);
 
-typedef void (__stdcall *fun_general_void_error_callback)(void *pObjectect, int errorCode);
+typedef void (WFCAPI *fun_general_void_error_callback)(void *pObjectect, int errorCode);
 
-typedef void (__stdcall *fun_general_string_success_callback)(void *pObjectect, const std::string &val);
+typedef void (WFCAPI *fun_general_string_success_callback)(void *pObjectect, const std::string &val);
 
-typedef void (__stdcall *fun_general_string_error_callback)(void *pObjectect, int errorCode);
+typedef void (WFCAPI *fun_general_string_error_callback)(void *pObjectect, int errorCode);
 
 
-extern "C" PROTOWRAPPER_API int64_t WFCAPI connect2Server(const std::string &userId, const std::string &token);
+
+
+
+extern "C" PROTOWRAPPER_API void WFCAPI setAppName(const std::string &appName);
+
+extern "C" PROTOWRAPPER_API void WFCAPI setHeartBeatInterval(int second);
+
+extern "C" PROTOWRAPPER_API void WFCAPI useSM4();
+
+extern "C" PROTOWRAPPER_API void WFCAPI useAES256();
+
+extern "C" PROTOWRAPPER_API void WFCAPI useTcpShortLink();
+
+extern "C" PROTOWRAPPER_API void WFCAPI setLiteMode(bool liteMode);
 
 extern "C" PROTOWRAPPER_API void WFCAPI setDBPath(const std::string &path);
 
-extern "C" PROTOWRAPPER_API void WFCAPI disconnect(int flag);
 
 extern "C" PROTOWRAPPER_API void WFCAPI setConnectionStatusListener(fun_connection_callback callback);
 
@@ -155,17 +167,25 @@ extern "C" PROTOWRAPPER_API void WFCAPI setFriendUpdateListener(fun_friendList_u
 extern "C" PROTOWRAPPER_API void WFCAPI setFriendRequestListener(fun_receive_friendRequest_callback callback);
 
 extern "C" PROTOWRAPPER_API void WFCAPI setSettingUpdateListener(fun_user_setting_update_callback callback);
+
 extern "C" PROTOWRAPPER_API void WFCAPI setChannelInfoUpdateListener(fun_channelInfo_update_callback callback);
 
-extern "C" PROTOWRAPPER_API bool WFCAPI isLogin();
+
+
+extern "C" PROTOWRAPPER_API const std::string* WFCAPI getClientId();
+
+extern "C" PROTOWRAPPER_API int64_t WFCAPI connect2Server(const std::string &userId, const std::string &token);
 
 extern "C" PROTOWRAPPER_API int WFCAPI WFCAPI getConnectionStatus();
 
-extern "C" PROTOWRAPPER_API const std::string* WFCAPI getClientId();
+extern "C" PROTOWRAPPER_API bool WFCAPI isLogin();
+
+extern "C" PROTOWRAPPER_API void WFCAPI disconnect(int flag);
 
 extern "C" PROTOWRAPPER_API int64_t WFCAPI getServerDeltaTime();
 
 extern "C" PROTOWRAPPER_API const std::string* WFCAPI getCurrentUserId();
+
 
 extern "C" PROTOWRAPPER_API const std::string* WFCAPI getConversationInfos(std::list<int> types, std::list<int> ls);
 
@@ -189,11 +209,19 @@ extern "C" PROTOWRAPPER_API const std::string* WFCAPI getUnreadCount(std::list<i
 
 extern "C" PROTOWRAPPER_API const std::string* WFCAPI getConversationUnreadCount(int conversationType, const std::string &target, int line);
 
-extern "C" PROTOWRAPPER_API void WFCAPI clearUnreadStatus(int conversationType, const std::string &target, int line);
+extern "C" PROTOWRAPPER_API bool WFCAPI clearUnreadStatus(int conversationType, const std::string &target, int line);
 
-extern "C" PROTOWRAPPER_API void WFCAPI clearUnreadStatusEx(const std::list<int> &types, const std::list<int> &lines);
+extern "C" PROTOWRAPPER_API bool WFCAPI clearUnreadStatusEx(const std::list<int> &types, const std::list<int> &lines);
 
-extern "C" PROTOWRAPPER_API void WFCAPI clearAllUnreadStatus();
+extern "C" PROTOWRAPPER_API bool WFCAPI clearAllUnreadStatus();
+
+extern "C" PROTOWRAPPER_API bool WFCAPI clearMessageUnreadStatus(int messageId);
+
+extern "C" PROTOWRAPPER_API bool WFCAPI clearMessageUnreadStatusBefore(int conversationType, const std::string &target, int line, int messageId);
+
+extern "C" PROTOWRAPPER_API int64_t WFCAPI setLastReceivedMessageUnRead(int conversationType, const std::string &target, int line, int64_t messageUid, int64_t timestamp);
+
+extern "C" PROTOWRAPPER_API long WFCAPI getConversationFirstUnreadMessageId(int conversationType, const std::string &target, int line);
 
 extern "C" PROTOWRAPPER_API void WFCAPI setMediaMessagePlayed(long messageId);
 
@@ -215,23 +243,23 @@ extern "C" PROTOWRAPPER_API long WFCAPI getFirstUnreadMessageId(int conversation
 
 extern "C" PROTOWRAPPER_API const std::string* WFCAPI searchMessage(int conversationType, const std::string &target, int line, const std::string &keyword, bool desc, int limit, int offset, const std::string &withUser);
 
-typedef void (__stdcall *fun_sendMessage_success_callback)(void *pObjectect, int64_t messageUid, int64_t timestamp);
+typedef void (WFCAPI *fun_sendMessage_success_callback)(void *pObjectect, long messageId, int64_t messageUid, int64_t timestamp);
 
-typedef void (__stdcall *fun_sendMessage_prepared_callback)(void *pObjectect, int messageId, int64_t saveTime);
+typedef void (WFCAPI *fun_sendMessage_prepared_callback)(void *pObjectect, long messageId, int64_t saveTime);
 
-typedef void (__stdcall *fun_sendMessage_progress_callback)(void *pObjectect, int uploaded, int total);
+typedef void (WFCAPI *fun_sendMessage_progress_callback)(void *pObjectect, long messageId, int uploaded, int total);
 
-typedef void(__stdcall *fun_sendMessage_media_uploaded_callback)(void *pObjectect, const std::string &remoteUrl);
+typedef void(WFCAPI *fun_sendMessage_media_uploaded_callback)(void *pObjectect, long messageId, const std::string &remoteUrl);
 
-typedef void (__stdcall *fun_sendMessage_error_callback)(void *pObjectect, int errorCode);
-
-extern "C" PROTOWRAPPER_API void WFCAPI setAppName(const std::string &appName);
+typedef void (WFCAPI *fun_sendMessage_error_callback)(void *pObjectect, long messageId, int errorCode);
 
 extern "C" PROTOWRAPPER_API const std::string* WFCAPI sendMessage(int conversationType, const std::string &target, int line, const std::string &strcont, const std::list<std::string> &toUsers, int expireDuration, fun_sendMessage_success_callback successCallback, fun_sendMessage_error_callback errorCallback, fun_sendMessage_prepared_callback preparedCallback, fun_sendMessage_progress_callback progressCallback, fun_sendMessage_media_uploaded_callback uploadedCallback, void *pObject);
 
 extern "C" PROTOWRAPPER_API void WFCAPI recallMessage(int64_t messageUid, fun_general_void_success_callback succCallback, fun_general_void_error_callback errCallback, void *pObject);
 
-extern "C" PROTOWRAPPER_API void WFCAPI uploadMedia(const std::string &strName, const char* data, int dataLen, int mediaType, fun_general_string_success_callback successCB, fun_general_void_error_callback errorCB, fun_sendMessage_progress_callback progressCB, void *pObject);
+typedef void (WFCAPI *fun_uploadMedia_progress_callback)(void *pObjectect, int uploaded, int total);
+
+extern "C" PROTOWRAPPER_API void WFCAPI uploadMedia(const std::string &strName, const char* data, int dataLen, int mediaType, fun_general_string_success_callback successCB, fun_general_void_error_callback errorCB, fun_uploadMedia_progress_callback progressCB, void *pObject);
 
 extern "C" PROTOWRAPPER_API bool WFCAPI deleteMessage(long messageId);
 
@@ -291,7 +319,12 @@ extern "C" PROTOWRAPPER_API bool WFCAPI isBlackListed(const std::string &userId)
 extern "C" PROTOWRAPPER_API const std::string* WFCAPI getBlackList(bool refresh);
 
 extern "C" PROTOWRAPPER_API void WFCAPI setBlackList(const std::string &userId, bool isBlackListed, fun_general_void_success_callback successCB, fun_general_void_error_callback errorCB, void *pObject);
+
 extern "C" PROTOWRAPPER_API const std::string* WFCAPI getGroupMembers(const std::string &groupId, bool refresh);
+
+extern "C" PROTOWRAPPER_API const std::string* WFCAPI getGroupMembersByType(const std::string &groupId, int type);
+
+extern "C" PROTOWRAPPER_API const std::string* WFCAPI getGroupMembersByCount(const std::string &groupId, int count);
 
 extern "C" PROTOWRAPPER_API const std::string* WFCAPI getGroupInfo(const std::string &groupId, bool refresh);
 

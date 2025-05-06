@@ -231,7 +231,7 @@ namespace ClrChatClient {
 	}
 
 
-	static void __stdcall client_sendMessage_success_callback(void *pObject, int64_t messageUid, int64_t timestamp) {
+	static void __stdcall client_sendMessage_success_callback(void *pObject, long messageId, int64_t messageUid, int64_t timestamp) {
 		if (pObject) {
 			SendMessageCallbackWrapper *callback = (SendMessageCallbackWrapper *)pObject;
 			((onBigIntBigIntCallbackDelegate^)Marshal::GetDelegateForFunctionPointer(callback->successCB, onBigIntBigIntCallbackDelegate::typeid))(messageUid, timestamp);
@@ -239,28 +239,28 @@ namespace ClrChatClient {
 		}
 	}
 
-	static void __stdcall client_sendMessage_prepared_callback(void *pObject, int messageId, int64_t timestamp) {
+	static void __stdcall client_sendMessage_prepared_callback(void *pObject, long messageId, int64_t timestamp) {
 		if (pObject) {
 			SendMessageCallbackWrapper *callback = (SendMessageCallbackWrapper *)pObject;
 			((onIntBigIntCallbackDelegate^)Marshal::GetDelegateForFunctionPointer(callback->preparedCB, onIntBigIntCallbackDelegate::typeid))(messageId, timestamp);
 		}
 	}
 
-	static void __stdcall client_sendMessage_progress_callback(void *pObject, int uploaded, int total) {
+	static void __stdcall client_sendMessage_progress_callback(void *pObject, long messageId, int uploaded, int total) {
 		if (pObject) {
 			SendMessageCallbackWrapper *callback = (SendMessageCallbackWrapper *)pObject;
 			((onIntIntCallbackDelegate^)Marshal::GetDelegateForFunctionPointer(callback->progressCB, onIntIntCallbackDelegate::typeid))(uploaded, total);
 		}
 	}
 
-	static void __stdcall client_sendMessage_media_uploaded_callback(void *pObject, const std::string &remoteUrl) {
+	static void __stdcall client_sendMessage_media_uploaded_callback(void *pObject, long messageId, const std::string &remoteUrl) {
 		if (pObject) {
 			SendMessageCallbackWrapper *callback = (SendMessageCallbackWrapper *)pObject;
 			((onGeneralStringSuccessCallbackDelegate^)Marshal::GetDelegateForFunctionPointer(callback->uploadedCB, onIntIntCallbackDelegate::typeid))(Proto::ConvertStr(remoteUrl));
 		}
 	}
 
-	static void __stdcall client_sendMessage_error_callback(void *pObject, int errorCode) {
+	static void __stdcall client_sendMessage_error_callback(void *pObject, long messageId, int errorCode) {
 		if (pObject) {
 			SendMessageCallbackWrapper *callback = (SendMessageCallbackWrapper *)pObject;
 			((onErrorCallbackDelegate^)Marshal::GetDelegateForFunctionPointer(callback->errorCB, onErrorCallbackDelegate::typeid))(errorCode);

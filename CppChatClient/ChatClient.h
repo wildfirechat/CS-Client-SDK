@@ -166,12 +166,12 @@ public:
     WFSendMessageCallback() {}
     virtual ~WFSendMessageCallback() {}
 
-    virtual void onSuccess(int64_t messageUid, int64_t timestamp) = 0;
+    virtual void onSuccess(long messageId, int64_t messageUid, int64_t timestamp) = 0;
     // 上传进度的回调，注意仅当媒体内容大于300K才会有回调
-	virtual void onPrepared(int messageId, int64_t timestamp) = 0;
-    virtual void onProgress(int uploaded, int total) = 0;
-	virtual void onUploaded(const std::string &remoteUrl) = 0;
-    virtual void onFailure(int errorCode) = 0;
+	virtual void onPrepared(long messageId, int64_t timestamp) = 0;
+    virtual void onProgress(long messageId, int uploaded, int total) = 0;
+	virtual void onUploaded(long messageId, const std::string &remoteUrl) = 0;
+    virtual void onFailure(long messageId, int errorCode) = 0;
 };
 
 /*

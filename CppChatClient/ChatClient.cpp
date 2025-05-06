@@ -416,38 +416,38 @@ const std::list<Message> ChatClient::searchMessage(const Conversation &conversat
     return serializableFromJsonList<Message>(convertDllString(WFClient::searchMessage(conversation.conversationType, conversation.target, conversation.line, keyword, desc, limit, offset, withUser)));
 }
 
-void __stdcall client_sendMessage_success_callback(void *pObject, int64_t messageUid, int64_t timestamp) {
+void __stdcall client_sendMessage_success_callback(void *pObject, long messageId, int64_t messageUid, int64_t timestamp) {
     if (pObject) {
         WFSendMessageCallback *callback = (WFSendMessageCallback *)pObject;
-        callback->onSuccess(messageUid, timestamp);
+        callback->onSuccess(messageId, messageUid, timestamp);
     }
 }
 
-void __stdcall client_sendMessage_prepared_callback(void *pObject, int messageId, int64_t timestamp) {
+void __stdcall client_sendMessage_prepared_callback(void *pObject, long messageId, int64_t timestamp) {
 	if (pObject) {
 		WFSendMessageCallback *callback = (WFSendMessageCallback *)pObject;
 		callback->onPrepared(messageId, timestamp);
 	}
 }
 
-void __stdcall client_sendMessage_progress_callback(void *pObject, int uploaded, int total) {
+void __stdcall client_sendMessage_progress_callback(void *pObject, long messageId, int uploaded, int total) {
     if (pObject) {
         WFSendMessageCallback *callback = (WFSendMessageCallback *)pObject;
-        callback->onProgress(uploaded, total);
+        callback->onProgress(messageId, uploaded, total);
     }
 }
 
-void __stdcall client_sendMessage_media_uploaded_callback(void *pObject, const std::string &remoteUrl) {
+void __stdcall client_sendMessage_media_uploaded_callback(void *pObject, long messageId, const std::string &remoteUrl) {
 	if (pObject) {
 		WFSendMessageCallback *callback = (WFSendMessageCallback *)pObject;
-		callback->onUploaded(remoteUrl);
+		callback->onUploaded(messageId, remoteUrl);
 	}
 }
 
-void __stdcall client_sendMessage_error_callback(void *pObject, int errorCode) {
+void __stdcall client_sendMessage_error_callback(void *pObject, long messageId, int errorCode) {
     if (pObject) {
         WFSendMessageCallback *callback = (WFSendMessageCallback *)pObject;
-        callback->onFailure(errorCode);
+        callback->onFailure(messageId, errorCode);
     }
 }
 
